@@ -1,0 +1,32 @@
+{
+  "name": "fastiship",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@fastiship/eslint-config": "*",
+    "@fastiship/typescript-config": "*",
+    "eslint-plugin-turbo": "^2.5.4",
+    "husky": "8.0.3",
+    "lint-staged": "15.2.7",
+    "prettier": "3.2.4",
+    "turbo": "^2.5.4",
+    "zod": "^3.23.8"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.2.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

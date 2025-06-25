@@ -1,0 +1,3 @@
+{
+  "extends": ["@fastiship/typescript-config/base.json"]
+}

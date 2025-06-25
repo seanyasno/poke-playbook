@@ -1,0 +1,22 @@
+{
+  "extends": "@fastiship/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/icons": ["./icons/index.ts"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.js",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

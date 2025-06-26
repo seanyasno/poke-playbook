@@ -4,7 +4,7 @@ import { pokemonApi } from "../../constants";
 
 export function usePokemon(
   pokemonNameOrId: string,
-  queryOptions: UseQueryOptions<PokemonDetail, Error, PokemonDetail, string[]>
+  queryOptions?: UseQueryOptions<PokemonDetail, Error, PokemonDetail, string[]>
 ) {
   return useQuery({
     ...queryOptions,

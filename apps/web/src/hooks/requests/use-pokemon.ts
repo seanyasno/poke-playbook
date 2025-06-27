@@ -1,6 +1,9 @@
 import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
-import type { PokemonDetail } from "pokeapi-client";
 import { pokemonApi } from "../../constants";
+import {
+  PokemonDetailSchema,
+  type PokemonDetail,
+} from "../../types/pokemon-detail-schema";
 
 export function usePokemon(
   pokemonNameOrId: string,
@@ -12,7 +15,7 @@ export function usePokemon(
     queryFn: async () => {
       const response = await pokemonApi.apiV2PokemonRetrieve(pokemonNameOrId);
 
-      return response.data;
+      return PokemonDetailSchema.parse(response.data);
     },
   });
 }

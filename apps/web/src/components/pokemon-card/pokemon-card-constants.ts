@@ -1,26 +1,5 @@
 import type { PokemonType } from "../../types";
 
-export const typeColors: Record<PokemonType, string> = {
-  normal: "bg-gray-400",
-  fire: "bg-red-500",
-  water: "bg-blue-500",
-  electric: "bg-yellow-400",
-  grass: "bg-green-500",
-  ice: "bg-blue-200",
-  fighting: "bg-red-700",
-  poison: "bg-purple-500",
-  ground: "bg-yellow-600",
-  flying: "bg-indigo-400",
-  psychic: "bg-pink-500",
-  bug: "bg-green-400",
-  rock: "bg-yellow-800",
-  ghost: "bg-purple-700",
-  dragon: "bg-indigo-700",
-  dark: "bg-gray-800",
-  steel: "bg-gray-500",
-  fairy: "bg-pink-300",
-};
-
 export const typeGradients: Record<PokemonType, string> = {
   fire: "from-red-400 via-orange-500 to-yellow-500",
   water: "from-blue-400 via-cyan-500 to-blue-600",
@@ -61,4 +40,25 @@ export const typeShadowColors: Record<PokemonType, string> = {
   ghost: "rgba(109, 40, 217, 0.4)",
   steel: "rgba(107, 114, 128, 0.4)",
   fairy: "rgba(244, 114, 182, 0.4)",
+};
+
+export const typeBadgeVariants: Record<PokemonType, string> = {
+  fire: "badge-error",
+  water: "badge-info",
+  grass: "badge-success",
+  electric: "badge-warning",
+  psychic: "badge-secondary",
+  ice: "badge-info",
+  dragon: "badge-primary",
+  dark: "badge-neutral",
+  normal: "badge-ghost",
+  fighting: "badge-error",
+  poison: "badge-secondary",
+  ground: "badge-warning",
+  flying: "badge-info",
+  bug: "badge-success",
+  rock: "badge-neutral",
+  ghost: "badge-secondary",
+  steel: "badge-neutral",
+  fairy: "badge-secondary",
 };

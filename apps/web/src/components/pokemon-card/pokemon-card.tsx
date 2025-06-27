@@ -1,11 +1,15 @@
 import { usePokemon } from "../../hooks";
 import { useRef } from "react";
 import {
-  typeColors,
   typeGradients,
   typeShadowColors,
+  typeBadgeVariants,
 } from "./pokemon-card-constants";
-import { isNotNullOrUndefined, isNullOrUndefined, withDefault } from "@poke-playbook/libs";
+import {
+  isNotNullOrUndefined,
+  isNullOrUndefined,
+  withDefault,
+} from "@poke-playbook/libs";
 import { useMousePosition } from "../../hooks/use-mouse-position";
 import type { PokemonType } from "../../types";
 
@@ -120,20 +124,16 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemonName }) => {
           {/* Pokemon Types */}
           <div className="flex gap-2">
             {pokemon.types?.map((typeInfo) => (
-              <span
+              <div
                 key={typeInfo.type.name}
-                className={`
-                  px-4 py-2 rounded-full text-white text-sm font-bold capitalize
-                  shadow-lg
-                  ${withDefault(typeColors[typeInfo.type.name], "bg-gray-400")}
-                `}
+                className={`badge badge-lg font-bold capitalize ${withDefault(typeBadgeVariants[typeInfo.type.name], "badge-ghost")}`}
                 style={{
                   boxShadow: `0 4px 20px ${shadowColor}`,
                   transform: "translateZ(10px)",
                 }}
               >
                 {typeInfo.type.name}
-              </span>
+              </div>
             ))}
           </div>
         </div>

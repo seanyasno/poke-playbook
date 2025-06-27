@@ -29,13 +29,13 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemonName }) => {
 
   if (isLoadingPokemon) {
     return (
-      <div className="w-80 h-96 bg-white rounded-2xl shadow-lg animate-pulse border border-gray-200">
-        <div className="h-48 bg-gray-200 rounded-t-2xl"></div>
-        <div className="p-6 space-y-4">
-          <div className="h-6 bg-gray-300 rounded w-3/4"></div>
+      <div className="card w-80 h-96 bg-base-100 shadow-lg animate-pulse">
+        <div className="h-48 bg-base-200 rounded-t-2xl"></div>
+        <div className="card-body">
+          <div className="h-6 bg-base-300 rounded w-3/4"></div>
           <div className="flex gap-2">
-            <div className="h-6 bg-gray-300 rounded w-16"></div>
-            <div className="h-6 bg-gray-300 rounded w-16"></div>
+            <div className="h-6 bg-base-300 rounded w-16"></div>
+            <div className="h-6 bg-base-300 rounded w-16"></div>
           </div>
         </div>
       </div>
@@ -44,8 +44,10 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemonName }) => {
 
   if (isErrorLoadingPokemon || isNullOrUndefined(pokemon)) {
     return (
-      <div className="w-80 h-96 bg-white rounded-2xl shadow-lg flex items-center justify-center border border-gray-200">
-        <p className="text-gray-500">Failed to load Pokemon</p>
+      <div className="card w-80 h-96 bg-base-100 shadow-lg">
+        <div className="card-body justify-center items-center">
+          <p className="text-base-content/70">Failed to load Pokemon</p>
+        </div>
       </div>
     );
   }
@@ -81,7 +83,7 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemonName }) => {
       }}
     >
       {/* Main Card */}
-      <div className="relative w-full h-full bg-white rounded-2xl border border-gray-200 backdrop-blur-sm overflow-hidden">
+      <div className="card w-full h-full bg-base-100 shadow-md drop-shadow-md backdrop-blur-sm overflow-hidden">
         {/* Subtle Background Glow */}
         <div
           className={`absolute inset-0 bg-gradient-to-br ${typeGradient} opacity-5`}
@@ -109,20 +111,20 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemonName }) => {
           )}
 
           {/* Pokemon ID Badge */}
-          <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-semibold text-gray-700 border border-gray-200 shadow-sm">
+          <div className="absolute top-4 right-4 bg-base-100/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-semibold text-base-content border border-base-300 shadow-sm">
             #{pokemon.id.toString().padStart(3, "0")}
           </div>
         </div>
 
         {/* Card Content */}
-        <div className="p-6 relative z-10">
+        <div className="card-body relative z-10">
           {/* Pokemon Name */}
-          <h2 className="text-3xl font-bold text-gray-800 capitalize mb-4 tracking-wide">
+          <h2 className="card-title text-3xl capitalize tracking-wide justify-start">
             {pokemon.name}
           </h2>
 
           {/* Pokemon Types */}
-          <div className="flex gap-2">
+          <div className="card-actions justify-start">
             {pokemon.types?.map((typeInfo) => (
               <div
                 key={typeInfo.type.name}

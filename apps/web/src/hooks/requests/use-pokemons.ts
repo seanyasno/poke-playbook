@@ -1,4 +1,8 @@
-import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
+import {
+  useQuery,
+  useInfiniteQuery,
+  type UseQueryOptions,
+} from "@tanstack/react-query";
 import { pokemonApi } from "../../constants";
 import type { PaginatedPokemonSummaryList } from "pokeapi-client";
 
@@ -21,5 +25,27 @@ export function usePokemons(
       return response.data;
     },
     ...queryOptions,
+  });
+}
+
+export function usePokemonsInfinite(limit: number = 20) {
+  return useInfiniteQuery({
+    queryKey: ["pokemons", "infinite", limit.toString()],
+    queryFn: async ({ pageParam = 0 }) => {
+      const response = await pokemonApi.apiV2PokemonList(
+        limit,
+        pageParam as number
+      );
+
+      return response.data;
+    },
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.next) {
+        return allPages.length * limit;
+      }
+
+      return undefined;
+    },
+    initialPageParam: 0,
   });
 }

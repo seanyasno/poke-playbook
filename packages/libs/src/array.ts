@@ -23,3 +23,13 @@ export function isEmptyArray<Item>(
 ): array is [] {
   return isNotNullOrUndefined(array) && array.length === 0;
 }
+
+/**
+ * Purges null and undefined values from an array.
+ *
+ * @param {Item[] | null | undefined} array - The array to purge.
+ * @returns {Item[]} - Returns a new array with null and undefined values removed.
+ */
+export function purge<Item>(array: (Item | null | undefined)[]): Item[] {
+  return array.filter(isNotNullOrUndefined) as Item[];
+}

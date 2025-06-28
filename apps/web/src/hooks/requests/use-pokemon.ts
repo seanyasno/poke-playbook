@@ -1,4 +1,7 @@
-import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
+import {
+  useSuspenseQuery,
+  type UseSuspenseQueryOptions,
+} from "@tanstack/react-query";
 import { pokemonApi } from "../../constants";
 import {
   PokemonDetailSchema,
@@ -7,9 +10,9 @@ import {
 
 export function usePokemon(
   pokemonNameOrId: string,
-  queryOptions?: UseQueryOptions<PokemonDetail, Error, PokemonDetail, string[]>
+  queryOptions?: UseSuspenseQueryOptions<PokemonDetail, Error, PokemonDetail, string[]>
 ) {
-  return useQuery({
+  return useSuspenseQuery({
     ...queryOptions,
     queryKey: ["pokemon", pokemonNameOrId],
     queryFn: async () => {

@@ -1,2 +1,2 @@
-export * from "./pokemon-card";
-export * from "./pokemon-list";
+export { PokemonCard } from "./pokemon-card";
+export { PokemonList } from "./pokemon-list";

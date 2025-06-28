@@ -5,11 +5,7 @@ import {
   typeShadowColors,
   typeBadgeVariants,
 } from "./pokemon-card-constants";
-import {
-  isNotNullOrUndefined,
-  isNullOrUndefined,
-  withDefault,
-} from "@poke-playbook/libs";
+import { isNotNullOrUndefined, withDefault } from "@poke-playbook/libs";
 import { useMousePosition } from "../../hooks/use-mouse-position";
 import type { PokemonType } from "../../types";
 
@@ -18,39 +14,10 @@ type PokemonCardProps = {
 };
 
 export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemonName }) => {
-  const {
-    data: pokemon,
-    isLoading: isLoadingPokemon,
-    isError: isErrorLoadingPokemon,
-  } = usePokemon(pokemonName);
+  const { data: pokemon } = usePokemon(pokemonName);
   const cardRef = useRef<HTMLDivElement>(null);
   const { mousePosition, setMousePosition, handleMouseMove } =
     useMousePosition(cardRef);
-
-  if (isLoadingPokemon) {
-    return (
-      <div className="card w-80 h-96 bg-base-100 shadow-lg animate-pulse">
-        <div className="h-48 bg-base-200 rounded-t-2xl"></div>
-        <div className="card-body">
-          <div className="h-6 bg-base-300 rounded w-3/4"></div>
-          <div className="flex gap-2">
-            <div className="h-6 bg-base-300 rounded w-16"></div>
-            <div className="h-6 bg-base-300 rounded w-16"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (isErrorLoadingPokemon || isNullOrUndefined(pokemon)) {
-    return (
-      <div className="card w-80 h-96 bg-base-100 shadow-lg">
-        <div className="card-body justify-center items-center">
-          <p className="text-base-content/70">Failed to load Pokemon</p>
-        </div>
-      </div>
-    );
-  }
 
   const primaryImage =
     pokemon.sprites?.other?.["official-artwork"]?.front_default ||

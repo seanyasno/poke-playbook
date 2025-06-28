@@ -10,14 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@poke-playbook/libs": "*",
     "@tanstack/react-query": "^5.81.2",
+    "@tanstack/react-virtual": "^3.13.12",
     "autoprefixer": "^10.4.21",
+    "pokeapi-client": "*",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-error-boundary": "^6.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.1.10",
     "@eslint/js": "^9.29.0",
+    "@tailwindcss/vite": "^4.1.10",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.5.2",
@@ -30,5 +34,8 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.34.1",
     "vite": "6.3.5"
+  },
+  "overrides": {
+    "@types/react": "19.1.8"
   }
 }

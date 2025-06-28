@@ -91,10 +91,10 @@ export const PokemonList: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto px-6 py-8">
+    <div className="mx-auto py-8">
       <div
         ref={parentRef}
-        className="h-screen overflow-auto"
+        className="h-screen overflow-auto px-6"
         style={{ contain: "strict" }}
       >
         <div
@@ -154,7 +154,7 @@ export const PokemonList: React.FC = () => {
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 place-items-center h-full px-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 place-items-center h-full">
                   {rowPokemons.map(({ name }) => (
                     <div key={name} className="w-80 h-96">
                       <PokemonCard pokemonName={name} />

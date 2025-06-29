@@ -1,28 +1,9 @@
 import React, { useState } from "react";
 import { createFileRoute, useParams, Link } from "@tanstack/react-router";
-import { pokemonQueryOptions, usePokemon } from "../hooks";
-
-// Type color mapping
-const typeColors: Record<string, { background: string; text: string }> = {
-  fire: { background: "#FF7842", text: "#FFFFFF" },
-  water: { background: "#5CACEE", text: "#FFFFFF" },
-  grass: { background: "#7ED321", text: "#FFFFFF" },
-  electric: { background: "#FFD700", text: "#333333" },
-  psychic: { background: "#FF69B4", text: "#FFFFFF" },
-  ice: { background: "#87CEEB", text: "#333333" },
-  dragon: { background: "#8B00FF", text: "#FFFFFF" },
-  dark: { background: "#333333", text: "#FFFFFF" },
-  fairy: { background: "#FFB6C1", text: "#333333" },
-  normal: { background: "#EEEEEE", text: "#555555" },
-  fighting: { background: "#B22222", text: "#FFFFFF" },
-  poison: { background: "#9932CC", text: "#FFFFFF" },
-  ground: { background: "#DDCC55", text: "#FFFFFF" },
-  flying: { background: "#87CEEB", text: "#333333" },
-  bug: { background: "#9ACD32", text: "#333333" },
-  rock: { background: "#CBB860", text: "#FFFFFF" },
-  ghost: { background: "#483D8B", text: "#FFFFFF" },
-  steel: { background: "#B0C4DE", text: "#333333" },
-};
+import { pokemonEvolutionQueryOptions, pokemonQueryOptions, usePokemon, usePokemonEvolution } from "../hooks";
+import { typeGradients, typeShadowColors, typeBadgeVariants } from "../components/pokemon-card/pokemon-card-constants";
+import { withDefault } from "@poke-playbook/libs";
+import type { PokemonType } from "../types";
 
 // Stat color mapping
 const getStatColor = (value: number) => {
@@ -51,11 +32,57 @@ const formatStatName = (name: string) => {
   return statNames[name] || capitalize(name);
 };
 
+// Helper function to extract Pokemon ID from species URL
+const extractPokemonIdFromUrl = (url: string): string => {
+  const match = url.match(/\/(\d+)\/$/);
+  return match ? match[1] : "1";
+};
+
+// Helper function to flatten evolution chain
+const flattenEvolutionChain = (chain: any): Array<{ name: string; id: string }> => {
+  const result: Array<{ name: string; id: string }> = [];
+  
+  const processEvolution = (evolution: any) => {
+    if (evolution?.species) {
+      result.push({
+        name: evolution.species.name,
+        id: extractPokemonIdFromUrl(evolution.species.url)
+      });
+    }
+    
+    if (evolution?.evolves_to && evolution.evolves_to.length > 0) {
+      // For simplicity, we'll take the first evolution path
+      processEvolution(evolution.evolves_to[0]);
+    }
+  };
+  
+  processEvolution(chain);
+  return result;
+};
+
 const RouteComponent: React.FC = () => {
   const { pokemonId } = useParams({ from: "/pokemons/$pokemonId" });
   const { data: pokemon } = usePokemon(pokemonId);
+  const { data: evolutionChain } = usePokemonEvolution(pokemonId);
   const [activeTab, setActiveTab] = useState("About");
   const [isShiny, setIsShiny] = useState(false);
+
+  // Process evolution chain
+  const evolutionPokemons = evolutionChain?.chain ? flattenEvolutionChain(evolutionChain.chain) : [];
+
+  // Get primary type for styling
+  const primaryType: PokemonType = withDefault(
+    pokemon.types?.[0]?.type?.name,
+    "normal"
+  );
+  const typeGradient = withDefault(
+    typeGradients[primaryType],
+    typeGradients.normal
+  );
+  const shadowColor = withDefault(
+    typeShadowColors[primaryType],
+    typeShadowColors.normal
+  );
 
   // Get the best available sprite
   const pokemonImage = isShiny 
@@ -72,9 +99,13 @@ const RouteComponent: React.FC = () => {
 
   return (
     <div className="min-h-screen flex justify-center items-center p-8 bg-gradient-to-br from-yellow-200 to-orange-200">
-      <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-5xl w-full flex flex-col gap-8">
-        {/* Header */}
-        <div className="flex justify-start">
+      <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-5xl w-full flex flex-col gap-8 relative overflow-hidden">
+        {/* Subtle Background Glow based on primary type */}
+        <div
+          className={`absolute inset-0 bg-gradient-to-br ${typeGradient} opacity-5 pointer-events-none`}
+        />
+                {/* Header */}
+        <div className="flex justify-start relative z-10">
           <Link
             to="/"
             className="text-gray-600 font-medium flex items-center gap-2 hover:underline"
@@ -84,46 +115,106 @@ const RouteComponent: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Pokemon Image Display */}
-          <div className="flex flex-col justify-between items-center gap-8 relative">
-            {/* Previous Pokemon Nav */}
-            {prevPokemonId && (
-              <Link
-                to="/pokemons/$pokemonId"
-                params={{ pokemonId: prevPokemonId.toString() }}
-                className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                <div className="flex flex-col items-center gap-1 text-sm">
-                  <span>←</span>
-                  <span>#{prevPokemonId.toString().padStart(3, "0")}</span>
-                </div>
-              </Link>
-            )}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
+           {/* Pokemon Image Display */}
+                      <div className="flex flex-col gap-8">
+             {/* Pokemon Image Section */}
+             <div className="flex flex-col justify-center items-center gap-4 relative">
+               {/* Previous Pokemon Nav */}
+               {prevPokemonId && (
+                 <Link
+                   to="/pokemons/$pokemonId"
+                   params={{ pokemonId: prevPokemonId.toString() }}
+                   className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                 >
+                   <div className="flex flex-col items-center gap-1 text-sm">
+                     <span>←</span>
+                     <span>#{prevPokemonId.toString().padStart(3, "0")}</span>
+                   </div>
+                 </Link>
+               )}
 
-            {/* Pokemon Image */}
-            <div className="w-full flex justify-center">
-              <img
-                src={pokemonImage || "/placeholder-pokemon.png"}
-                alt={`${capitalize(pokemon.name)} ${isShiny ? "shiny" : "normal"} render`}
-                className="w-80 h-80 object-contain drop-shadow-2xl"
-              />
-            </div>
+               {/* Pokemon Image */}
+               <div className="w-full flex justify-center">
+                 <div className="relative">
+                   <img
+                     src={pokemonImage || "/placeholder-pokemon.png"}
+                     alt={`${capitalize(pokemon.name)} ${isShiny ? "shiny" : "normal"} render`}
+                     className="w-80 h-80 object-contain transition-all duration-300 hover:scale-105"
+                     style={{
+                       filter: `drop-shadow(0 0 20px ${shadowColor})`,
+                     }}
+                   />
+                 </div>
+               </div>
 
-            {/* Next Pokemon Nav */}
-            {nextPokemonId && (
-              <Link
-                to="/pokemons/$pokemonId"
-                params={{ pokemonId: nextPokemonId.toString() }}
-                className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                <div className="flex flex-col items-center gap-1 text-sm">
-                  <span>→</span>
-                  <span>#{nextPokemonId.toString().padStart(3, "0")}</span>
-                </div>
-              </Link>
-            )}
-          </div>
+               {/* Next Pokemon Nav */}
+               {nextPokemonId && (
+                 <Link
+                   to="/pokemons/$pokemonId"
+                   params={{ pokemonId: nextPokemonId.toString() }}
+                   className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                 >
+                   <div className="flex flex-col items-center gap-1 text-sm">
+                     <span>→</span>
+                     <span>#{nextPokemonId.toString().padStart(3, "0")}</span>
+                   </div>
+                 </Link>
+               )}
+             </div>
+
+             {/* Evolution Section */}
+             {evolutionPokemons.length > 1 && (
+               <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-100">
+                 <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Evolutions</h3>
+                 <div className="flex flex-wrap justify-center items-center gap-4">
+                   {evolutionPokemons.map((evolutionPokemon, index) => (
+                     <React.Fragment key={evolutionPokemon.id}>
+                       {/* Evolution Card */}
+                       <Link
+                         to="/pokemons/$pokemonId"
+                         params={{ pokemonId: evolutionPokemon.id }}
+                         className="block group"
+                       >
+                         <div className="bg-white rounded-xl p-4 text-center hover:shadow-lg transition-all duration-300 min-w-[100px] shadow-sm border border-gray-100 group-hover:scale-105">
+                           <div className="w-16 h-16 mx-auto mb-2 bg-gradient-to-br from-gray-50 to-gray-100 rounded-full flex items-center justify-center shadow-inner">
+                             <img
+                               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolutionPokemon.id}.png`}
+                               alt={evolutionPokemon.name}
+                               className="w-12 h-12 object-contain transition-transform duration-300 group-hover:scale-110"
+                               onError={(e) => {
+                                 const target = e.target as HTMLImageElement;
+                                 target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${evolutionPokemon.id}.png`;
+                               }}
+                               style={{
+                                 filter: `drop-shadow(0 2px 8px ${shadowColor})`,
+                               }}
+                             />
+                           </div>
+                           <h4 className="text-xs font-semibold text-gray-800 capitalize mb-1">
+                             {evolutionPokemon.name}
+                           </h4>
+                           <p className="text-xs text-gray-500">
+                             #{evolutionPokemon.id.padStart(3, "0")}
+                           </p>
+                         </div>
+                       </Link>
+
+                       {/* Evolution Connector */}
+                       {index < evolutionPokemons.length - 1 && (
+                         <div className="flex items-center">
+                           <div className="flex flex-col items-center">
+                             <div className="w-8 h-0.5 bg-gradient-to-r from-gray-300 via-gray-400 to-gray-300"></div>
+                             <div className="w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-b-4 border-b-gray-400 mt-1"></div>
+                           </div>
+                         </div>
+                       )}
+                     </React.Fragment>
+                   ))}
+                 </div>
+               </div>
+             )}
+           </div>
 
           {/* Info Panel */}
           <div className="flex flex-col gap-6">
@@ -137,16 +228,16 @@ const RouteComponent: React.FC = () => {
               </span>
               <div className="flex gap-2">
                 {pokemon.types.map((type) => (
-                  <span
+                  <div
                     key={type.type.name}
-                    className="px-3 py-1 rounded-full text-xs font-bold"
+                    className={`badge badge-lg font-bold capitalize ${withDefault(typeBadgeVariants[type.type.name as PokemonType], "badge-ghost")}`}
                     style={{
-                      backgroundColor: typeColors[type.type.name]?.background || "#EEEEEE",
-                      color: typeColors[type.type.name]?.text || "#555555",
+                      boxShadow: `0 4px 20px ${shadowColor}`,
+                      transform: "translateZ(10px)",
                     }}
                   >
-                    {capitalize(type.type.name)}
-                  </span>
+                    {type.type.name}
+                  </div>
                 ))}
               </div>
             </div>
@@ -268,12 +359,13 @@ const RouteComponent: React.FC = () => {
               <div className="text-center py-12 text-gray-500">
                 <p>{activeTab} content coming soon...</p>
               </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+                         )}
+           </div>
+         </div>
+
+       </div>
+     </div>
+   );
 };
 
 export const Route = createFileRoute("/pokemons/$pokemonId")({
@@ -282,7 +374,10 @@ export const Route = createFileRoute("/pokemons/$pokemonId")({
     const pokemon = await queryClient.ensureQueryData(
       pokemonQueryOptions(pokemonId)
     );
-
-    return { pokemon };
+    const evolution = await queryClient.ensureQueryData(
+      pokemonEvolutionQueryOptions(pokemonId)
+    );
+    
+    return { pokemon, evolution };
   },
 });

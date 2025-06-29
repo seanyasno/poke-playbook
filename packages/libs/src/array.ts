@@ -56,32 +56,3 @@ export function purgeFlatMap<Item, Result>(
 ): Result[] {
   return purge(array.flatMap(callback));
 }
-
-/**
- * Flattens a Pokemon evolution chain into a linear array.
- *
- * @param {any} chain - The evolution chain object from PokeAPI.
- * @returns {Array<{ name: string; id: string }>} - Flattened evolution chain.
- */
-export function flattenEvolutionChain(chain: any): Array<{ name: string; id: string }> {
-  const result: Array<{ name: string; id: string }> = [];
-
-  const processEvolution = (evolution: any) => {
-    if (evolution?.species) {
-      const match = evolution.species.url.match(/\/(\d+)\/$/);
-      const id = match?.[1] ?? "1";
-      
-      result.push({
-        name: evolution.species.name,
-        id,
-      });
-    }
-
-    if (evolution?.evolves_to && evolution.evolves_to.length > 0) {
-      processEvolution(evolution.evolves_to[0]);
-    }
-  };
-
-  processEvolution(chain);
-  return result;
-}

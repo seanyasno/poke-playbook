@@ -1,5 +1,5 @@
-import { formatStatName } from "@poke-playbook/libs";
 import type { PokemonDetail } from "../../types";
+import { formatStatName } from "../../utils";
 
 type PokemonStatsProps = {
   pokemon: PokemonDetail;
@@ -34,4 +34,4 @@ export function PokemonStats({ pokemon }: PokemonStatsProps) {
       </div>
     </div>
   );
-} 
+}

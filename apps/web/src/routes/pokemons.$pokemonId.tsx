@@ -20,8 +20,9 @@ import {
   PokemonInfoGrid,
   PokemonVersionToggle,
 } from "../components/pokemon-detail";
-import { withDefault, flattenEvolutionChain } from "@poke-playbook/libs";
+import { withDefault } from "@poke-playbook/libs";
 import type { PokemonType } from "../types";
+import { flattenEvolutionChain } from "../utils";
 
 const RouteComponent: React.FC = () => {
   const { pokemonId } = useParams({ from: "/pokemons/$pokemonId" });

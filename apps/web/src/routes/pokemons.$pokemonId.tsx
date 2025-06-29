@@ -52,7 +52,7 @@ const RouteComponent: React.FC = () => {
   return (
     <div className="h-full grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10 md:py-10 md:px-20 py-5 px-5">
       <div
-        className={`h-full absolute inset-0 bg-gradient-to-br ${typeGradient} opacity-5 pointer-events-none`}
+        className={`fixed inset-0 w-screen h-screen bg-gradient-to-br ${typeGradient} opacity-5 pointer-events-none -z-10`}
       />
 
       <div className="flex flex-col gap-8">

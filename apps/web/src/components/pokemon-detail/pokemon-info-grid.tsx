@@ -12,7 +12,7 @@ export function PokemonInfoGrid({ pokemon }: PokemonInfoGridProps) {
     .join(", ");
 
   return (
-    <div className="stats stats-vertical lg:stats-horizontal shadow">
+    <div className="stats stats-vertical lg:stats-horizontal shadow bg-white">
       <div className="stat">
         <div className="stat-title">Height</div>
         <div className="stat-value text-lg">{formatHeight(pokemon.height)}</div>

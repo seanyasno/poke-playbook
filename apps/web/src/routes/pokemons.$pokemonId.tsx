@@ -50,7 +50,7 @@ const RouteComponent: React.FC = () => {
   );
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10 md:py-10 md:px-20">
       <div
         className={`absolute inset-0 bg-gradient-to-br ${typeGradient} opacity-5 pointer-events-none`}
       />
@@ -72,17 +72,6 @@ const RouteComponent: React.FC = () => {
         <PokemonHeader pokemon={pokemon} shadowColor={shadowColor} />
 
         <div className="flex flex-col gap-6">
-          <div className="card bg-base-100 shadow">
-            <div className="card-body">
-              <h3 className="card-title">Story</h3>
-              <p className="text-gray-600 leading-relaxed">
-                {pokemon.name === "voltorb"
-                  ? "It was discovered when Poké Balls were introduced. It is said that there is some connection between this Pokémon and Poké Balls."
-                  : "This Pokémon is known for its unique characteristics and abilities in battle."}
-              </p>
-            </div>
-          </div>
-
           <PokemonVersionToggle isShiny={isShiny} onToggle={setIsShiny} />
 
           <PokemonInfoGrid pokemon={pokemon} />

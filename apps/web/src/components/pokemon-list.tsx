@@ -71,7 +71,7 @@ export const PokemonList: React.FC = () => {
   }, [hasNextPage, fetchNextPage, isFetchingNextPage, totalRows, virtualItems]);
 
   return (
-    <div className="mx-auto py-8">
+    <div className="mx-auto">
       <div
         ref={parentRef}
         className="h-screen overflow-auto px-6"

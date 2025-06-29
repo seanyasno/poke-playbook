@@ -1,5 +1,6 @@
 import { usePokemon } from "../../hooks";
 import { useRef } from "react";
+import { Link } from "@tanstack/react-router";
 import {
   typeGradients,
   typeShadowColors,
@@ -38,17 +39,22 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemonName }) => {
   );
 
   return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => setMousePosition({ x: 0, y: 0 })}
-      className="relative w-80 h-96 group cursor-pointer"
-      style={{
-        transform: `rotateX(${(mousePosition.y - 192) / 25}deg) rotateY(${(mousePosition.x - 160) / 25}deg)`,
-        transformStyle: "preserve-3d",
-        transition: "transform 0.1s ease-out",
-      }}
+    <Link
+      to="/pokemons/$pokemonId"
+      params={{ pokemonId: pokemon.id.toString() }}
+      className="block"
     >
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setMousePosition({ x: 0, y: 0 })}
+        className="relative w-80 h-96 group cursor-pointer"
+        style={{
+          transform: `rotateX(${(mousePosition.y - 192) / 25}deg) rotateY(${(mousePosition.x - 160) / 25}deg)`,
+          transformStyle: "preserve-3d",
+          transition: "transform 0.1s ease-out",
+        }}
+      >
       {/* Main Card */}
       <div className="card w-full h-full bg-base-100 shadow-md drop-shadow-md backdrop-blur-sm overflow-hidden">
         {/* Subtle Background Glow */}
@@ -113,5 +119,6 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemonName }) => {
         />
       </div>
     </div>
+    </Link>
   );
 };

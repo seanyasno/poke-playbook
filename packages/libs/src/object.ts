@@ -1,4 +1,4 @@
-import { Optional } from "./types";
+import type { Optional } from "./types";
 
 /**
  * Checks if a value is null or undefined.

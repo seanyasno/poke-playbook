@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { capitalize } from "@poke-playbook/libs";
 import type { PokemonDetail } from "../../types";
 
@@ -9,6 +10,8 @@ type PokemonImageDisplayProps = {
   shadowColor: string;
   prevPokemonId: number | null;
   nextPokemonId: number | null;
+  prevPokemonName?: string;
+  nextPokemonName?: string;
 };
 
 export function PokemonImageDisplay({
@@ -18,6 +21,8 @@ export function PokemonImageDisplay({
   shadowColor,
   prevPokemonId,
   nextPokemonId,
+  prevPokemonName,
+  nextPokemonName,
 }: PokemonImageDisplayProps) {
   return (
     <div className="flex flex-col justify-center items-center gap-4 relative">
@@ -25,11 +30,18 @@ export function PokemonImageDisplay({
         <Link
           to="/pokemons/$pokemonId"
           params={{ pokemonId: prevPokemonId.toString() }}
-          className="btn btn-ghost btn-circle absolute left-0 top-1/2 -translate-y-1/2"
+          className="hidden absolute left-0 md:flex gap-1 items-center"
         >
-          <div className="flex flex-col items-center gap-1 text-sm">
-            <span>←</span>
-            <span>#{prevPokemonId.toString().padStart(3, "0")}</span>
+          <IoChevronBack className="w-5 h-5" />
+          <div className="flex flex-col items-start">
+            <span className="font-semibold">
+              #{prevPokemonId.toString().padStart(3, "0")}
+            </span>
+            {prevPokemonName && (
+              <span className="text-xs text-gray-500 capitalize">
+                {prevPokemonName}
+              </span>
+            )}
           </div>
         </Link>
       )}
@@ -51,14 +63,21 @@ export function PokemonImageDisplay({
         <Link
           to="/pokemons/$pokemonId"
           params={{ pokemonId: nextPokemonId.toString() }}
-          className="btn btn-ghost btn-circle absolute right-0 top-1/2 -translate-y-1/2"
+          className="hidden absolute right-0 items-center md:flex gap-1"
         >
-          <div className="flex flex-col items-center gap-1 text-sm">
-            <span>→</span>
-            <span>#{nextPokemonId.toString().padStart(3, "0")}</span>
+          <div className="flex flex-col items-end">
+            <span className="font-semibold">
+              #{nextPokemonId.toString().padStart(3, "0")}
+            </span>
+            {nextPokemonName && (
+              <span className="text-xs text-gray-500 capitalize">
+                {nextPokemonName}
+              </span>
+            )}
           </div>
+          <IoChevronForward className="w-5 h-5" />
         </Link>
       )}
     </div>
   );
-} 
+}

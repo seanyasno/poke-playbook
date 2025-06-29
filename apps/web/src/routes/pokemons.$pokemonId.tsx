@@ -29,7 +29,7 @@ const RouteComponent: React.FC = () => {
   const { data: evolutionChain } = usePokemonEvolution(pokemonId);
   const [isShiny, setIsShiny] = useState(false);
 
-  const { prevPokemonId, nextPokemonId } = usePokemonNavigation(pokemon);
+  const { prevPokemonId, nextPokemonId, prevPokemonName, nextPokemonName } = usePokemonNavigation(pokemon);
   const pokemonImage = usePokemonImage(pokemon, isShiny);
 
   const evolutionPokemons = evolutionChain?.chain
@@ -67,6 +67,8 @@ const RouteComponent: React.FC = () => {
           shadowColor={shadowColor}
           prevPokemonId={prevPokemonId}
           nextPokemonId={nextPokemonId}
+          prevPokemonName={prevPokemonName}
+          nextPokemonName={nextPokemonName}
         />
 
         <PokemonEvolutionSection evolutionPokemons={evolutionPokemons} />

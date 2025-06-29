@@ -12,15 +12,16 @@ interface MyRouterContext {
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
-    <>
+    <div className="h-screen flex flex-col">
       <div className="p-2 flex gap-2">
         <Link to="/" className="[&.active]:font-bold">
           Pokédex
         </Link>
       </div>
-      <hr />
-      <Outlet />
+      <div className="flex-1 overflow-y-auto h-full">
+        <Outlet />
+      </div>
       <TanStackRouterDevtools />
-    </>
+    </div>
   ),
 });

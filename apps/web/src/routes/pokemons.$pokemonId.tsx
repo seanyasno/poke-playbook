@@ -50,12 +50,16 @@ const RouteComponent: React.FC = () => {
   );
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10 md:py-10 md:px-20">
+    <div className="h-full grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10 md:py-10 md:px-20 py-5 px-5">
       <div
-        className={`absolute inset-0 bg-gradient-to-br ${typeGradient} opacity-5 pointer-events-none`}
+        className={`h-full absolute inset-0 bg-gradient-to-br ${typeGradient} opacity-5 pointer-events-none`}
       />
 
       <div className="flex flex-col gap-8">
+        <div className="block lg:hidden">
+          <PokemonHeader pokemon={pokemon} shadowColor={shadowColor} />
+        </div>
+
         <PokemonImageDisplay
           pokemon={pokemon}
           pokemonImage={pokemonImage}
@@ -69,7 +73,9 @@ const RouteComponent: React.FC = () => {
       </div>
 
       <div className="flex flex-col gap-6">
-        <PokemonHeader pokemon={pokemon} shadowColor={shadowColor} />
+        <div className="hidden lg:block">
+          <PokemonHeader pokemon={pokemon} shadowColor={shadowColor} />
+        </div>
 
         <div className="flex flex-col gap-6">
           <PokemonVersionToggle isShiny={isShiny} onToggle={setIsShiny} />

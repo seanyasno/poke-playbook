@@ -65,10 +65,7 @@ const RouteComponent: React.FC = () => {
           nextPokemonId={nextPokemonId}
         />
 
-        <PokemonEvolutionSection
-          evolutionPokemons={evolutionPokemons}
-          shadowColor={shadowColor}
-        />
+        <PokemonEvolutionSection evolutionPokemons={evolutionPokemons} />
       </div>
 
       <div className="flex flex-col gap-6">

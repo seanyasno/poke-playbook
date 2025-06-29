@@ -4,11 +4,9 @@ import { ErrorBoundarySuspense, PokemonList } from "../components";
 
 const Index: React.FC = () => {
   return (
-    <div className="min-h-screen bg-base-100">
-      <ErrorBoundarySuspense>
-        <PokemonList />
-      </ErrorBoundarySuspense>
-    </div>
+    <ErrorBoundarySuspense>
+      <PokemonList />
+    </ErrorBoundarySuspense>
   );
 };
 

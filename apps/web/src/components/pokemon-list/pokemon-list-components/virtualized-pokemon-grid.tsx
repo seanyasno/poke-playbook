@@ -1,80 +1,36 @@
-import React, { useRef, useMemo, useEffect, Suspense } from "react";
-import { useVirtualizer } from "@tanstack/react-virtual";
-import { PokemonCard } from "./pokemon-card";
-import { usePokemonsInfinite, useItemsPerRowWindowChange } from "../hooks";
-import {
-  purgeFlatMap,
-  isNullOrUndefined,
-} from "@poke-playbook/libs";
+import React, { Suspense } from "react";
+import { PokemonCard } from "../../pokemon-card";
+import { PokemonCardSkeleton } from "./pokemon-card-skeleton";
+import { usePokemonVirtualizer } from "../pokemon-list-hooks";
 
-// Loading fallback for individual Pokemon cards
-const PokemonCardSkeleton = () => (
-  <div className="w-80 h-96 bg-base-200 rounded-2xl animate-pulse">
-    <div className="h-48 bg-base-300 rounded-t-2xl"></div>
-    <div className="p-6">
-      <div className="h-6 bg-base-300 rounded w-3/4 mb-4"></div>
-      <div className="flex gap-2">
-        <div className="h-6 bg-base-300 rounded w-16"></div>
-        <div className="h-6 bg-base-300 rounded w-16"></div>
-      </div>
-    </div>
-  </div>
-);
+type VirtualizedPokemonGridProps = {
+  filteredPokemons: Array<{ name: string }>;
+  itemsPerRow: number;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
+};
 
-export const PokemonList: React.FC = () => {
-  const {
-    data,
+export const VirtualizedPokemonGrid: React.FC<VirtualizedPokemonGridProps> = ({
+  filteredPokemons,
+  itemsPerRow,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
+}) => {
+  const { parentRef, virtualizer, virtualItems, totalRows } = usePokemonVirtualizer({
+    filteredPokemons,
+    itemsPerRow,
+    hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-    hasNextPage,
-  } = usePokemonsInfinite();
-
-  const parentRef = useRef<HTMLDivElement>(null);
-
-  const allPokemons = useMemo(() => {
-    return purgeFlatMap(data.pages, (page) => page.results || []);
-  }, [data]);
-
-  const itemsPerRow = useItemsPerRowWindowChange({
-    xl: 4,
-    lg: 3,
-    sm: 2,
-    mobile: 1,
   });
-
-  const cardHeight = 384; // h-96 = 384px
-  const gap = 32; // gap-8
-  const rowHeight = cardHeight + gap;
-
-  const totalRows = Math.ceil(allPokemons.length / itemsPerRow);
-  const virtualCount = hasNextPage ? totalRows + 1 : totalRows;
-
-  const virtualizer = useVirtualizer({
-    count: virtualCount,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => rowHeight,
-    overscan: 2,
-  });
-
-  const virtualItems = virtualizer.getVirtualItems();
-
-  useEffect(() => {
-    const [lastItem] = [...virtualItems].reverse();
-
-    if (isNullOrUndefined(lastItem)) {
-      return;
-    }
-
-    if (lastItem.index >= totalRows - 1 && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [hasNextPage, fetchNextPage, isFetchingNextPage, totalRows, virtualItems]);
 
   return (
-    <div className="mx-auto">
+    <div className="flex-1 relative">
       <div
         ref={parentRef}
-        className="h-screen overflow-auto px-6"
+        className="h-full overflow-auto px-6"
         style={{ contain: "strict" }}
       >
         <div
@@ -118,9 +74,9 @@ export const PokemonList: React.FC = () => {
             const startIndex = virtualRow.index * itemsPerRow;
             const endIndex = Math.min(
               startIndex + itemsPerRow,
-              allPokemons.length
+              filteredPokemons.length
             );
-            const rowPokemons = allPokemons.slice(startIndex, endIndex);
+            const rowPokemons = filteredPokemons.slice(startIndex, endIndex);
 
             return (
               <div
@@ -150,4 +106,4 @@ export const PokemonList: React.FC = () => {
       </div>
     </div>
   );
-};
+}; 

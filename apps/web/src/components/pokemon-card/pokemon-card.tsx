@@ -21,8 +21,8 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemonName }) => {
     useMousePosition(cardRef);
 
   const primaryImage =
-    pokemon.sprites?.other?.["official-artwork"]?.front_default ||
-    pokemon.sprites?.other?.home?.front_default ||
+    pokemon.sprites?.other?.["official-artwork"]?.front_default ??
+    pokemon.sprites?.other?.home?.front_default ??
     pokemon.sprites?.front_default;
 
   const primaryType: PokemonType = withDefault(

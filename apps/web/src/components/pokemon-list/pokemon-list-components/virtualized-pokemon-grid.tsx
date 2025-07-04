@@ -1,6 +1,6 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { PokemonCard } from "../../pokemon-card";
-import { PokemonCardSkeleton } from "./pokemon-card-skeleton";
+import { ErrorBoundarySuspense } from "../../error-boundary-suspense";
 import { usePokemonVirtualizer } from "../pokemon-list-hooks";
 
 type VirtualizedPokemonGridProps = {
@@ -93,9 +93,9 @@ export const VirtualizedPokemonGrid: React.FC<VirtualizedPokemonGridProps> = ({
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 place-items-center h-full">
                   {rowPokemons.map(({ name }) => (
                     <div key={name} className="w-80 h-96">
-                      <Suspense fallback={<PokemonCardSkeleton />}>
+                      <ErrorBoundarySuspense>
                         <PokemonCard pokemonName={name} />
-                      </Suspense>
+                      </ErrorBoundarySuspense>
                     </div>
                   ))}
                 </div>

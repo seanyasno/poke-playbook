@@ -1,9 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { isNotNullOrUndefined } from "@poke-playbook/libs";
 import { z } from "zod";
+import { useAuthMutation } from "./requests/use-auth-mutation";
 
 type AuthFormConfig<TSchema extends z.ZodTypeAny> = {
   schema: TSchema;
@@ -30,13 +30,9 @@ export const useAuthForm = <TSchema extends z.ZodTypeAny>({
     resolver: zodResolver(schema),
   });
 
-  const mutation = useMutation({
-    mutationFn: submitFn,
-    onSuccess: (result) => {
-      if (isNotNullOrUndefined(result.error)) {
-        return;
-      }
-
+  const mutation = useAuthMutation<FormData>(
+    submitFn,
+    () => {
       onSuccess?.();
 
       if (redirectDelay > 0) {
@@ -46,11 +42,8 @@ export const useAuthForm = <TSchema extends z.ZodTypeAny>({
       } else {
         navigate({ to: redirectTo });
       }
-    },
-    onError: (error: Error) => {
-      console.error("Auth form error:", error);
-    },
-  });
+    }
+  );
 
   const handleSubmit = (data: FormData) => {
     mutation.mutate(data);

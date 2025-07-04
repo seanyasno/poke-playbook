@@ -49,7 +49,7 @@ export function PokemonImageDisplay({
       <div className="w-full flex justify-center">
         <div className="relative">
           <img
-            src={pokemonImage || "/placeholder-pokemon.png"}
+            src={pokemonImage ?? "/placeholder-pokemon.png"}
             alt={`${capitalize(pokemon.name)} ${isShiny ? "shiny" : "normal"} render`}
             className="w-80 h-80 object-contain transition-all duration-300 hover:scale-105"
             style={{

@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import { isNullOrUndefined } from "@poke-playbook/libs";
 import type { User, Session, AuthError } from "@supabase/supabase-js";
 
 export type AuthContextType = {
@@ -22,7 +23,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
+  if (isNullOrUndefined(context)) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
 

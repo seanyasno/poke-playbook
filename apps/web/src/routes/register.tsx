@@ -7,7 +7,6 @@ import { useAuth } from '../hooks'
 const RegisterPage: React.FC = () => {
   const { user, loading } = useAuth()
 
-  // Show loading spinner while checking auth status
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -16,7 +15,6 @@ const RegisterPage: React.FC = () => {
     )
   }
 
-  // Redirect to home if already logged in
   if (user) {
     return <Navigate to="/" />
   }

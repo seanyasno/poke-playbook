@@ -18,13 +18,14 @@ export const VirtualizedPokemonGrid: React.FC<VirtualizedPokemonGridProps> = ({
   isFetchingNextPage,
   fetchNextPage,
 }) => {
-  const { parentRef, virtualizer, virtualItems, totalRows } = usePokemonVirtualizer({
-    filteredPokemons,
-    itemsPerRow,
-    hasNextPage,
-    isFetchingNextPage,
-    fetchNextPage,
-  });
+  const { parentRef, virtualizer, virtualItems, totalRows } =
+    usePokemonVirtualizer({
+      filteredPokemons,
+      itemsPerRow,
+      hasNextPage,
+      isFetchingNextPage,
+      fetchNextPage,
+    });
 
   return (
     <div className="flex-1 relative">
@@ -74,7 +75,7 @@ export const VirtualizedPokemonGrid: React.FC<VirtualizedPokemonGridProps> = ({
             const startIndex = virtualRow.index * itemsPerRow;
             const endIndex = Math.min(
               startIndex + itemsPerRow,
-              filteredPokemons.length
+              filteredPokemons.length,
             );
             const rowPokemons = filteredPokemons.slice(startIndex, endIndex);
 
@@ -106,4 +107,4 @@ export const VirtualizedPokemonGrid: React.FC<VirtualizedPokemonGridProps> = ({
       </div>
     </div>
   );
-}; 
+};

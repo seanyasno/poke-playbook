@@ -13,7 +13,7 @@ export function usePokemonTypes(
     Error,
     PaginatedTypeSummaryList,
     string[]
-  >
+  >,
 ) {
   return useSuspenseQuery({
     queryKey: ["pokemon-types"],

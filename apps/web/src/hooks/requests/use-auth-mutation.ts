@@ -8,7 +8,7 @@ type AuthMutationFn<T = unknown> = (
 export const useAuthMutation = <T = unknown>(
   submitFn: AuthMutationFn<T>,
   onSuccess?: (result: { error?: { message: string } | null }) => void,
-  onError?: (error: Error) => void
+  onError?: (error: Error) => void,
 ) => {
   return useMutation({
     mutationFn: submitFn,
@@ -23,4 +23,4 @@ export const useAuthMutation = <T = unknown>(
       onError?.(error);
     },
   });
-}; 
+};

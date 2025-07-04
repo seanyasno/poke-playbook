@@ -4,14 +4,16 @@ import { PokemonDetailSchema } from "../../types/pokemon-detail-schema";
 
 export const usePokemonNavigationQueries = (
   prevPokemonId: number | null,
-  nextPokemonId: number | null
+  nextPokemonId: number | null,
 ) => {
   return useQueries({
     queries: [
       {
         queryKey: ["pokemon", prevPokemonId?.toString()],
         queryFn: async () => {
-          const response = await pokemonApi.apiV2PokemonRetrieve(prevPokemonId!.toString());
+          const response = await pokemonApi.apiV2PokemonRetrieve(
+            prevPokemonId!.toString(),
+          );
           return PokemonDetailSchema.parse(response.data);
         },
         enabled: !!prevPokemonId,
@@ -20,7 +22,9 @@ export const usePokemonNavigationQueries = (
       {
         queryKey: ["pokemon", nextPokemonId?.toString()],
         queryFn: async () => {
-          const response = await pokemonApi.apiV2PokemonRetrieve(nextPokemonId!.toString());
+          const response = await pokemonApi.apiV2PokemonRetrieve(
+            nextPokemonId!.toString(),
+          );
           return PokemonDetailSchema.parse(response.data);
         },
         enabled: !!nextPokemonId,
@@ -28,4 +32,4 @@ export const usePokemonNavigationQueries = (
       },
     ],
   });
-}; 
+};

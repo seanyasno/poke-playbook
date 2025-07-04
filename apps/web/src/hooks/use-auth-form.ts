@@ -30,20 +30,17 @@ export const useAuthForm = <TSchema extends z.ZodTypeAny>({
     resolver: zodResolver(schema),
   });
 
-  const mutation = useAuthMutation<FormData>(
-    submitFn,
-    () => {
-      onSuccess?.();
+  const mutation = useAuthMutation<FormData>(submitFn, () => {
+    onSuccess?.();
 
-      if (redirectDelay > 0) {
-        setTimeout(() => {
-          navigate({ to: redirectTo });
-        }, redirectDelay);
-      } else {
+    if (redirectDelay > 0) {
+      setTimeout(() => {
         navigate({ to: redirectTo });
-      }
+      }, redirectDelay);
+    } else {
+      navigate({ to: redirectTo });
     }
-  );
+  });
 
   const handleSubmit = (data: FormData) => {
     mutation.mutate(data);

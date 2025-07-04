@@ -12,7 +12,7 @@ export function usePokemonByType(
     Error,
     TypeDetail,
     string[]
-  >
+  >,
 ) {
   return useSuspenseQuery({
     queryKey: ["pokemon-by-type", typeName],

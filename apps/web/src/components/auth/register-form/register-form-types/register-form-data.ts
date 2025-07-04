@@ -6,9 +6,7 @@ export const registerFormSchema = z
       .string()
       .min(1, "Email is required")
       .email("Please enter a valid email address"),
-    password: z
-      .string()
-      .min(6, "Password must be at least 6 characters"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
     confirmPassword: z.string().min(1, "Please confirm your password"),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -16,4 +14,4 @@ export const registerFormSchema = z
     path: ["confirmPassword"],
   });
 
-export type RegisterFormData = z.infer<typeof registerFormSchema>; 
+export type RegisterFormData = z.infer<typeof registerFormSchema>;

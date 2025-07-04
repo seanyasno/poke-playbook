@@ -8,7 +8,7 @@ import { z } from "zod";
 type AuthFormConfig<TSchema extends z.ZodTypeAny> = {
   schema: TSchema;
   submitFn: (
-    data: z.infer<TSchema>
+    data: z.infer<TSchema>,
   ) => Promise<{ error?: { message: string } | null }>;
   redirectTo?: string;
   redirectDelay?: number;

@@ -1,1 +1,1 @@
-export * from "./register-form-data"; 
+export * from "./register-form-data";

@@ -6,8 +6,13 @@ import {
   LoadingFallback,
 } from "./error-boundary-suspense-components";
 
-export const ErrorBoundarySuspense: React.FC<PropsWithChildren> = ({
+type ErrorBoundarySuspenseProps = PropsWithChildren & {
+  fallback?: React.ReactNode;
+};
+
+export const ErrorBoundarySuspense: React.FC<ErrorBoundarySuspenseProps> = ({
   children,
+  fallback = <LoadingFallback />,
 }) => {
   return (
     <QueryErrorResetBoundary>
@@ -18,16 +23,17 @@ export const ErrorBoundarySuspense: React.FC<PropsWithChildren> = ({
             <ErrorFallback {...fallbackProps} />
           )}
         >
-          <Suspense fallback={<LoadingFallback />}>{children}</Suspense>
+          <Suspense fallback={fallback}>{children}</Suspense>
         </ErrorBoundary>
       )}
     </QueryErrorResetBoundary>
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const withErrorBoundarySuspense = (
   Component: React.FC,
-  props?: ComponentProps<typeof ErrorBoundarySuspense>
+  props?: ComponentProps<typeof ErrorBoundarySuspense>,
 ) => {
   return (componentProps: ComponentProps<typeof Component>) => (
     <ErrorBoundarySuspense {...props}>

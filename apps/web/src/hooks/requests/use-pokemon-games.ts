@@ -1,4 +1,7 @@
-import { useSuspenseQuery, type UseSuspenseQueryOptions } from "@tanstack/react-query";
+import {
+  useSuspenseQuery,
+  type UseSuspenseQueryOptions,
+} from "@tanstack/react-query";
 import { gamesApi } from "../../constants";
 import type { PaginatedVersionSummaryList } from "pokeapi-client";
 
@@ -10,16 +13,16 @@ export function usePokemonGames(
     Error,
     PaginatedVersionSummaryList,
     string[]
-  >
+  >,
 ) {
   return useSuspenseQuery({
     queryKey: ["pokemon-games"],
     queryFn: async () => {
       const response = await gamesApi.apiV2VersionList(MAX_GAME_VERSIONS);
-      
+
       return response.data;
     },
-    staleTime: 1000 * 60 * 60, // 1 hour
+    staleTime: 1000 * 60 * 60,
     ...queryOptions,
   });
-} 
+}

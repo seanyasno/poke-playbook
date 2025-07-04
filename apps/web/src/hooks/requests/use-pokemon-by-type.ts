@@ -12,7 +12,7 @@ export function usePokemonByType(
     Error,
     TypeDetail,
     string[]
-  >
+  >,
 ) {
   return useSuspenseQuery({
     queryKey: ["pokemon-by-type", typeName],
@@ -21,7 +21,7 @@ export function usePokemonByType(
 
       return response.data;
     },
-    staleTime: 1000 * 60 * 30, // 30 minutes
+    staleTime: 1000 * 60 * 30,
     ...queryOptions,
   });
 }

@@ -5,6 +5,7 @@ import { routeTree } from "./routeTree.gen";
 import "./index.css";
 import { queryClient } from "./constants";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "./contexts";
 
 const router = createRouter({
   routeTree,
@@ -27,7 +28,9 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </QueryClientProvider>
     </StrictMode>
   );

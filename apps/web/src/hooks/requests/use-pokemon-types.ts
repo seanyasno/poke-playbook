@@ -13,7 +13,7 @@ export function usePokemonTypes(
     Error,
     PaginatedTypeSummaryList,
     string[]
-  >
+  >,
 ) {
   return useSuspenseQuery({
     queryKey: ["pokemon-types"],
@@ -22,7 +22,7 @@ export function usePokemonTypes(
 
       return response.data;
     },
-    staleTime: 1000 * 60 * 60, // 1 hour
+    staleTime: 1000 * 60 * 60,
     ...queryOptions,
   });
 }

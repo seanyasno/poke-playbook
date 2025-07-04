@@ -21,6 +21,17 @@
     "turbo": "^2.5.4",
     "zod": "^3.23.8"
   },
+  "lint-staged": {
+    "apps/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "packages/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "**/*.{js,jsx,ts,tsx,json,css,md,mdx,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
   "engines": {
     "node": ">=18"
   },

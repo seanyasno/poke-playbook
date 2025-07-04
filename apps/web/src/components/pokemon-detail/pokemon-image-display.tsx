@@ -8,9 +8,9 @@ type PokemonImageDisplayProps = {
   pokemonImage: string | null;
   isShiny: boolean;
   shadowColor: string;
-  prevPokemonId: number | null;
+  previousPokemonId: number | null;
   nextPokemonId: number | null;
-  prevPokemonName?: string;
+  previousPokemonName?: string;
   nextPokemonName?: string;
 };
 
@@ -19,27 +19,27 @@ export function PokemonImageDisplay({
   pokemonImage,
   isShiny,
   shadowColor,
-  prevPokemonId,
+  previousPokemonId,
   nextPokemonId,
-  prevPokemonName,
+  previousPokemonName,
   nextPokemonName,
 }: PokemonImageDisplayProps) {
   return (
     <div className="flex flex-col justify-center items-center gap-4 relative">
-      {prevPokemonId && (
+      {previousPokemonId && (
         <Link
           to="/pokemons/$pokemonId"
-          params={{ pokemonId: prevPokemonId.toString() }}
+          params={{ pokemonId: previousPokemonId.toString() }}
           className="hidden absolute left-0 md:flex gap-1 items-center"
         >
           <IoChevronBack className="w-5 h-5" />
           <div className="flex flex-col items-start">
             <span className="font-semibold">
-              #{prevPokemonId.toString().padStart(3, "0")}
+              #{previousPokemonId.toString().padStart(3, "0")}
             </span>
-            {prevPokemonName && (
+            {previousPokemonName && (
               <span className="text-xs text-gray-500 capitalize">
-                {prevPokemonName}
+                {previousPokemonName}
               </span>
             )}
           </div>
@@ -49,7 +49,7 @@ export function PokemonImageDisplay({
       <div className="w-full flex justify-center">
         <div className="relative">
           <img
-            src={pokemonImage || "/placeholder-pokemon.png"}
+            src={pokemonImage ?? "/placeholder-pokemon.png"}
             alt={`${capitalize(pokemon.name)} ${isShiny ? "shiny" : "normal"} render`}
             className="w-80 h-80 object-contain transition-all duration-300 hover:scale-105"
             style={{

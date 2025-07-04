@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks'
 import { SupabaseSetupMessage } from './setup-message'
 import { isSupabaseConfigured } from '../../services/supabase'
 
+
 export const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

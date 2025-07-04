@@ -3,6 +3,7 @@ import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { RegisterForm } from "../components";
 import { ErrorBoundarySuspense } from "../components";
 import { useAuth } from "../hooks";
+import { isNotNullOrUndefined } from "@poke-playbook/libs";
 
 const RegisterPage: React.FC = () => {
   const { user, loading } = useAuth();
@@ -15,7 +16,7 @@ const RegisterPage: React.FC = () => {
     );
   }
 
-  if (user) {
+  if (isNotNullOrUndefined(user)) {
     return <Navigate to="/" />;
   }
 

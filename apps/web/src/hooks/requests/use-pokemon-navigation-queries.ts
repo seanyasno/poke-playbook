@@ -1,6 +1,7 @@
 import { useQueries } from "@tanstack/react-query";
 import { pokemonApi } from "../../constants";
 import { PokemonDetailSchema } from "../../types/pokemon-detail-schema";
+import { isNotNullOrUndefined } from "@poke-playbook/libs";
 
 export const usePokemonNavigationQueries = (
   prevPokemonId: number | null,
@@ -14,9 +15,10 @@ export const usePokemonNavigationQueries = (
           const response = await pokemonApi.apiV2PokemonRetrieve(
             prevPokemonId!.toString(),
           );
+
           return PokemonDetailSchema.parse(response.data);
         },
-        enabled: !!prevPokemonId,
+        enabled: isNotNullOrUndefined(prevPokemonId),
         staleTime: 1000 * 60 * 5,
       },
       {
@@ -25,9 +27,10 @@ export const usePokemonNavigationQueries = (
           const response = await pokemonApi.apiV2PokemonRetrieve(
             nextPokemonId!.toString(),
           );
+
           return PokemonDetailSchema.parse(response.data);
         },
-        enabled: !!nextPokemonId,
+        enabled: isNotNullOrUndefined(nextPokemonId),
         staleTime: 1000 * 60 * 5,
       },
     ],

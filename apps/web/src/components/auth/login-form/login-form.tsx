@@ -14,7 +14,7 @@ export const LoginForm: React.FC = () => {
     onSubmit,
   } = useAuthForm({
     schema: loginFormSchema,
-    submitFn: async ({ email, password }) => signIn(email, password),
+    onSubmit: async ({ email, password }) => signIn(email, password),
   });
 
   return (
@@ -95,7 +95,7 @@ export const LoginForm: React.FC = () => {
 
           <div className="text-center">
             <p className="text-sm text-base-content/70">
-              Don't have an account?{" "}
+              Don't have an account?
               <Link to="/register" className="link link-primary font-medium">
                 Sign up here
               </Link>

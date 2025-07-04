@@ -30,7 +30,12 @@ const RouteComponent: React.FC = () => {
   const { data: evolutionChain } = usePokemonEvolution(pokemonId);
   const [isShiny, setIsShiny] = useState(false);
 
-  const { prevPokemonId, nextPokemonId, prevPokemonName, nextPokemonName } = usePokemonNavigation(pokemon);
+  const {
+    previousPokemonId,
+    nextPokemonId,
+    previousPokemonName,
+    nextPokemonName,
+  } = usePokemonNavigation(pokemon);
   const pokemonImage = usePokemonImage(pokemon, isShiny);
 
   const evolutionPokemons = evolutionChain?.chain
@@ -39,15 +44,15 @@ const RouteComponent: React.FC = () => {
 
   const primaryType: PokemonType = withDefault(
     pokemon.types?.[0]?.type?.name,
-    "normal"
+    "normal",
   );
   const typeGradient = withDefault(
     typeGradients[primaryType],
-    typeGradients.normal
+    typeGradients.normal,
   );
   const shadowColor = withDefault(
     typeShadowColors[primaryType],
-    typeShadowColors.normal
+    typeShadowColors.normal,
   );
 
   return (
@@ -66,9 +71,9 @@ const RouteComponent: React.FC = () => {
           pokemonImage={pokemonImage}
           isShiny={isShiny}
           shadowColor={shadowColor}
-          prevPokemonId={prevPokemonId}
+          previousPokemonId={previousPokemonId}
           nextPokemonId={nextPokemonId}
-          prevPokemonName={prevPokemonName}
+          previousPokemonName={previousPokemonName}
           nextPokemonName={nextPokemonName}
         />
 
@@ -96,10 +101,10 @@ export const Route = createFileRoute("/pokemons/$pokemonId")({
   component: RouteComponent,
   loader: async ({ context: { queryClient }, params: { pokemonId } }) => {
     const pokemon = await queryClient.ensureQueryData(
-      pokemonQueryOptions(pokemonId)
+      pokemonQueryOptions(pokemonId),
     );
     const evolution = await queryClient.ensureQueryData(
-      pokemonEvolutionQueryOptions(pokemonId)
+      pokemonEvolutionQueryOptions(pokemonId),
     );
 
     return { pokemon, evolution };

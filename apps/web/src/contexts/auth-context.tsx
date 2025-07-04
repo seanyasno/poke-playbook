@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import type { User, Session, AuthError } from "@supabase/supabase-js";
+import { type User, type Session, AuthError } from "@supabase/supabase-js";
 import { supabase, isSupabaseConfigured } from "../services/supabase";
 import type { AuthContextType } from "../hooks/use-auth";
 import { AuthContext } from "../hooks/use-auth";
@@ -33,36 +33,44 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signUp = async (email: string, password: string) => {
     if (!supabase) {
-      return { error: { message: "Supabase not configured" } as AuthError };
+      return { error: new AuthError("Supabase not configured") };
     }
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
     });
+
     return { error };
   };
 
   const signIn = async (email: string, password: string) => {
     if (!supabase) {
-      return { error: { message: "Supabase not configured" } as AuthError };
+      return { error: new AuthError("Supabase not configured") };
     }
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+
     return { error };
   };
 
   const signOut = async () => {
     if (!supabase) {
-      return { error: { message: "Supabase not configured" } as AuthError };
+      return { error: new AuthError("Supabase not configured") };
     }
+
     const { error } = await supabase.auth.signOut();
+
     return { error };
   };
 

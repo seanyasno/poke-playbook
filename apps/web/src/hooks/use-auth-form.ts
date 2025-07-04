@@ -7,7 +7,7 @@ import { useAuthMutation } from "./requests/use-auth-mutation";
 
 type AuthFormConfig<TSchema extends z.ZodTypeAny> = {
   schema: TSchema;
-  submitFn: (
+  onSubmit: (
     data: z.infer<TSchema>,
   ) => Promise<{ error?: { message: string } | null }>;
   redirectTo?: string;
@@ -17,7 +17,7 @@ type AuthFormConfig<TSchema extends z.ZodTypeAny> = {
 
 export const useAuthForm = <TSchema extends z.ZodTypeAny>({
   schema,
-  submitFn,
+  onSubmit,
   redirectTo = "/",
   redirectDelay = 0,
   onSuccess,
@@ -30,16 +30,16 @@ export const useAuthForm = <TSchema extends z.ZodTypeAny>({
     resolver: zodResolver(schema),
   });
 
-  const mutation = useAuthMutation<FormData>(submitFn, () => {
+  const mutation = useAuthMutation<FormData>(onSubmit, () => {
     onSuccess?.();
 
     if (redirectDelay > 0) {
-      setTimeout(() => {
+      return setTimeout(() => {
         navigate({ to: redirectTo });
       }, redirectDelay);
-    } else {
-      navigate({ to: redirectTo });
     }
+
+    return navigate({ to: redirectTo });
   });
 
   const handleSubmit = (data: FormData) => {

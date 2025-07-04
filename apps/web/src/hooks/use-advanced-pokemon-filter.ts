@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { withDefault } from "@poke-playbook/libs";
+import { isNotNullOrUndefined, withDefault } from "@poke-playbook/libs";
 import type { PokemonSummary } from "pokeapi-client";
 import type { SearchParamsSchema } from "../types";
 import type { z } from "zod";
@@ -25,9 +25,13 @@ export function useAdvancedPokemonFilter({
         (query) =>
           new Set(
             withDefault(query.data?.pokemon, [])
-              .filter((p) => p?.pokemon?.name)
-              .map((p) => p.pokemon!.name)
-              .filter((name): name is string => Boolean(name)),
+              .filter(
+                (pokemonData) =>
+                  isNotNullOrUndefined(pokemonData) &&
+                  isNotNullOrUndefined(pokemonData.pokemon),
+              )
+              .map((pokemonData) => pokemonData.pokemon!.name)
+              .filter((name) => isNotNullOrUndefined(name)),
           ),
       );
 
@@ -77,11 +81,10 @@ export function useAdvancedPokemonFilter({
   const filterStats = useMemo(() => {
     const totalCount = allPokemons.length;
     const filteredCount = filteredPokemons.length;
-    const hasActiveFilters = !!(
-      searchParams.search ??
-      (searchParams.types && searchParams.types.length > 0) ??
-      searchParams.game
-    );
+    const hasActiveFilters =
+      isNotNullOrUndefined(searchParams.search) ||
+      (searchParams.types && searchParams.types.length > 0) ||
+      isNotNullOrUndefined(searchParams.game);
 
     return {
       totalCount,

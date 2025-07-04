@@ -4,19 +4,19 @@ import { usePokemonNavigationQueries } from "./requests/use-pokemon-navigation-q
 const MAX_POKEMON_ID = 1025;
 
 export function usePokemonNavigation(pokemon: PokemonDetail) {
-  const prevPokemonId = pokemon.id > 1 ? pokemon.id - 1 : null;
+  const previousPokemonId = pokemon.id > 1 ? pokemon.id - 1 : null;
   const nextPokemonId = pokemon.id < MAX_POKEMON_ID ? pokemon.id + 1 : null;
 
   const pokemonQueries = usePokemonNavigationQueries(
-    prevPokemonId,
+    previousPokemonId,
     nextPokemonId,
   );
-  const [prevPokemonQuery, nextPokemonQuery] = pokemonQueries;
+  const [previousPokemonQuery, nextPokemonQuery] = pokemonQueries;
 
   return {
-    prevPokemonId,
+    previousPokemonId,
     nextPokemonId,
-    prevPokemonName: prevPokemonQuery.data?.name,
+    previousPokemonName: previousPokemonQuery.data?.name,
     nextPokemonName: nextPokemonQuery.data?.name,
   };
 }

@@ -1,5 +1,5 @@
 import { useQueries } from "@tanstack/react-query";
-import { withDefault } from "@poke-playbook/libs";
+import { isNotNullOrUndefined, withDefault } from "@poke-playbook/libs";
 import { pokemonApi } from "../../constants";
 
 export const usePokemonTypesQueries = (types: string[] | undefined) => {
@@ -8,10 +8,11 @@ export const usePokemonTypesQueries = (types: string[] | undefined) => {
       queryKey: ["pokemon-by-type", typeName],
       queryFn: async () => {
         const response = await pokemonApi.apiV2TypeRetrieve(typeName);
+
         return response.data;
       },
       staleTime: 1000 * 60 * 30,
-      enabled: !!(types && types.length > 0),
+      enabled: isNotNullOrUndefined(types) && types.length > 0,
     })),
   });
 };

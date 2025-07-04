@@ -1,60 +1,23 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from '@tanstack/react-router'
-import { useAuth } from '../../hooks'
-import { SupabaseSetupMessage } from './setup-message'
-import { isSupabaseConfigured } from '../../services/supabase'
+import React from "react";
+import { Link } from "@tanstack/react-router";
+import { useAuth, useAuthForm } from "../../../hooks";
+import { registerFormSchema } from "./register-form-types";
 
 export const RegisterForm: React.FC = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
-  
-  const { signUp } = useAuth()
-  const navigate = useNavigate()
+  const { signUp } = useAuth();
 
-  // Show setup message if Supabase is not configured
-  if (!isSupabaseConfigured) {
-    return <SupabaseSetupMessage />
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!email || !password || !confirmPassword) {
-      setError('Please fill in all fields')
-      return
-    }
-
-    if (password !== confirmPassword) {
-      setError('Passwords do not match')
-      return
-    }
-
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters')
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-
-    const { error } = await signUp(email, password)
-    
-    if (error) {
-      setError(error.message)
-    } else {
-      setSuccess(true)
-      // Redirect to login after a short delay
-      setTimeout(() => {
-        navigate({ to: '/' })
-      }, 2000)
-    }
-    
-    setLoading(false)
-  }
+  const {
+    register,
+    formState: { errors },
+    loading,
+    error,
+    success,
+    onSubmit,
+  } = useAuthForm({
+    schema: registerFormSchema,
+    submitFn: async ({ email, password }) => signUp(email, password),
+    redirectDelay: 2000,
+  });
 
   if (success) {
     return (
@@ -66,7 +29,8 @@ export const RegisterForm: React.FC = () => {
               Welcome to Pokédex!
             </h2>
             <p className="text-base-content/70 mb-6">
-              Your account has been created successfully. Please check your email to verify your account.
+              Your account has been created successfully. Please check your
+              email to verify your account.
             </p>
             <div className="flex justify-center">
               <span className="loading loading-spinner loading-md"></span>
@@ -77,7 +41,7 @@ export const RegisterForm: React.FC = () => {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -87,8 +51,8 @@ export const RegisterForm: React.FC = () => {
           <h2 className="card-title text-2xl font-bold text-center justify-center mb-6">
             Join the Pokédex
           </h2>
-          
-          <form onSubmit={handleSubmit} className="space-y-4">
+
+          <form onSubmit={onSubmit} className="space-y-4">
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -96,14 +60,23 @@ export const RegisterForm: React.FC = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="input input-bordered w-full"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                className={`input input-bordered w-full ${
+                  errors.email ? "input-error" : ""
+                }`}
+                {...register("email")}
                 disabled={loading}
-                required
               />
+              {errors.email && (
+                <label className="label">
+                  <span className="label-text-alt text-error">
+                    {typeof errors.email === "string"
+                      ? errors.email
+                      : errors.email.message}
+                  </span>
+                </label>
+              )}
             </div>
-            
+
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Password</span>
@@ -111,13 +84,21 @@ export const RegisterForm: React.FC = () => {
               <input
                 type="password"
                 placeholder="Create a password (min. 6 characters)"
-                className="input input-bordered w-full"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                className={`input input-bordered w-full ${
+                  errors.password ? "input-error" : ""
+                }`}
+                {...register("password")}
                 disabled={loading}
-                required
-                minLength={6}
               />
+              {errors.password && (
+                <label className="label">
+                  <span className="label-text-alt text-error">
+                    {typeof errors.password === "string"
+                      ? errors.password
+                      : errors.password.message}
+                  </span>
+                </label>
+              )}
             </div>
 
             <div className="form-control">
@@ -127,12 +108,21 @@ export const RegisterForm: React.FC = () => {
               <input
                 type="password"
                 placeholder="Confirm your password"
-                className="input input-bordered w-full"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                className={`input input-bordered w-full ${
+                  errors.confirmPassword ? "input-error" : ""
+                }`}
+                {...register("confirmPassword")}
                 disabled={loading}
-                required
               />
+              {errors.confirmPassword && (
+                <label className="label">
+                  <span className="label-text-alt text-error">
+                    {typeof errors.confirmPassword === "string"
+                      ? errors.confirmPassword
+                      : errors.confirmPassword.message}
+                  </span>
+                </label>
+              )}
             </div>
 
             {error && (
@@ -144,10 +134,10 @@ export const RegisterForm: React.FC = () => {
             <div className="form-control mt-6">
               <button
                 type="submit"
-                className={`btn btn-primary w-full ${loading ? 'loading' : ''}`}
+                className={`btn btn-primary w-full ${loading ? "loading" : ""}`}
                 disabled={loading}
               >
-                {loading ? 'Creating account...' : 'Create Account'}
+                {loading ? "Creating account..." : "Create Account"}
               </button>
             </div>
           </form>
@@ -156,11 +146,8 @@ export const RegisterForm: React.FC = () => {
 
           <div className="text-center">
             <p className="text-sm text-base-content/70">
-              Already have an account?{' '}
-              <Link 
-                to="/login" 
-                className="link link-primary font-medium"
-              >
+              Already have an account?{" "}
+              <Link to="/login" className="link link-primary font-medium">
                 Sign in here
               </Link>
             </p>
@@ -168,5 +155,5 @@ export const RegisterForm: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-} 
+  );
+};

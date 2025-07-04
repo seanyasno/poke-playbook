@@ -1,3 +1,2 @@
 export * from "./login-form";
-export * from "./register-form";
-export * from "./setup-message"; 
+export * from "./register-form"; 

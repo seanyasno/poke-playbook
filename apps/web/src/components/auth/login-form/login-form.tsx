@@ -1,45 +1,21 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useAuth } from "../../hooks";
-import { SupabaseSetupMessage } from "./setup-message";
-import { isSupabaseConfigured } from "../../services/supabase";
+import React from "react";
+import { Link } from "@tanstack/react-router";
+import { useAuth, useAuthForm } from "../../../hooks";
+import { loginFormSchema } from "./login-form-types";
 
 export const LoginForm: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
   const { signIn } = useAuth();
-  const navigate = useNavigate();
 
-  // Show setup message if Supabase is not configured
-  if (!isSupabaseConfigured) {
-    return <SupabaseSetupMessage />;
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!email || !password) {
-      setError("Please fill in all fields");
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    const { error } = await signIn(email, password);
-
-    if (error) {
-      setError(error.message);
-    } else {
-      // Redirect to home page on successful login
-      navigate({ to: "/" });
-    }
-
-    setLoading(false);
-  };
+  const {
+    register,
+    formState: { errors },
+    loading,
+    error,
+    onSubmit,
+  } = useAuthForm({
+    schema: loginFormSchema,
+    submitFn: async ({ email, password }) => signIn(email, password),
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200">
@@ -49,7 +25,7 @@ export const LoginForm: React.FC = () => {
             Welcome back to Pokédex
           </h2>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={onSubmit} className="space-y-4">
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -57,12 +33,21 @@ export const LoginForm: React.FC = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="input input-bordered w-full"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                className={`input input-bordered w-full ${
+                  errors.email ? "input-error" : ""
+                }`}
+                {...register("email")}
                 disabled={loading}
-                required
               />
+              {errors.email && (
+                <label className="label">
+                  <span className="label-text-alt text-error">
+                    {typeof errors.email === "string"
+                      ? errors.email
+                      : errors.email.message}
+                  </span>
+                </label>
+              )}
             </div>
 
             <div className="form-control">
@@ -72,12 +57,21 @@ export const LoginForm: React.FC = () => {
               <input
                 type="password"
                 placeholder="Enter your password"
-                className="input input-bordered w-full"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                className={`input input-bordered w-full ${
+                  errors.password ? "input-error" : ""
+                }`}
+                {...register("password")}
                 disabled={loading}
-                required
               />
+              {errors.password && (
+                <label className="label">
+                  <span className="label-text-alt text-error">
+                    {typeof errors.password === "string"
+                      ? errors.password
+                      : errors.password.message}
+                  </span>
+                </label>
+              )}
             </div>
 
             {error && (

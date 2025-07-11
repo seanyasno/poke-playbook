@@ -4,10 +4,10 @@ import { useAuth } from "../hooks";
 import { isNotNullOrUndefined } from "@poke-playbook/libs";
 
 export const AppBar: React.FC = () => {
-  const { user, signOut, loading } = useAuth();
+  const { user, logout, loading } = useAuth();
 
   const handleSignOut = async () => {
-    await signOut();
+    await logout();
   };
 
   return (

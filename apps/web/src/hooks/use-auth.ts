@@ -1,21 +1,6 @@
 import { createContext, useContext } from "react";
 import { isNullOrUndefined } from "@poke-playbook/libs";
-import type { User, Session, AuthError } from "@supabase/supabase-js";
-
-export type AuthContextType = {
-  user: User | null;
-  session: Session | null;
-  loading: boolean;
-  signUp: (
-    email: string,
-    password: string,
-  ) => Promise<{ error: AuthError | null }>;
-  signIn: (
-    email: string,
-    password: string,
-  ) => Promise<{ error: AuthError | null }>;
-  signOut: () => Promise<{ error: AuthError | null }>;
-};
+import type { AuthContextType } from "../types/auth";
 
 export const AuthContext = createContext<AuthContextType | undefined>(
   undefined,

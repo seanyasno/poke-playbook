@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { type User, type Session, AuthError } from "@supabase/supabase-js";
-import { supabase, isSupabaseConfigured } from "../services/supabase";
-import type { AuthContextType } from "../hooks/use-auth";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
+import { AuthenticationApi } from "../services/api-client";
+import { apiConfig } from "../services/api-client";
+import type { AuthContextType, ApiUser, ApiErrorResponse } from "../types/auth";
 import { AuthContext } from "../hooks/use-auth";
 
 interface AuthProviderProps {
@@ -9,78 +9,84 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<ApiUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const authApi = useMemo(() => new AuthenticationApi(apiConfig), []);
+
+  const checkCurrentUser = useCallback(async () => {
+    try {
+      const response = await authApi.getCurrentUser();
+      setUser(response.data);
+    } catch {
+      // No valid session, user is not authenticated
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  }, [authApi]);
 
   useEffect(() => {
-    if (!isSupabaseConfigured || !supabase) {
-      setLoading(false);
-      return;
+    checkCurrentUser();
+  }, [checkCurrentUser]);
+
+  const register = async (
+    email: string,
+    password: string,
+    firstName?: string,
+    lastName?: string,
+  ) => {
+    try {
+      const response = await authApi.register({
+        email,
+        password,
+        firstName,
+        lastName,
+      });
+
+      setUser(response.data.user);
+      return { error: null };
+    } catch (error: unknown) {
+      const errorMessage =
+        (error as ApiErrorResponse).response?.data?.message ||
+        "Registration failed";
+      return { error: { message: errorMessage } };
     }
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
-  const signUp = async (email: string, password: string) => {
-    if (!supabase) {
-      return { error: new AuthError("Supabase not configured") };
-    }
-
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    return { error };
   };
 
-  const signIn = async (email: string, password: string) => {
-    if (!supabase) {
-      return { error: new AuthError("Supabase not configured") };
+  const login = async (email: string, password: string) => {
+    try {
+      const response = await authApi.login({
+        email,
+        password,
+      });
+
+      setUser(response.data.user);
+      return { error: null };
+    } catch (error: unknown) {
+      const errorMessage =
+        (error as ApiErrorResponse).response?.data?.message || "Login failed";
+      return { error: { message: errorMessage } };
     }
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    return { error };
   };
 
-  const signOut = async () => {
-    if (!supabase) {
-      return { error: new AuthError("Supabase not configured") };
+  const logout = async () => {
+    try {
+      await authApi.logout();
+      setUser(null);
+      return { error: null };
+    } catch (error: unknown) {
+      const errorMessage =
+        (error as ApiErrorResponse).response?.data?.message || "Logout failed";
+      return { error: { message: errorMessage } };
     }
-
-    const { error } = await supabase.auth.signOut();
-
-    return { error };
   };
 
   const value: AuthContextType = {
     user,
-    session,
     loading,
-    signUp,
-    signIn,
-    signOut,
+    login,
+    register,
+    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

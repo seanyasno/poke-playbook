@@ -4,7 +4,7 @@ import { useAuth, useAuthForm } from "../../../hooks";
 import { loginFormSchema } from "./login-form-types";
 
 export const LoginForm: React.FC = () => {
-  const { signIn } = useAuth();
+  const { login } = useAuth();
 
   const {
     register,
@@ -14,7 +14,7 @@ export const LoginForm: React.FC = () => {
     onSubmit,
   } = useAuthForm({
     schema: loginFormSchema,
-    onSubmit: async ({ email, password }) => signIn(email, password),
+    onSubmit: async ({ email, password }) => login(email, password),
   });
 
   return (

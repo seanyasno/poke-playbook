@@ -31,13 +31,13 @@ import {
   TeamResponseSchema,
   TeamsListResponseSchema,
 } from './dto';
-import { AuthGuard } from '../auth/auth.guard';
-import { CurrentUser } from '../auth/auth.decorator';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CurrentUser, AuthUser } from '../auth/auth.decorator';
 
 @ApiTags('Teams')
 @ApiBearerAuth()
 @Controller('teams')
-@UseGuards(AuthGuard)
+@UseGuards(JwtAuthGuard)
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
 
@@ -56,11 +56,11 @@ export class TeamsController {
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async create(
-    @CurrentUser() userId: string,
+    @CurrentUser() user: AuthUser,
     @Body() createTeamDto: CreateTeamDto,
   ): Promise<TeamResponseDto> {
     try {
-      const team = await this.teamsService.create(userId, createTeamDto);
+      const team = await this.teamsService.create(user.id, createTeamDto);
       return TeamResponseSchema.parse(team);
     } catch (error) {
       if (
@@ -102,10 +102,10 @@ export class TeamsController {
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async findAll(
-    @CurrentUser() userId: string,
+    @CurrentUser() user: AuthUser,
     @Query() query: GetTeamsQueryDto,
   ): Promise<TeamsListResponseDto> {
-    const result = await this.teamsService.findAll(userId, query);
+    const result = await this.teamsService.findAll(user.id, query);
     return TeamsListResponseSchema.parse(result);
   }
 
@@ -129,12 +129,12 @@ export class TeamsController {
   })
   @ApiResponse({ status: 404, description: 'Team not found' })
   async update(
-    @CurrentUser() userId: string,
+    @CurrentUser() user: AuthUser,
     @Param('id') id: string,
     @Body() updateTeamDto: UpdateTeamDto,
   ): Promise<TeamResponseDto> {
     try {
-      const team = await this.teamsService.update(id, userId, updateTeamDto);
+      const team = await this.teamsService.update(id, user.id, updateTeamDto);
       return TeamResponseSchema.parse(team);
     } catch (error) {
       if (
@@ -161,9 +161,9 @@ export class TeamsController {
   })
   @ApiResponse({ status: 404, description: 'Team not found' })
   async remove(
-    @CurrentUser() userId: string,
+    @CurrentUser() user: AuthUser,
     @Param('id') id: string,
   ): Promise<void> {
-    await this.teamsService.remove(id, userId);
+    await this.teamsService.remove(id, user.id);
   }
 }

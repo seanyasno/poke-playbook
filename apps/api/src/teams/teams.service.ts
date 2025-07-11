@@ -37,7 +37,17 @@ export class TeamsService {
         });
       }
 
-      return this.findOne(team.id, userId);
+      // Fetch the complete team with related data within the same transaction
+      const createdTeam = await tx.teams.findUnique({
+        where: { id: team.id },
+        include: {
+          team_pokemon: {
+            orderBy: { position: 'asc' },
+          },
+        },
+      });
+
+      return createdTeam;
     });
   }
 
@@ -135,7 +145,17 @@ export class TeamsService {
         }
       }
 
-      return this.findOne(id, userId);
+      // Fetch the complete updated team with related data within the same transaction
+      const updatedTeam = await tx.teams.findUnique({
+        where: { id },
+        include: {
+          team_pokemon: {
+            orderBy: { position: 'asc' },
+          },
+        },
+      });
+
+      return updatedTeam;
     });
   }
 

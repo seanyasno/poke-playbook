@@ -85,6 +85,8 @@ npm run docker:down
 - **UI**: Tailwind CSS with DaisyUI components
 - **Data Fetching**: Custom hooks in `src/hooks/requests/` using TanStack Query
 - **Component Structure**: Organized by feature with co-located types and hooks
+- **Icons**: Uses `react-icons` for icons
+- **Components Files Nameing**: Components are named with kebab-case, e.g., `pokemon-card.tsx`, `pokemon-list.tsx`
 
 ### Backend (apps/api)
 - **Framework**: NestJS with TypeScript

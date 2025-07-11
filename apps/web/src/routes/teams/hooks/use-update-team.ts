@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { TeamsApi, apiConfig } from "../../../services/api-client";
+import { TeamsApi, apiConfig } from "../../../constants/api-client.ts";
 import {
   CreateTeamRequestSchema,
   type CreateTeamRequest,

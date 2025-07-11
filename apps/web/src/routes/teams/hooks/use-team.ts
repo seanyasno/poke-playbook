@@ -3,7 +3,7 @@ import {
   useSuspenseQuery,
   type UseSuspenseQueryOptions,
 } from "@tanstack/react-query";
-import { TeamsApi, apiConfig } from "../../../services/api-client";
+import { TeamsApi, apiConfig } from "../../../constants/api-client.ts";
 import { TeamSchema, type Team } from "../types/team.types";
 
 export function teamQueryOptions(teamId: string) {

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TeamsApi, apiConfig } from "../../../services/api-client";
+import { TeamsApi, apiConfig } from "../../../constants/api-client.ts";
 
 export function useDeleteTeam() {
   const queryClient = useQueryClient();

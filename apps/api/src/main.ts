@@ -10,7 +10,7 @@ async function bootstrap() {
   patchNestJsSwagger();
 
   const config = new DocumentBuilder()
-    .setTitle('Fastiship api')
+    .setTitle('Poke Playbook api')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config, {

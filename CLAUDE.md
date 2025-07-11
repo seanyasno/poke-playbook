@@ -92,6 +92,20 @@ npm run docker:down
 - **Database**: Uses `@fastiship/database` package
 - **Code Generation**: `npm run codegen` generates TypeScript client from OpenAPI spec
 
+### Patterns
+- **Monorepo**: Managed with Turborepo for efficient builds and shared dependencies
+- **Code Generation**: Uses OpenAPI for API client generation, ensuring type safety
+- **Shared Libraries**: Common utilities and types in `packages/libs`
+- **Zod Validation**: Uses Zod for schema validation in API requests and responses
+
+### TypeScript Usage and Patterns
+- **Strict Mode**: TypeScript is configured in strict mode for type safety
+- **as & any Usage**: Avoided in favor of explicit types
+- **Type vs Interface**: Prefer `type` over `interface` for defining types, especially for complex objects
+- **Generics**: Extensively used for reusable components and hooks
+- **Utility Types**: Utilizes TypeScript utility types like `Partial`, `Pick`, and `Record` for type transformations
+- **Variables naming**: Consistent naming conventions across the codebase, don't write short variable names like `e`, `err`, `res`, etc. Use descriptive names like `event`, `error`, `response`, etc.
+
 ### Key Frontend Patterns
 - **Component Organization**: Each major component has its own folder with types, hooks, and constants
 - **Custom Hooks**: Extensive use of custom hooks for data fetching (`use-pokemon.ts`, `use-auth.ts`, etc.)

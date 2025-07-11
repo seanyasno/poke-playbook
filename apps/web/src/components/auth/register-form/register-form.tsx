@@ -15,7 +15,7 @@ export const RegisterForm: React.FC = () => {
     onSubmit,
   } = useAuthForm({
     schema: registerFormSchema,
-    onSubmit: async ({ email, password }) => registerUser(email, password),
+    onSubmit: async ({ email, password }) => registerUser({ email, password }),
     redirectDelay: 2000,
   });
 

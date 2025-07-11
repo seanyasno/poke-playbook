@@ -14,7 +14,7 @@ export const LoginForm: React.FC = () => {
     onSubmit,
   } = useAuthForm({
     schema: loginFormSchema,
-    onSubmit: async ({ email, password }) => login(email, password),
+    onSubmit: async ({ email, password }) => login({ email, password }),
   });
 
   return (

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isNotNullOrUndefined } from "@poke-playbook/libs";
 import { z } from "zod";
-import { useAuthMutation } from "./requests/use-auth-mutation";
+import { useAuthMutation } from "../../../hooks/requests/use-auth-mutation.ts";
 
 type AuthFormConfig<TSchema extends z.ZodTypeAny> = {
   schema: TSchema;

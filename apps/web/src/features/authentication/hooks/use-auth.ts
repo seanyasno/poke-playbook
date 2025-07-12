@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import { isNullOrUndefined } from "@poke-playbook/libs";
-import type { AuthContextType } from "../types";
+import type { AuthContextType } from "../../../types";
 
 export const AuthContext = createContext<AuthContextType | undefined>(
   undefined,

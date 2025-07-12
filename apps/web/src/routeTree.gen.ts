@@ -12,7 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TeamsIndexRouteImport } from './routes/teams/index'
+import { Route as TeamsNewRouteImport } from './routes/teams/new'
 import { Route as PokemonsPokemonIdRouteImport } from './routes/pokemons.$pokemonId'
+import { Route as TeamsTeamIdIndexRouteImport } from './routes/teams/$teamId/index'
+import { Route as TeamsTeamIdEditRouteImport } from './routes/teams/$teamId/edit'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -29,9 +33,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeamsIndexRoute = TeamsIndexRouteImport.update({
+  id: '/teams/',
+  path: '/teams/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamsNewRoute = TeamsNewRouteImport.update({
+  id: '/teams/new',
+  path: '/teams/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PokemonsPokemonIdRoute = PokemonsPokemonIdRouteImport.update({
   id: '/pokemons/$pokemonId',
   path: '/pokemons/$pokemonId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamsTeamIdIndexRoute = TeamsTeamIdIndexRouteImport.update({
+  id: '/teams/$teamId/',
+  path: '/teams/$teamId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamsTeamIdEditRoute = TeamsTeamIdEditRouteImport.update({
+  id: '/teams/$teamId/edit',
+  path: '/teams/$teamId/edit',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -40,12 +64,20 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/pokemons/$pokemonId': typeof PokemonsPokemonIdRoute
+  '/teams/new': typeof TeamsNewRoute
+  '/teams': typeof TeamsIndexRoute
+  '/teams/$teamId/edit': typeof TeamsTeamIdEditRoute
+  '/teams/$teamId': typeof TeamsTeamIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/pokemons/$pokemonId': typeof PokemonsPokemonIdRoute
+  '/teams/new': typeof TeamsNewRoute
+  '/teams': typeof TeamsIndexRoute
+  '/teams/$teamId/edit': typeof TeamsTeamIdEditRoute
+  '/teams/$teamId': typeof TeamsTeamIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +85,42 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/pokemons/$pokemonId': typeof PokemonsPokemonIdRoute
+  '/teams/new': typeof TeamsNewRoute
+  '/teams/': typeof TeamsIndexRoute
+  '/teams/$teamId/edit': typeof TeamsTeamIdEditRoute
+  '/teams/$teamId/': typeof TeamsTeamIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/pokemons/$pokemonId'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/pokemons/$pokemonId'
+    | '/teams/new'
+    | '/teams'
+    | '/teams/$teamId/edit'
+    | '/teams/$teamId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/pokemons/$pokemonId'
-  id: '__root__' | '/' | '/login' | '/register' | '/pokemons/$pokemonId'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/pokemons/$pokemonId'
+    | '/teams/new'
+    | '/teams'
+    | '/teams/$teamId/edit'
+    | '/teams/$teamId'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/register'
+    | '/pokemons/$pokemonId'
+    | '/teams/new'
+    | '/teams/'
+    | '/teams/$teamId/edit'
+    | '/teams/$teamId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +128,10 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
   PokemonsPokemonIdRoute: typeof PokemonsPokemonIdRoute
+  TeamsNewRoute: typeof TeamsNewRoute
+  TeamsIndexRoute: typeof TeamsIndexRoute
+  TeamsTeamIdEditRoute: typeof TeamsTeamIdEditRoute
+  TeamsTeamIdIndexRoute: typeof TeamsTeamIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -92,11 +157,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/teams/': {
+      id: '/teams/'
+      path: '/teams'
+      fullPath: '/teams'
+      preLoaderRoute: typeof TeamsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teams/new': {
+      id: '/teams/new'
+      path: '/teams/new'
+      fullPath: '/teams/new'
+      preLoaderRoute: typeof TeamsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pokemons/$pokemonId': {
       id: '/pokemons/$pokemonId'
       path: '/pokemons/$pokemonId'
       fullPath: '/pokemons/$pokemonId'
       preLoaderRoute: typeof PokemonsPokemonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teams/$teamId/': {
+      id: '/teams/$teamId/'
+      path: '/teams/$teamId'
+      fullPath: '/teams/$teamId'
+      preLoaderRoute: typeof TeamsTeamIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teams/$teamId/edit': {
+      id: '/teams/$teamId/edit'
+      path: '/teams/$teamId/edit'
+      fullPath: '/teams/$teamId/edit'
+      preLoaderRoute: typeof TeamsTeamIdEditRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -107,6 +200,10 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
   PokemonsPokemonIdRoute: PokemonsPokemonIdRoute,
+  TeamsNewRoute: TeamsNewRoute,
+  TeamsIndexRoute: TeamsIndexRoute,
+  TeamsTeamIdEditRoute: TeamsTeamIdEditRoute,
+  TeamsTeamIdIndexRoute: TeamsTeamIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

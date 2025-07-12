@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "@tanstack/react-router";
-import { useAuth } from "../hooks";
+import { useAuth } from "../features";
 import { isNotNullOrUndefined } from "@poke-playbook/libs";
 
 export const AppBar: React.FC = () => {
-  const { user, signOut, loading } = useAuth();
+  const { user, logout, loading } = useAuth();
 
   const handleSignOut = async () => {
-    await signOut();
+    await logout();
   };
 
   return (
@@ -16,6 +16,25 @@ export const AppBar: React.FC = () => {
         <Link to="/" className="text-xl font-bold text-primary">
           Pokédex
         </Link>
+
+        {isNotNullOrUndefined(user) && (
+          <div className="hidden md:flex ml-8 gap-6">
+            <Link
+              to="/"
+              className="link link-hover text-base-content/80 hover:text-base-content"
+              activeProps={{ className: "text-primary font-medium" }}
+            >
+              Pokédex
+            </Link>
+            <Link
+              to="/teams"
+              className="link link-hover text-base-content/80 hover:text-base-content"
+              activeProps={{ className: "text-primary font-medium" }}
+            >
+              My Teams
+            </Link>
+          </div>
+        )}
       </div>
 
       <div className="navbar-end">

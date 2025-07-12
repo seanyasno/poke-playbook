@@ -1,31 +1,5 @@
-import React from "react";
-import { createFileRoute, Navigate } from "@tanstack/react-router";
-import { LoginForm } from "../components";
-import { ErrorBoundarySuspense } from "../components";
-import { useAuth } from "../hooks";
-import { isNotNullOrUndefined } from "@poke-playbook/libs";
-
-const LoginPage: React.FC = () => {
-  const { user, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <span className="loading loading-spinner loading-lg" />
-      </div>
-    );
-  }
-
-  if (isNotNullOrUndefined(user)) {
-    return <Navigate to="/" />;
-  }
-
-  return (
-    <ErrorBoundarySuspense>
-      <LoginForm />
-    </ErrorBoundarySuspense>
-  );
-};
+import { createFileRoute } from "@tanstack/react-router";
+import { LoginPage } from "../features";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,

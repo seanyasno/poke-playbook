@@ -6,5 +6,3 @@ export const apiConfig = new Configuration({
     withCredentials: true,
   },
 });
-
-export { TeamsApi } from "@poke-playbook/api-client";

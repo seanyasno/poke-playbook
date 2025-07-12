@@ -7,7 +7,7 @@ import { isNotNullOrUndefined } from "./object";
  * @returns {boolean} - Returns true if the array is non-empty, otherwise false.
  */
 export function isNotEmptyArray<Item>(
-  array: Item[] | null | undefined
+  array: Item[] | null | undefined,
 ): array is [Item, ...Item[]] {
   return isNotNullOrUndefined(array) && array.length > 0;
 }
@@ -19,7 +19,7 @@ export function isNotEmptyArray<Item>(
  * @returns {boolean} - Returns true if the array is empty, otherwise false.
  */
 export function isEmptyArray<Item>(
-  array: Item[] | null | undefined
+  array: Item[] | null | undefined,
 ): array is [] {
   return isNotNullOrUndefined(array) && array.length === 0;
 }
@@ -52,7 +52,39 @@ export function purgeMap<Item>(array: (Item | null | undefined)[]): Item[] {
  */
 export function purgeFlatMap<Item, Result>(
   array: Item[],
-  callback: (item: Item) => (Result | null | undefined)[]
+  callback: (item: Item) => (Result | null | undefined)[],
 ): Result[] {
   return purge(array.flatMap(callback));
+}
+
+/**
+ * Finds an item in an array by a specific key and value.
+ *
+ * @param {Item[]} array - The array to search in.
+ * @param {Key} key - The key to match.
+ * @param {Item[Key]} value - The value to match.
+ * @returns {Item | undefined} - Returns the found item or undefined if not found.
+ */
+export function findItemBy<Item, Key extends keyof Item>(
+  array: Item[],
+  key: Key,
+  value: Item[Key],
+): Item | undefined {
+  return array.find((item) => item[key] === value);
+}
+
+/**
+ * Finds the index of an item in an array by a specific key and value.
+ *
+ * @param {Item[]} array - The array to search in.
+ * @param {Key} key - The key to match.
+ * @param {Item[Key]} value - The value to match.
+ * @returns {number} - Returns the index of the found item or -1 if not found.
+ */
+export function findIndexBy<Item, Key extends keyof Item>(
+  array: Item[],
+  key: Key,
+  value: Item[Key],
+): number {
+  return array.findIndex((item) => item[key] === value);
 }

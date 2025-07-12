@@ -1,6 +1,12 @@
 import { useReducer, type ReactNode } from "react";
-import { type TeamFormState, type TeamFormPokemon } from "../types/team.types";
-import { TeamFormContext, type TeamFormContextType } from "./team-form-context";
+import {
+  type TeamFormState,
+  type TeamFormPokemon,
+} from "../../../routes/teams/types/team.types.ts";
+import {
+  TeamFormContext,
+  type TeamFormContextType,
+} from "./team-form-context.ts";
 
 type TeamFormAction =
   | {

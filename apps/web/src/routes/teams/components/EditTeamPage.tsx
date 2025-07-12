@@ -1,6 +1,6 @@
 import { useParams } from "@tanstack/react-router";
 import { useTeam } from "../hooks/use-team";
-import { TeamFormProvider } from "../context/TeamFormContext";
+import { TeamFormProvider } from "../../../features/teams/contexts/TeamFormContext.tsx";
 import { TeamForm } from "./TeamForm";
 import { type TeamFormState } from "../types/team.types";
 

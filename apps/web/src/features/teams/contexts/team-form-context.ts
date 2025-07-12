@@ -1,5 +1,8 @@
 import { createContext } from "react";
-import { type TeamFormState, type TeamFormPokemon } from "../types/team.types";
+import {
+  type TeamFormState,
+  type TeamFormPokemon,
+} from "../../../routes/teams/types/team.types.ts";
 
 export type TeamFormContextType = {
   state: TeamFormState;

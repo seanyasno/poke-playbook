@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { TeamFormContext } from "../context/team-form-context";
+import { TeamFormContext } from "../../../features/teams/contexts/team-form-context.ts";
 
 export const useTeamForm = () => {
   const context = useContext(TeamFormContext);

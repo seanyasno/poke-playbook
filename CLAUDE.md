@@ -87,6 +87,7 @@ npm run docker:down
 - **Component Structure**: Organized by feature with co-located types and hooks
 - **Icons**: Uses `react-icons` for icons
 - **Components Files Nameing**: Components are named with kebab-case, e.g., `pokemon-card.tsx`, `pokemon-list.tsx`
+- **Forms**: Uses `react-hook-form` for form handling and validation with zod adapted for type safety
 
 ### Backend (apps/api)
 - **Framework**: NestJS with TypeScript

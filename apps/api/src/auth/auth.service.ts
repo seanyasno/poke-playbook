@@ -7,6 +7,11 @@ import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 import { SupabaseService } from './supabase.service';
 import { RegisterDto, LoginDto } from './dto';
+import {
+  isNotEmptyString,
+  isNotNullOrUndefined,
+  isNullOrUndefined,
+} from '@poke-playbook/libs';
 
 @Injectable()
 export class AuthService {
@@ -15,8 +20,10 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  async register(registerDto: RegisterDto, response: Response) {
-    const { email, password, firstName, lastName } = registerDto;
+  async register(
+    { email, password, firstName, lastName }: RegisterDto,
+    response: Response,
+  ) {
     const supabase = this.supabaseService.getClient();
 
     const { data, error } = await supabase.auth.signUp({
@@ -30,19 +37,19 @@ export class AuthService {
       },
     });
 
-    if (error) {
+    if (isNotNullOrUndefined(error)) {
       throw new BadRequestException(error.message);
     }
 
-    if (data.session) {
+    if (isNotNullOrUndefined(data.session)) {
       this.setAuthCookie(response, data.session.access_token);
     }
 
-    if (!data.user) {
+    if (isNullOrUndefined(data.user)) {
       throw new BadRequestException('User registration failed');
     }
 
-    if (!data.user.email) {
+    if (isNullOrUndefined(data.user.email)) {
       throw new BadRequestException('User email is required');
     }
 
@@ -50,8 +57,8 @@ export class AuthService {
       user: {
         id: data.user.id,
         email: data.user.email,
-        firstName: data.user.user_metadata?.first_name || null,
-        lastName: data.user.user_metadata?.last_name || null,
+        firstName: data.user.user_metadata?.first_name ?? null,
+        lastName: data.user.user_metadata?.last_name ?? null,
         createdAt: data.user.created_at,
       },
       message: data.session
@@ -60,8 +67,7 @@ export class AuthService {
     };
   }
 
-  async login(loginDto: LoginDto, response: Response) {
-    const { email, password } = loginDto;
+  async login({ email, password }: LoginDto, response: Response) {
     const supabase = this.supabaseService.getClient();
 
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -69,17 +75,23 @@ export class AuthService {
       password,
     });
 
-    if (error) {
+    if (isNotNullOrUndefined(error)) {
       throw new UnauthorizedException(error.message);
     }
 
-    if (!data.session) {
+    if (isNullOrUndefined(data.session)) {
       throw new UnauthorizedException('Login failed');
     }
 
-    this.setAuthCookie(response, data.session.access_token);
+    if (isNotNullOrUndefined(data.session)) {
+      this.setAuthCookie(response, data.session.access_token);
+    }
 
-    if (!data.user.email) {
+    if (isNullOrUndefined(data.user)) {
+      throw new BadRequestException('User registration failed');
+    }
+
+    if (isNotEmptyString(data.user.email)) {
       throw new UnauthorizedException('User email is required');
     }
 
@@ -87,8 +99,8 @@ export class AuthService {
       user: {
         id: data.user.id,
         email: data.user.email,
-        firstName: data.user.user_metadata?.first_name || null,
-        lastName: data.user.user_metadata?.last_name || null,
+        firstName: data.user.user_metadata?.first_name ?? null,
+        lastName: data.user.user_metadata?.last_name ?? null,
         createdAt: data.user.created_at,
       },
     };
@@ -96,6 +108,7 @@ export class AuthService {
 
   async logout(response: Response) {
     this.clearAuthCookie(response);
+
     return { message: 'Logged out successfully' };
   }
 

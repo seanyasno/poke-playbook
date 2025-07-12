@@ -3,12 +3,14 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request } from 'express';
+import { isNullOrUndefined } from '@poke-playbook/libs';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private configService: ConfigService) {
     const secret = configService.get<string>('SUPABASE_JWT_SECRET');
-    if (!secret) {
+
+    if (isNullOrUndefined(secret)) {
       throw new Error('SUPABASE_JWT_SECRET is required');
     }
 
@@ -25,7 +27,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    if (!payload.sub) {
+    if (isNullOrUndefined(payload.sub)) {
       throw new UnauthorizedException('Invalid token payload');
     }
 

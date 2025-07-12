@@ -1,23 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { db } from '@fastiship/database';
-import { CreateTeamDto } from './dto/create-team.dto';
-import { UpdateTeamDto } from './dto/update-team.dto';
-import { GetTeamsQueryDto } from './dto/get-teams-query.dto';
+import { CreateTeamDto, UpdateTeamDto, GetTeamsQueryDto } from './dto';
+import {
+  isNotEmptyArray,
+  isNotNullOrUndefined,
+  isNullOrUndefined,
+} from '@poke-playbook/libs';
 
 @Injectable()
 export class TeamsService {
-  async create(userId: string, createTeamDto: CreateTeamDto) {
-    const { name, description, pokemon } = createTeamDto;
-
-    // Validate unique positions
-    const positions = pokemon.map((p) => p.position);
+  async create(userId: string, { name, description, pokemon }: CreateTeamDto) {
+    const positions = pokemon.map(({ position }) => position);
     const uniquePositions = new Set(positions);
+
     if (positions.length !== uniquePositions.size) {
       throw new Error('Duplicate position values are not allowed');
     }
 
-    return db.$transaction(async (tx) => {
-      const team = await tx.teams.create({
+    return db.$transaction(async (transactionContext) => {
+      const team = await transactionContext.teams.create({
         data: {
           name,
           description,
@@ -25,20 +26,19 @@ export class TeamsService {
         },
       });
 
-      if (pokemon.length > 0) {
-        await tx.team_pokemon.createMany({
-          data: pokemon.map((p) => ({
+      if (isNotEmptyArray(pokemon)) {
+        await transactionContext.team_pokemon.createMany({
+          data: pokemon.map((pokemon) => ({
             team_id: team.id,
-            pokemon_id: p.pokemon_id,
-            pokemon_name: p.pokemon_name,
-            nickname: p.nickname,
-            position: p.position,
+            pokemon_id: pokemon.pokemon_id,
+            pokemon_name: pokemon.pokemon_name,
+            nickname: pokemon.nickname,
+            position: pokemon.position,
           })),
         });
       }
 
-      // Fetch the complete team with related data within the same transaction
-      const createdTeam = await tx.teams.findUnique({
+      return transactionContext.teams.findUnique({
         where: { id: team.id },
         include: {
           team_pokemon: {
@@ -46,14 +46,13 @@ export class TeamsService {
           },
         },
       });
-
-      return createdTeam;
     });
   }
 
-  async findAll(userId: string, query: GetTeamsQueryDto) {
-    const { limit, offset, includePokemons } = query;
-
+  async findAll(
+    userId: string,
+    { limit, offset, includePokemons }: GetTeamsQueryDto,
+  ) {
     const [teams, total] = await Promise.all([
       db.teams.findMany({
         where: { user_id: userId },
@@ -91,31 +90,31 @@ export class TeamsService {
       },
     });
 
-    if (!team) {
+    if (isNullOrUndefined(team)) {
       throw new NotFoundException('Team not found');
     }
 
     return team;
   }
 
-  async update(id: string, userId: string, updateTeamDto: UpdateTeamDto) {
-    // Verify team exists and user owns it
+  async update(
+    id: string,
+    userId: string,
+    { name, description, pokemon }: UpdateTeamDto,
+  ) {
     await this.findOne(id, userId);
 
-    const { name, description, pokemon } = updateTeamDto;
-
-    // If pokemon array is provided, validate unique positions
-    if (pokemon) {
-      const positions = pokemon.map((p) => p.position);
+    if (isNotNullOrUndefined(pokemon)) {
+      const positions = pokemon.map(({ position }) => position);
       const uniquePositions = new Set(positions);
+
       if (positions.length !== uniquePositions.size) {
         throw new Error('Duplicate position values are not allowed');
       }
     }
 
-    return db.$transaction(async (tx) => {
-      // Update team basic info
-      await tx.teams.update({
+    return db.$transaction(async (transactionContext) => {
+      await transactionContext.teams.update({
         where: { id },
         data: {
           ...(name && { name }),
@@ -124,29 +123,25 @@ export class TeamsService {
         },
       });
 
-      // If pokemon array is provided, replace all pokemon
-      if (pokemon) {
-        // Delete existing pokemon
-        await tx.team_pokemon.deleteMany({
+      if (isNotNullOrUndefined(pokemon)) {
+        await transactionContext.team_pokemon.deleteMany({
           where: { team_id: id },
         });
 
-        // Create new pokemon if any
-        if (pokemon.length > 0) {
-          await tx.team_pokemon.createMany({
-            data: pokemon.map((p) => ({
+        if (isNotEmptyArray(pokemon)) {
+          await transactionContext.team_pokemon.createMany({
+            data: pokemon.map((pokemon) => ({
               team_id: id,
-              pokemon_id: p.pokemon_id,
-              pokemon_name: p.pokemon_name,
-              nickname: p.nickname,
-              position: p.position,
+              pokemon_id: pokemon.pokemon_id,
+              pokemon_name: pokemon.pokemon_name,
+              nickname: pokemon.nickname,
+              position: pokemon.position,
             })),
           });
         }
       }
 
-      // Fetch the complete updated team with related data within the same transaction
-      const updatedTeam = await tx.teams.findUnique({
+      return await transactionContext.teams.findUnique({
         where: { id },
         include: {
           team_pokemon: {
@@ -154,13 +149,10 @@ export class TeamsService {
           },
         },
       });
-
-      return updatedTeam;
     });
   }
 
   async remove(id: string, userId: string) {
-    // Verify team exists and user owns it
     await this.findOne(id, userId);
 
     await db.teams.delete({

@@ -61,6 +61,7 @@ export class TeamsController {
   ): Promise<TeamResponseDto> {
     try {
       const team = await this.teamsService.create(user.id, createTeamDto);
+
       return TeamResponseSchema.parse(team);
     } catch (error) {
       if (
@@ -105,8 +106,21 @@ export class TeamsController {
     @CurrentUser() user: AuthUser,
     @Query() query: GetTeamsQueryDto,
   ): Promise<TeamsListResponseDto> {
-    const result = await this.teamsService.findAll(user.id, query);
-    return TeamsListResponseSchema.parse(result);
+    try {
+      const result = await this.teamsService.findAll(user.id, query);
+
+      return TeamsListResponseSchema.parse(result);
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message.includes('Invalid pagination parameters')
+      ) {
+        throw new BadRequestException(
+          'Invalid pagination parameters. Ensure limit is between 1 and 100.',
+        );
+      }
+      throw error;
+    }
   }
 
   @Put(':id')
@@ -135,6 +149,7 @@ export class TeamsController {
   ): Promise<TeamResponseDto> {
     try {
       const team = await this.teamsService.update(id, user.id, updateTeamDto);
+
       return TeamResponseSchema.parse(team);
     } catch (error) {
       if (

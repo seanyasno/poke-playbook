@@ -8,7 +8,9 @@ export const UserResponseSchema = z.object({
   lastName: z.string().nullable().optional(),
   createdAt: z
     .union([z.string(), z.date()])
-    .transform((val) => (val instanceof Date ? val.toISOString() : val)),
+    .transform((value) =>
+      value instanceof Date ? value.toISOString() : value,
+    ),
 });
 
 export const AuthResponseSchema = z.object({

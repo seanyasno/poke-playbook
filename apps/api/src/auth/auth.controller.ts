@@ -37,12 +37,12 @@ export class AuthController {
   @ApiOperation({ summary: 'Register a new user' })
   @ApiBody({ type: RegisterDto })
   @ApiResponse({
-    status: 201,
+    status: HttpStatus.CREATED,
     description: 'User registered successfully',
     type: AuthResponseDto,
   })
   @ApiResponse({
-    status: 400,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Bad request - validation errors or user already exists',
   })
   async register(
@@ -57,12 +57,12 @@ export class AuthController {
   @ApiOperation({ summary: 'Login with email and password' })
   @ApiBody({ type: LoginDto })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Login successful',
     type: AuthResponseDto,
   })
   @ApiResponse({
-    status: 401,
+    status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized - invalid credentials',
   })
   async login(
@@ -76,7 +76,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Logout and clear authentication session' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Logout successful',
     type: MessageResponseDto,
   })
@@ -91,12 +91,12 @@ export class AuthController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get current authenticated user' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'User information retrieved successfully',
     type: UserResponseDto,
   })
   @ApiResponse({
-    status: 401,
+    status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized - authentication required',
   })
   async getCurrentUser(

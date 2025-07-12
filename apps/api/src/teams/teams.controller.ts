@@ -46,15 +46,15 @@ export class TeamsController {
   @ApiOperation({ summary: 'Create a new Pokemon team' })
   @ApiBody({ type: CreateTeamDto })
   @ApiResponse({
-    status: 201,
+    status: HttpStatus.CREATED,
     description: 'Team created successfully',
     type: TeamResponseDto,
   })
   @ApiResponse({
-    status: 400,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Bad request - validation errors or duplicate positions',
   })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   async create(
     @CurrentUser() user: AuthUser,
     @Body() createTeamDto: CreateTeamDto,
@@ -96,11 +96,11 @@ export class TeamsController {
     description: 'Include team Pokemon in response (default: true)',
   })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Teams retrieved successfully',
     type: TeamsListResponseDto,
   })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   async findAll(
     @CurrentUser() user: AuthUser,
     @Query() query: GetTeamsQueryDto,
@@ -114,20 +114,20 @@ export class TeamsController {
   @ApiParam({ name: 'id', description: 'Team ID', type: String })
   @ApiBody({ type: UpdateTeamDto })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Team updated successfully',
     type: TeamResponseDto,
   })
   @ApiResponse({
-    status: 400,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Bad request - validation errors or duplicate positions',
   })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   @ApiResponse({
-    status: 403,
+    status: HttpStatus.FORBIDDEN,
     description: "Forbidden - user doesn't own the team",
   })
-  @ApiResponse({ status: 404, description: 'Team not found' })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Team not found' })
   async update(
     @CurrentUser() user: AuthUser,
     @Param('id') id: string,
@@ -153,13 +153,16 @@ export class TeamsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete a Pokemon team' })
   @ApiParam({ name: 'id', description: 'Team ID', type: String })
-  @ApiResponse({ status: 204, description: 'Team deleted successfully' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({
-    status: 403,
+    status: HttpStatus.NO_CONTENT,
+    description: 'Team deleted successfully',
+  })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+  @ApiResponse({
+    status: HttpStatus.FORBIDDEN,
     description: "Forbidden - user doesn't own the team",
   })
-  @ApiResponse({ status: 404, description: 'Team not found' })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Team not found' })
   async remove(
     @CurrentUser() user: AuthUser,
     @Param('id') id: string,

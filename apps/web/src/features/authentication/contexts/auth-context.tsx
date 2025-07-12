@@ -1,9 +1,8 @@
 import React, { useState, type PropsWithChildren } from "react";
-import { AuthContext } from "../hooks";
 import { useQuery } from "@tanstack/react-query";
-import { useLogin, useLogout, useRegister } from "../features";
+import { AuthContext, useLogin, useLogout, useRegister } from "../hooks";
 import type { AuthResponseDtoUser } from "@poke-playbook/api-client";
-import { authApi } from "../constants";
+import { authApi } from "../../../constants";
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<AuthResponseDtoUser | null>(null);

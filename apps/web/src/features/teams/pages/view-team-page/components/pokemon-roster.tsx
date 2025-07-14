@@ -23,7 +23,9 @@ export const PokemonRoster: React.FC<PokemonRosterProps> = ({ pokemon }) => {
       <div className="py-16">
         <div className="text-center">
           <div className="text-5xl mb-4 opacity-40">🏃‍♂️</div>
-          <h2 className="text-2xl font-medium mb-2 text-base-content/80">This team is empty</h2>
+          <h2 className="text-2xl font-medium mb-2 text-base-content/80">
+            This team is empty
+          </h2>
           <p className="text-base-content/50">
             Add some Pokémon to get started with your team.
           </p>
@@ -34,7 +36,9 @@ export const PokemonRoster: React.FC<PokemonRosterProps> = ({ pokemon }) => {
 
   return (
     <div>
-      <h2 className="text-2xl font-medium text-base-content mb-8">Team roster</h2>
+      <h2 className="text-2xl font-medium text-base-content mb-8">
+        Team roster
+      </h2>
       <div className="space-y-1">
         {pokemonSlots.map((pokemon, index) => {
           const position = index + 1;
@@ -49,7 +53,9 @@ export const PokemonRoster: React.FC<PokemonRosterProps> = ({ pokemon }) => {
                   {position}
                 </div>
                 <div className="flex-1">
-                  <div className="text-sm text-base-content/40 italic">Empty slot</div>
+                  <div className="text-sm text-base-content/40 italic">
+                    Empty slot
+                  </div>
                 </div>
               </div>
             );

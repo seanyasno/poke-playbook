@@ -22,13 +22,13 @@ export const TeamHeader: React.FC<TeamHeaderProps> = ({ team }) => {
             <h1 className="text-5xl font-medium text-base-content mb-3 leading-tight">
               {team.name}
             </h1>
-            
+
             {team.description && (
               <p className="text-lg text-base-content/70 mb-4 leading-relaxed max-w-2xl">
                 {team.description}
               </p>
             )}
-            
+
             <div className="flex items-center gap-6 text-sm text-base-content/50">
               <span>{pokemonCount} of 6 Pokémon</span>
               <span>Created {createdDate}</span>
@@ -37,7 +37,7 @@ export const TeamHeader: React.FC<TeamHeaderProps> = ({ team }) => {
               )}
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2 ml-6">
             <Link
               to="/teams/$teamId/edit"
@@ -46,7 +46,7 @@ export const TeamHeader: React.FC<TeamHeaderProps> = ({ team }) => {
             >
               <IoPencil className="w-4 h-4" />
             </Link>
-            
+
             <button
               className="btn btn-sm btn-ghost text-error hover:bg-error/10"
               onClick={() => setShowDeleteDialog(true)}

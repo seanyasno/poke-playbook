@@ -57,36 +57,36 @@ export function TeamForm<Mode extends TeamFormMode>(
   });
 
   return (
-    <form onSubmit={onSubmit} className="max-w-4xl mx-auto space-y-8">
+    <form onSubmit={onSubmit} className="space-y-12">
       <TeamInfoSection />
-
-      <div className="divider"></div>
 
       <PokemonSelector />
 
       {formState.errors.selectedPokemon && (
-        <div className="alert alert-error">
-          <IoCloseCircle className="stroke-current shrink-0 h-6 w-6" />
-          <span>{formState.errors.selectedPokemon.message}</span>
+        <div className="p-4 rounded-lg bg-error/10 border border-error/20">
+          <div className="flex items-center gap-3 text-error">
+            <IoCloseCircle className="w-5 h-5 flex-shrink-0" />
+            <span className="text-sm">{formState.errors.selectedPokemon.message}</span>
+          </div>
         </div>
       )}
 
-      <div className="flex justify-end gap-4 pt-6">
-        <Link to="/teams" className="btn btn-ghost">
+      <div className="flex items-center justify-between pt-8 border-t border-base-300">
+        <Link to="/teams" className="text-base-content/60 hover:text-base-content transition-colors">
           Cancel
         </Link>
-        <button type="submit" className="btn btn-primary" disabled={isLoading}>
+        <button 
+          type="submit" 
+          className="btn btn-primary" 
+          disabled={isLoading}
+        >
           {isLoading ? (
             <>
               <span className="loading loading-spinner loading-sm"></span>
-              {props.mode === TEAM_FORM_MODES.CREATE
-                ? "Creating..."
-                : "Updating..."}
+              {props.mode === TEAM_FORM_MODES.CREATE ? "Creating..." : "Saving..."}
             </>
-          ) : props.mode === TEAM_FORM_MODES.CREATE ? (
-            "Create Team"
           ) : (
-            "Update Team"
+            props.mode === TEAM_FORM_MODES.CREATE ? "Create team" : "Save changes"
           )}
         </button>
       </div>

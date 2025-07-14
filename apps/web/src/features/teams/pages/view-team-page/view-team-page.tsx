@@ -8,10 +8,12 @@ export const ViewTeamPage: React.FC = () => {
   const { data: team } = useTeam(teamId);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <TeamHeader team={team} />
-      <div className="mt-8">
-        <PokemonRoster pokemon={withDefault(team.team_pokemon, [])} />
+    <div className="min-h-screen bg-base-100">
+      <div className="max-w-4xl mx-auto px-6 py-12">
+        <TeamHeader team={team} />
+        <div className="mt-12">
+          <PokemonRoster pokemon={withDefault(team.team_pokemon, [])} />
+        </div>
       </div>
     </div>
   );

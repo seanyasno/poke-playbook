@@ -45,7 +45,7 @@ export const AppBar: React.FC = () => {
             ) : isNotNullOrUndefined(user) ? (
               <>
                 <div className="text-sm text-base-content/50 hidden sm:block">
-                  {user.email}
+                  {user?.email || "User"}
                 </div>
                 <button
                   className="text-sm text-base-content/60 hover:text-base-content transition-colors px-3 py-2"

@@ -1,16 +1,42 @@
-import { useParams } from "@tanstack/react-router";
+import { useParams, Link } from "@tanstack/react-router";
 import { useTeam } from "../hooks";
 import {
   type Team,
   TeamForm,
   type TeamFormData,
   TeamFormProvider,
+  useAuth,
 } from "../../index.ts";
 import { withDefault } from "@poke-playbook/libs";
 
 export function EditTeamPage() {
   const { teamId } = useParams({ from: "/teams/$teamId/edit" });
+  const { user, loading } = useAuth();
   const { data: team } = useTeam(teamId);
+
+  // Show loading while checking auth
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
+  // Redirect to login if not authenticated
+  if (!user) {
+    return (
+      <div className="max-w-md mx-auto text-center py-24">
+        <h2 className="text-2xl font-medium mb-4">Sign in required</h2>
+        <p className="text-base-content/60 mb-6">
+          You need to be signed in to edit teams.
+        </p>
+        <Link to="/login" className="btn btn-primary">
+          Sign in
+        </Link>
+      </div>
+    );
+  }
 
   const defaultValues = buildTeamFormData(team);
 

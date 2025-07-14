@@ -1,6 +1,6 @@
-import type {
-  AuthResponseDtoUser,
-  AuthResponseDto,
+import {
+  type AuthResponseDto,
+  type AuthResponseDtoUserUser,
 } from "@poke-playbook/api-client";
 
 export type AuthError = {
@@ -8,7 +8,7 @@ export type AuthError = {
 };
 
 export type AuthContextType = {
-  user: AuthResponseDtoUser | null;
+  user: AuthResponseDtoUserUser | null;
   loading: boolean;
   login: (props: {
     email: string;

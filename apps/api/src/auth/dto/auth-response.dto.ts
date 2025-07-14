@@ -2,15 +2,12 @@ import { z } from 'zod';
 import { createZodDto } from 'nestjs-zod';
 
 export const UserResponseSchema = z.object({
-  id: z.string(),
-  email: z.string(),
-  firstName: z.string().nullable().optional(),
-  lastName: z.string().nullable().optional(),
-  createdAt: z
-    .union([z.string(), z.date()])
-    .transform((value) =>
-      value instanceof Date ? value.toISOString() : value,
-    ),
+  user: z
+    .object({
+      id: z.string(),
+      email: z.string(),
+    })
+    .nullable(),
 });
 
 export const AuthResponseSchema = z.object({

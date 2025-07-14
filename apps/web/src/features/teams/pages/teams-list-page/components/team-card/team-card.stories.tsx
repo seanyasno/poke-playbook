@@ -1,80 +1,36 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import React from "react";
-import type { Team } from "@/features";
+import { TeamCard } from "@/features";
 
-// Mock components to avoid dependencies
-const MockTeamCardMenu = () => (
-  <div className="dropdown dropdown-end">
-    <button tabIndex={0} className="btn btn-ghost btn-sm">
-      ⋯
-    </button>
-  </div>
-);
+// This story uses the REAL TeamCard component with mocked dependencies
+// The mocks are handled via Vite aliases in main.ts
 
-const MockPokemonSprites = ({
-  pokemon,
-}: {
-  pokemon: Array<{ pokemon_name: string }>;
-}) => (
-  <div className="flex -space-x-2 overflow-hidden">
-    {pokemon.slice(0, 6).map((p, index) => (
-      <div
-        key={index}
-        className="w-10 h-10 bg-base-300 rounded-full flex items-center justify-center text-xs font-medium"
-      >
-        {p.pokemon_name[0].toUpperCase()}
-      </div>
-    ))}
-    {Array.from({ length: 6 - pokemon.length }).map((_, index) => (
-      <div
-        key={`empty-${index}`}
-        className="w-10 h-10 bg-base-200 rounded-full border-2 border-dashed border-base-300"
-      />
-    ))}
-  </div>
-);
-
-const MockTeamCard: React.FC<{ team: Team }> = ({ team }) => {
-  const pokemonCount = team.team_pokemon?.length || 0;
-  const createdDate = new Date(team.created_at).toLocaleDateString();
-
-  return (
-    <div className="p-8 bg-base-200 min-h-screen">
-      <div className="max-w-sm mx-auto">
-        <div className="block p-6 bg-base-100 border border-base-300 rounded-lg hover:bg-base-200/30 transition-colors group cursor-pointer">
-          <div className="flex justify-between items-start mb-3">
-            <h3 className="text-lg font-medium text-base-content group-hover:text-primary transition-colors line-clamp-1">
-              {team.name}
-            </h3>
-            <div onClick={(e) => e.preventDefault()}>
-              <MockTeamCardMenu />
-            </div>
-          </div>
-
-          {team.description && (
-            <p className="text-sm text-base-content/70 mb-4 line-clamp-2 leading-relaxed">
-              {team.description}
-            </p>
-          )}
-
-          <MockPokemonSprites pokemon={team.team_pokemon || []} />
-
-          <div className="flex justify-between items-center text-xs text-base-content/50 mt-4 pt-3 border-t border-base-300">
-            <span>{pokemonCount} of 6 Pokémon</span>
-            <span>Created {createdDate}</span>
-          </div>
+const meta: Meta<typeof TeamCard> = {
+  title: "Features/Teams/TeamCard",
+  component: TeamCard,
+  parameters: {
+    layout: "centered",
+    docs: {
+      description: {
+        component:
+          "TeamCard component for displaying team information. Uses the real TeamCard component with mocked dependencies.",
+      },
+    },
+  },
+  argTypes: {
+    team: {
+      control: "object",
+      description: "Team object to display",
+    },
+  },
+  decorators: [
+    (Story) => (
+      <div className="p-8 bg-base-200 min-h-screen">
+        <div className="max-w-sm mx-auto">
+          <Story />
         </div>
       </div>
-    </div>
-  );
-};
-
-const meta: Meta<typeof MockTeamCard> = {
-  title: "Features/Teams/TeamCard",
-  component: MockTeamCard,
-  parameters: {
-    layout: "fullscreen",
-  },
+    ),
+  ],
 };
 
 export default meta;

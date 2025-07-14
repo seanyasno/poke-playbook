@@ -19,5 +19,33 @@ const config: StorybookConfig = {
     name: getAbsolutePath("@storybook/react-vite"),
     options: {},
   },
+  viteFinal: async (config) => {
+    config.define = {
+      ...config.define,
+      global: "globalThis",
+    };
+
+    // Enable module mocking for Storybook
+    config.resolve = {
+      ...config.resolve,
+      alias: {
+        ...config.resolve?.alias,
+        "@tanstack/react-router": require.resolve("./mocks/react-router.ts"),
+        "@/features": require.resolve("./mocks/features.tsx"),
+        "@/components": require.resolve("./mocks/components.tsx"),
+        "@/hooks": require.resolve("./mocks/hooks.ts"),
+        "@/hooks/use-mouse-position": require.resolve(
+          "./mocks/use-mouse-position.ts",
+        ),
+        "@/types": require.resolve("./mocks/types.ts"),
+        "@poke-playbook/libs": require.resolve("./mocks/libs.ts"),
+        // Mock for authentication hooks directory
+        [require.resolve("../src/features/authentication/hooks/index.ts")]:
+          require.resolve("./mocks/authentication-hooks.ts"),
+      },
+    };
+
+    return config;
+  },
 };
 export default config;

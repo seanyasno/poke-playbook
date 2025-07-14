@@ -25,7 +25,7 @@ export function EditTeamPage() {
             Edit your team details and roster
           </p>
         </div>
-        
+
         <TeamFormProvider defaultValues={defaultValues}>
           <TeamForm mode="edit" teamId={teamId} />
         </TeamFormProvider>

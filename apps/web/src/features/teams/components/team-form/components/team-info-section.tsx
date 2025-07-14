@@ -8,8 +8,10 @@ export function TeamInfoSection() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-medium text-base-content mb-6">Team details</h2>
-        
+        <h2 className="text-2xl font-medium text-base-content mb-6">
+          Team details
+        </h2>
+
         <div className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-base-content mb-2">
@@ -18,8 +20,8 @@ export function TeamInfoSection() {
             <input
               type="text"
               className={`w-full px-3 py-3 border rounded-lg bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors ${
-                formState.errors.teamName 
-                  ? "border-error focus:border-error focus:ring-error/20" 
+                formState.errors.teamName
+                  ? "border-error focus:border-error focus:ring-error/20"
                   : "border-base-300"
               }`}
               value={teamName}

@@ -1,4 +1,4 @@
-import type { PokemonDetail } from "../types";
+import type { PokemonDetail } from "@/types";
 import { usePokemonNavigationQueries } from "./requests/use-pokemon-navigation-queries";
 
 const MAX_POKEMON_ID = 1025;

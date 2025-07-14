@@ -3,7 +3,7 @@ import {
   useSuspenseInfiniteQuery,
   type UseSuspenseQueryOptions,
 } from "@tanstack/react-query";
-import { pokemonApi } from "../../constants";
+import { pokemonApi } from "@/constants";
 import type { PaginatedPokemonSummaryList } from "pokeapi-client";
 
 export function usePokemons(
@@ -15,7 +15,7 @@ export function usePokemons(
     Error,
     PaginatedPokemonSummaryList,
     string[]
-  >
+  >,
 ) {
   return useSuspenseQuery({
     queryKey: ["pokemons"],
@@ -34,7 +34,7 @@ export function usePokemonsInfinite(limit: number = 20) {
     queryFn: async ({ pageParam = 0 }) => {
       const response = await pokemonApi.apiV2PokemonList(
         limit,
-        pageParam as number
+        pageParam as number,
       );
 
       return response.data;

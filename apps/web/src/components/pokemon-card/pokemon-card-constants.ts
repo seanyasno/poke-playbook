@@ -1,4 +1,4 @@
-import type { PokemonType } from "../../types";
+import type { PokemonType } from "@/types";
 
 export const typeGradients: Record<PokemonType, string> = {
   fire: "from-red-400 via-orange-500 to-yellow-500",

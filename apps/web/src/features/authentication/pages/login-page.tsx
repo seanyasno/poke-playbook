@@ -1,7 +1,7 @@
 import React from "react";
 import { isNotNullOrUndefined } from "@poke-playbook/libs";
 import { Navigate } from "@tanstack/react-router";
-import { ErrorBoundarySuspense } from "../../../components";
+import { ErrorBoundarySuspense } from "@/components";
 import { LoginForm } from "../components";
 import { useAuth } from "../hooks";
 

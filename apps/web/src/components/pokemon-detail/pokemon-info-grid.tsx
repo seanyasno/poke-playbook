@@ -1,6 +1,6 @@
 import { capitalize } from "@poke-playbook/libs";
-import type { PokemonDetail } from "../../types";
-import { formatHeight, formatWeight } from "../../utils";
+import type { PokemonDetail } from "@/types";
+import { formatHeight, formatWeight } from "@/utils";
 
 type PokemonInfoGridProps = {
   pokemon: PokemonDetail;
@@ -35,4 +35,4 @@ export function PokemonInfoGrid({ pokemon }: PokemonInfoGridProps) {
       </div>
     </div>
   );
-} 
+}

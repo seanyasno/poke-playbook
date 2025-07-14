@@ -3,7 +3,7 @@ import {
   usePokemonsInfinite,
   useItemsPerRowWindowChange,
   useAdvancedPokemonFilter,
-} from "../../hooks";
+} from "@/hooks";
 import { purgeFlatMap, withDefault } from "@poke-playbook/libs";
 import {
   SearchAndFilterHeader,

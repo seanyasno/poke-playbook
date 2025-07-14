@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { isNotNullOrUndefined, withDefault } from "@poke-playbook/libs";
 import type { PokemonSummary } from "pokeapi-client";
-import type { SearchParamsSchema } from "../types";
+import type { SearchParamsSchema } from "@/types";
 import type { z } from "zod";
 import { usePokemonTypesQueries } from "./requests/use-pokemon-types-queries";
 

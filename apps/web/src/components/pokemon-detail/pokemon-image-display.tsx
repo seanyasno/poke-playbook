@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { capitalize } from "@poke-playbook/libs";
-import type { PokemonDetail } from "../../types";
+import type { PokemonDetail } from "@/types";
 
 type PokemonImageDisplayProps = {
   pokemon: PokemonDetail;

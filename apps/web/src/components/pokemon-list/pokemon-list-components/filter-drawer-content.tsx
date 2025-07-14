@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { usePokemonTypes, usePokemonGames } from "../../../hooks";
-import type { SearchParams } from "../../../types";
+import { usePokemonTypes, usePokemonGames } from "@/hooks";
+import type { SearchParams } from "@/types";
 
 type FilterDrawerContentProps = {
   searchParams: SearchParams;
@@ -18,10 +18,10 @@ export const FilterDrawerContent: React.FC<FilterDrawerContentProps> = ({
   const { data: gamesData } = usePokemonGames();
 
   const [selectedTypes, setSelectedTypes] = useState<string[]>(
-    searchParams.types ?? []
+    searchParams.types ?? [],
   );
   const [selectedGame, setSelectedGame] = useState<string>(
-    searchParams.game ?? ""
+    searchParams.game ?? "",
   );
 
   const handleApply = () => {
@@ -46,7 +46,7 @@ export const FilterDrawerContent: React.FC<FilterDrawerContentProps> = ({
     setSelectedTypes((prev) =>
       prev.includes(typeName)
         ? prev.filter((t) => t !== typeName)
-        : [...prev, typeName]
+        : [...prev, typeName],
     );
   };
 
@@ -62,7 +62,7 @@ export const FilterDrawerContent: React.FC<FilterDrawerContentProps> = ({
           <IoClose className="w-5 h-5" />
         </button>
       </div>
-      
+
       <div className="flex-1 space-y-6">
         <div>
           <label className="label">
@@ -115,4 +115,4 @@ export const FilterDrawerContent: React.FC<FilterDrawerContentProps> = ({
       </div>
     </div>
   );
-}; 
+};

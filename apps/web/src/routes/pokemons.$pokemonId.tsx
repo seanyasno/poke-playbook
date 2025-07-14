@@ -7,11 +7,11 @@ import {
   usePokemonEvolution,
   usePokemonNavigation,
   usePokemonImage,
-} from "../hooks";
+} from "@/hooks";
 import {
   typeGradients,
   typeShadowColors,
-} from "../components/pokemon-card/pokemon-card-constants";
+} from "@/components/pokemon-card/pokemon-card-constants";
 import {
   PokemonHeader,
   PokemonImageDisplay,
@@ -19,10 +19,10 @@ import {
   PokemonStats,
   PokemonInfoGrid,
   PokemonVersionToggle,
-} from "../components/pokemon-detail";
+} from "@/components/pokemon-detail";
 import { withDefault } from "@poke-playbook/libs";
-import type { PokemonType } from "../types";
-import { flattenEvolutionChain } from "../utils";
+import type { PokemonType } from "@/types";
+import { flattenEvolutionChain } from "@/utils";
 
 const RouteComponent: React.FC = () => {
   const { pokemonId } = useParams({ from: "/pokemons/$pokemonId" });

@@ -4,7 +4,7 @@ import {
   type UseSuspenseQueryOptions,
 } from "@tanstack/react-query";
 import { type Team, TeamSchema } from "../types";
-import { teamsApi } from "../../../constants";
+import { teamsApi } from "@/constants";
 import { isNullOrUndefined } from "@poke-playbook/libs";
 
 function teamQueryOptions(teamId: string) {

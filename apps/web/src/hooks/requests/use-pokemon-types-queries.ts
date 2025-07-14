@@ -1,6 +1,6 @@
 import { useQueries } from "@tanstack/react-query";
 import { isNotNullOrUndefined, withDefault } from "@poke-playbook/libs";
-import { pokemonApi } from "../../constants";
+import { pokemonApi } from "@/constants";
 
 export const usePokemonTypesQueries = (types: string[] | undefined) => {
   return useQueries({

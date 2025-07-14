@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "@tanstack/react-router";
-import { useAuth } from "../features";
+import { useAuth } from "@/features";
 import { isNotNullOrUndefined } from "@poke-playbook/libs";
 
 export const AppBar: React.FC = () => {

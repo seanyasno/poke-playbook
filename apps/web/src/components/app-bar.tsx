@@ -11,54 +11,64 @@ export const AppBar: React.FC = () => {
   };
 
   return (
-    <div className="navbar bg-base-100 px-10">
-      <div className="navbar-start">
-        <Link to="/" className="text-xl font-bold text-primary">
-          Pokédex
-        </Link>
+    <div className="border-b border-base-300 bg-base-100">
+      <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-8">
+            <Link to="/" className="text-xl font-medium text-base-content">
+              Poké Playbook
+            </Link>
 
-        {isNotNullOrUndefined(user) && (
-          <div className="hidden md:flex ml-8 gap-6">
-            <Link
-              to="/"
-              className="link link-hover text-base-content/80 hover:text-base-content"
-              activeProps={{ className: "text-primary font-medium" }}
-            >
-              Pokédex
-            </Link>
-            <Link
-              to="/teams"
-              className="link link-hover text-base-content/80 hover:text-base-content"
-              activeProps={{ className: "text-primary font-medium" }}
-            >
-              My Teams
-            </Link>
+            {isNotNullOrUndefined(user) && (
+              <nav className="hidden md:flex gap-6">
+                <Link
+                  to="/"
+                  className="text-sm text-base-content/60 hover:text-base-content transition-colors"
+                  activeProps={{ className: "text-base-content font-medium" }}
+                >
+                  Pokédex
+                </Link>
+                <Link
+                  to="/teams"
+                  className="text-sm text-base-content/60 hover:text-base-content transition-colors"
+                  activeProps={{ className: "text-base-content font-medium" }}
+                >
+                  Teams
+                </Link>
+              </nav>
+            )}
           </div>
-        )}
-      </div>
 
-      <div className="navbar-end">
-        {loading ? (
-          <span className="loading loading-spinner loading-sm" />
-        ) : isNotNullOrUndefined(user) ? (
-          <div className="flex items-center gap-4">
-            <div className="text-sm text-base-content/70">
-              Welcome, {user.email}
-            </div>
-            <button className="btn btn-outline btn-sm" onClick={handleSignOut}>
-              Sign Out
-            </button>
+          <div className="flex items-center gap-3">
+            {loading ? (
+              <span className="loading loading-spinner loading-sm" />
+            ) : isNotNullOrUndefined(user) ? (
+              <>
+                <div className="text-sm text-base-content/50 hidden sm:block">
+                  {user?.email || "User"}
+                </div>
+                <button
+                  className="text-sm text-base-content/60 hover:text-base-content transition-colors px-3 py-2"
+                  onClick={handleSignOut}
+                >
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/login"
+                  className="text-sm text-base-content/60 hover:text-base-content transition-colors px-3 py-2"
+                >
+                  Login
+                </Link>
+                <Link to="/register" className="btn btn-primary btn-sm">
+                  Sign up
+                </Link>
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="flex gap-2">
-            <Link to="/login" className="btn btn-ghost btn-sm">
-              Login
-            </Link>
-            <Link to="/register" className="btn btn-primary btn-sm">
-              Sign Up
-            </Link>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
     <div className="h-screen flex flex-col">
       <AppBar />
-      <div className="flex-1 h-full">
+      <div className="h-[calc(100%-68px)]">
         <Outlet />
       </div>
       <TanStackRouterDevtools />

@@ -48,7 +48,7 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemonName }) => {
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setMousePosition({ x: 0, y: 0 })}
-        className="relative w-80 h-96 group cursor-pointer"
+        className="relative w-80 h-92 group cursor-pointer"
         style={{
           transform: `rotateX(${(mousePosition.y - 192) / 25}deg) rotateY(${(mousePosition.x - 160) / 25}deg)`,
           transformStyle: "preserve-3d",
@@ -92,12 +92,12 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemonName }) => {
           {/* Card Content */}
           <div className="card-body relative z-10">
             {/* Pokemon Name */}
-            <h2 className="card-title text-3xl capitalize tracking-wide justify-start">
+            <h2 className="card-title text-3xl capitalize tracking-wide justify-center mb-2">
               {pokemon.name}
             </h2>
 
             {/* Pokemon Types */}
-            <div className="card-actions justify-start">
+            <div className="card-actions justify-center">
               {pokemon.types?.map((typeInfo) => (
                 <div
                   key={typeInfo.type.name}
@@ -112,11 +112,6 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemonName }) => {
               ))}
             </div>
           </div>
-
-          {/* Bottom subtle glow */}
-          <div
-            className={`absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t ${typeGradient} opacity-10`}
-          />
         </div>
       </div>
     </Link>

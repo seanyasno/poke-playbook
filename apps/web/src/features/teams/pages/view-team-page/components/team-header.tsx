@@ -16,51 +16,43 @@ export const TeamHeader: React.FC<TeamHeaderProps> = ({ team }) => {
 
   return (
     <>
-      <div className="hero bg-base-200 rounded-lg">
-        <div className="hero-content text-center py-12">
-          <div className="max-w-md">
-            <h1 className="text-4xl font-bold mb-4">{team.name}</h1>
+      <div className="mb-8">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <h1 className="text-5xl font-medium text-base-content mb-3 leading-tight">
+              {team.name}
+            </h1>
 
             {team.description && (
-              <p className="text-lg text-base-content/70 mb-6">
+              <p className="text-lg text-base-content/70 mb-4 leading-relaxed max-w-2xl">
                 {team.description}
               </p>
             )}
 
-            <div className="flex justify-center gap-4 text-sm text-base-content/60 mb-6">
-              <span>{pokemonCount}/6 Pokémon</span>
-              <span>•</span>
+            <div className="flex items-center gap-6 text-sm text-base-content/50">
+              <span>{pokemonCount} of 6 Pokémon</span>
               <span>Created {createdDate}</span>
               {createdDate !== updatedDate && (
-                <>
-                  <span>•</span>
-                  <span>Updated {updatedDate}</span>
-                </>
+                <span>Last updated {updatedDate}</span>
               )}
             </div>
+          </div>
 
-            <div className="flex justify-center gap-4">
-              <Link
-                to="/teams/$teamId/edit"
-                params={{ teamId: team.id }}
-                className="btn btn-primary"
-              >
-                <IoPencil className="w-4 h-4" />
-                Edit Team
-              </Link>
+          <div className="flex items-center gap-2 ml-6">
+            <Link
+              to="/teams/$teamId/edit"
+              params={{ teamId: team.id }}
+              className="btn btn-sm btn-ghost"
+            >
+              <IoPencil className="w-4 h-4" />
+            </Link>
 
-              <button
-                className="btn btn-error btn-outline"
-                onClick={() => setShowDeleteDialog(true)}
-              >
-                <IoTrash className="w-4 h-4" />
-                Delete Team
-              </button>
-
-              <Link to="/teams" className="btn btn-ghost">
-                Back to Teams
-              </Link>
-            </div>
+            <button
+              className="btn btn-sm btn-ghost text-error hover:bg-error/10"
+              onClick={() => setShowDeleteDialog(true)}
+            >
+              <IoTrash className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </div>

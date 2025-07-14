@@ -6,18 +6,24 @@ export function TeamInfoSection() {
     useTeamInfo();
 
   return (
-    <div className="card bg-base-100 shadow-lg">
-      <div className="card-body">
-        <h2 className="card-title mb-4">Team Information</h2>
+    <div className="space-y-8">
+      <div>
+        <h2 className="text-2xl font-medium text-base-content mb-6">
+          Team details
+        </h2>
 
-        <div className="space-y-4">
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-medium">Team Name *</span>
+        <div className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-base-content mb-2">
+              Name
             </label>
             <input
               type="text"
-              className={`input input-bordered ${formState.errors.teamName ? "input-error" : ""}`}
+              className={`w-full px-3 py-3 border rounded-lg bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors ${
+                formState.errors.teamName
+                  ? "border-error focus:border-error focus:ring-error/20"
+                  : "border-base-300"
+              }`}
               value={teamName}
               onChange={(event) =>
                 updateTeamInfo("teamName", event.target.value)
@@ -26,25 +32,22 @@ export function TeamInfoSection() {
               maxLength={255}
             />
             {formState.errors.teamName && (
-              <label className="label">
-                <span className="label-text-alt text-error">
-                  {formState.errors.teamName.message}
-                </span>
-              </label>
+              <p className="text-sm text-error mt-1">
+                {formState.errors.teamName.message}
+              </p>
             )}
-            <label className="label">
-              <span className="label-text-alt">
-                {teamName.length}/255 characters
-              </span>
-            </label>
+            <p className="text-xs text-base-content/50 mt-1">
+              {teamName.length}/255 characters
+            </p>
           </div>
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-medium">Description</span>
+          <div>
+            <label className="block text-sm font-medium text-base-content mb-2">
+              Description
             </label>
             <textarea
-              className="textarea textarea-bordered h-24"
+              className="w-full px-3 py-3 border border-base-300 rounded-lg bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-none"
+              rows={4}
               value={teamDescription}
               onChange={(event) =>
                 updateTeamInfo("teamDescription", event.target.value)
@@ -52,11 +55,9 @@ export function TeamInfoSection() {
               placeholder="Describe your team strategy, theme, or any notes..."
               maxLength={500}
             />
-            <label className="label">
-              <span className="label-text-alt">
-                {teamDescription.length}/500 characters
-              </span>
-            </label>
+            <p className="text-xs text-base-content/50 mt-1">
+              {teamDescription.length}/500 characters
+            </p>
           </div>
         </div>
       </div>

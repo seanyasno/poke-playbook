@@ -53,27 +53,27 @@ export const FilterDrawerContent: React.FC<FilterDrawerContentProps> = ({
   return (
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold">Filters</h2>
+        <h2 className="text-xl font-medium text-base-content">Filters</h2>
         <button
-          className="btn btn-ghost btn-sm btn-circle"
+          className="p-2 hover:bg-base-200 rounded-lg transition-colors"
           onClick={onClose}
           aria-label="Close filters"
         >
-          <IoClose className="w-5 h-5" />
+          <IoClose className="w-4 h-4" />
         </button>
       </div>
 
-      <div className="flex-1 space-y-6">
+      <div className="flex-1 space-y-8">
         <div>
-          <label className="label">
-            <span className="label-text font-semibold">Filter by Game</span>
+          <label className="block text-sm font-medium text-base-content mb-3">
+            Game
           </label>
           <select
-            className="select select-bordered w-full"
+            className="w-full px-3 py-3 border border-base-300 rounded-lg bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
             value={selectedGame}
             onChange={(e) => setSelectedGame(e.target.value)}
           >
-            <option value="">All Games</option>
+            <option value="">All games</option>
             {gamesData?.results?.map((game) => (
               <option key={game.name} value={game.name}>
                 {game.name.charAt(0).toUpperCase() + game.name.slice(1)}
@@ -83,34 +83,42 @@ export const FilterDrawerContent: React.FC<FilterDrawerContentProps> = ({
         </div>
 
         <div>
-          <label className="label">
-            <span className="label-text font-semibold">Filter by Types</span>
+          <label className="block text-sm font-medium text-base-content mb-3">
+            Types
           </label>
-          <div className="text-sm text-base-content/70 mb-2">
-            Select multiple types to find Pokemon with ALL selected types
+          <div className="text-xs text-base-content/60 mb-4">
+            Select multiple types to find Pokémon with ALL selected types
           </div>
-          <div className="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto">
+          <div className="space-y-2 max-h-60 overflow-y-auto">
             {typesData?.results?.map((type) => (
-              <label key={type.name} className="label cursor-pointer">
+              <label
+                key={type.name}
+                className="flex items-center gap-3 p-2 hover:bg-base-200/30 rounded-lg cursor-pointer transition-colors"
+              >
                 <input
                   type="checkbox"
-                  className="checkbox checkbox-sm"
+                  className="w-4 h-4 text-primary bg-base-100 border-base-300 rounded focus:ring-primary/20 focus:ring-2"
                   checked={selectedTypes.includes(type.name)}
                   onChange={() => handleTypeToggle(type.name)}
                 />
-                <span className="label-text capitalize ml-2">{type.name}</span>
+                <span className="text-sm text-base-content capitalize">
+                  {type.name}
+                </span>
               </label>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="flex gap-2 pt-4 border-t border-base-300 mt-auto">
+      <div className="flex gap-3 pt-6 border-t border-base-300 mt-auto">
         <button className="btn btn-primary flex-1" onClick={handleApply}>
-          Apply
+          Apply filters
         </button>
-        <button className="btn btn-ghost flex-1" onClick={handleClear}>
-          Clear
+        <button
+          className="flex-1 text-base-content/60 hover:text-base-content transition-colors px-3 py-2"
+          onClick={handleClear}
+        >
+          Clear all
         </button>
       </div>
     </div>

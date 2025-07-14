@@ -18,7 +18,7 @@ export const LoginForm: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200">
+    <div className="h-full flex items-center justify-center bg-base-200">
       <div className="card w-full max-w-md bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title text-2xl font-bold text-center justify-center mb-6">

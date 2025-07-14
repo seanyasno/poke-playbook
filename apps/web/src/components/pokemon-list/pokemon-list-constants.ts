@@ -1,5 +1,5 @@
-export const CARD_HEIGHT = 384;
-export const GAP = 32;
+export const CARD_HEIGHT = 368;
+export const GAP = 24;
 export const ROW_HEIGHT = CARD_HEIGHT + GAP;
 
 export const ITEMS_PER_ROW_CONFIG = {

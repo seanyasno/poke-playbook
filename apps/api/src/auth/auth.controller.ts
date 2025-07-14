@@ -49,7 +49,9 @@ export class AuthController {
     @Body() registerDto: RegisterDto,
     @Res({ passthrough: true }) response: Response,
   ): Promise<AuthResponseDto> {
-    return this.authService.register(registerDto, response);
+    const user = await this.authService.register(registerDto, response);
+
+    return { user };
   }
 
   @Post('login')
@@ -69,7 +71,9 @@ export class AuthController {
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) response: Response,
   ): Promise<AuthResponseDto> {
-    return this.authService.login(loginDto, response);
+    const user = await this.authService.login(loginDto, response);
+
+    return { user };
   }
 
   @Post('logout')
@@ -101,7 +105,11 @@ export class AuthController {
   })
   async getCurrentUser(
     @CurrentUser() user: AuthUser,
-  ): Promise<{ user: AuthUser }> {
+  ): Promise<UserResponseDto> {
+    if (!user) {
+      return { user: null };
+    }
+
     return { user };
   }
 }

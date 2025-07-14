@@ -20,20 +20,26 @@ export const PokemonRoster: React.FC<PokemonRosterProps> = ({ pokemon }) => {
 
   if (isEmptyArray(pokemon)) {
     return (
-      <div className="text-center py-16">
-        <div className="text-6xl mb-4">🏃‍♂️</div>
-        <h2 className="text-2xl font-bold mb-2">Team is Empty</h2>
-        <p className="text-base-content/60">
-          This team doesn't have any Pokémon yet.
-        </p>
+      <div className="py-16">
+        <div className="text-center">
+          <div className="text-5xl mb-4 opacity-40">🏃‍♂️</div>
+          <h2 className="text-2xl font-medium mb-2 text-base-content/80">
+            This team is empty
+          </h2>
+          <p className="text-base-content/50">
+            Add some Pokémon to get started with your team.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-6">Team Roster</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <h2 className="text-2xl font-medium text-base-content mb-8">
+        Team roster
+      </h2>
+      <div className="space-y-1">
         {pokemonSlots.map((pokemon, index) => {
           const position = index + 1;
 
@@ -41,13 +47,15 @@ export const PokemonRoster: React.FC<PokemonRosterProps> = ({ pokemon }) => {
             return (
               <div
                 key={position}
-                className="card bg-base-200 border-2 border-dashed border-base-content/20"
+                className="flex items-center py-3 px-4 hover:bg-base-200/30 rounded-lg transition-colors border-l-2 border-transparent"
               >
-                <div className="card-body items-center justify-center py-12">
-                  <div className="badge badge-outline mb-2">
-                    Slot {position}
+                <div className="w-10 h-10 bg-base-300/50 rounded-lg flex items-center justify-center text-xs text-base-content/40 mr-4">
+                  {position}
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm text-base-content/40 italic">
+                    Empty slot
                   </div>
-                  <div className="text-base-content/40">Empty</div>
                 </div>
               </div>
             );

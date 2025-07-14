@@ -55,43 +55,41 @@ export function PokemonSelector() {
   );
 
   return (
-    <div className="card bg-base-100 shadow-lg">
-      <div className="card-body">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="card-title">Team Pokémon</h2>
-          <div className="text-sm text-base-content/60">
-            {selectedPokemon.length}/6 Pokémon
-          </div>
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-medium text-base-content">Team roster</h2>
+        <div className="text-sm text-base-content/50">
+          {selectedPokemon.length} of 6 Pokémon
         </div>
-
-        <div className="mb-2 text-sm text-base-content/60 text-center">
-          💡 Drag and drop Pokémon to reorder them
-        </div>
-
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext items={sortableItems} strategy={rectSortingStrategy}>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {[1, 2, 3, 4, 5, 6].map((position) => (
-                <PokemonSlot
-                  key={position}
-                  position={position}
-                  onSlotClick={handleSlotClick}
-                />
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
-
-        <PokemonSearchModal
-          isOpen={isSearchModalOpen}
-          onClose={handleCloseModal}
-          targetSlot={selectedSlot}
-        />
       </div>
+
+      <div className="mb-6 text-sm text-base-content/60">
+        💡 Drag and drop Pokémon to reorder them
+      </div>
+
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext items={sortableItems} strategy={rectSortingStrategy}>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[1, 2, 3, 4, 5, 6].map((position) => (
+              <PokemonSlot
+                key={position}
+                position={position}
+                onSlotClick={handleSlotClick}
+              />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
+
+      <PokemonSearchModal
+        isOpen={isSearchModalOpen}
+        onClose={handleCloseModal}
+        targetSlot={selectedSlot}
+      />
     </div>
   );
 }

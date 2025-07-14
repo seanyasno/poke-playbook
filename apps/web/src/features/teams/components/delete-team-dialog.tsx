@@ -29,17 +29,21 @@ export const DeleteTeamDialog: React.FC<DeleteTeamDialogProps> = ({
   }
 
   return (
-    <div className="modal modal-open">
-      <div className="modal-box">
-        <h3 className="font-bold text-lg mb-4">Delete Team</h3>
-        <p className="mb-6">
-          Are you sure you want to delete "{teamName}"? This action cannot be
-          undone.
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-black/50" onClick={onClose}></div>
+
+      <div className="relative bg-base-100 rounded-lg p-6 mx-4 w-full max-w-md shadow-xl">
+        <h3 className="text-xl font-medium text-base-content mb-3">
+          Delete team
+        </h3>
+        <p className="text-base-content/70 mb-6 leading-relaxed">
+          Are you sure you want to delete <strong>"{teamName}"</strong>? This
+          action cannot be undone.
         </p>
 
-        <div className="modal-action">
+        <div className="flex items-center justify-end gap-3">
           <button
-            className="btn btn-ghost"
+            className="text-base-content/60 hover:text-base-content transition-colors px-3 py-2"
             onClick={onClose}
             disabled={deleteTeamMutation.isPending}
           >
@@ -56,12 +60,11 @@ export const DeleteTeamDialog: React.FC<DeleteTeamDialogProps> = ({
                 Deleting...
               </>
             ) : (
-              "Delete Team"
+              "Delete team"
             )}
           </button>
         </div>
       </div>
-      <div className="modal-backdrop" onClick={onClose}></div>
     </div>
   );
 };

@@ -8,9 +8,6 @@ export const ViewTeamPage: React.FC = () => {
   const { user, loading } = useAuth();
   const { data: team } = useTeam(teamId);
 
-  console.log(user);
-
-  // Show loading while checking auth
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
@@ -19,7 +16,6 @@ export const ViewTeamPage: React.FC = () => {
     );
   }
 
-  // Redirect to login if not authenticated
   if (!user) {
     return (
       <div className="max-w-md mx-auto text-center py-24">

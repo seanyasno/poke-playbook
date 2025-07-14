@@ -21,7 +21,6 @@ export const PokemonSearchModal: React.FC<PokemonSearchModalProps> = ({
   const { addPokemon } = usePokemonSlots();
   const { data: pokemonData, isLoading, error } = usePokemonSearch(searchTerm);
 
-  // Reset search when modal closes
   const handleClose = () => {
     setSearchTerm("");
     onClose();
@@ -145,19 +144,18 @@ function usePokemonSearch(searchTerm: string) {
     queryKey: ["pokemon-search", debouncedSearchTerm],
     queryFn: async () => {
       if (isEmptyString(debouncedSearchTerm.trim())) {
-        // Load all Pokemon (first 1010 covers all existing Pokemon)
         const response = await pokemonApi.apiV2PokemonList(1010, 0);
+
         return response.data;
       }
 
-      // For search, get all Pokemon and filter client-side for better UX
       const response = await pokemonApi.apiV2PokemonList(1010, 0);
-      const filtered = response.data.results.filter(
-        (pokemon: { name: string }) =>
+      const filtered =
+        response.data.results?.filter((pokemon: { name: string }) =>
           pokemon.name
             .toLowerCase()
             .includes(debouncedSearchTerm.toLowerCase()),
-      );
+        ) ?? [];
 
       return {
         ...response.data,
@@ -166,6 +164,6 @@ function usePokemonSearch(searchTerm: string) {
     },
     enabled: true,
     staleTime: 5 * 60 * 1000, // 5 minutes - Pokemon data doesn't change often
-    cacheTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes (replaces cacheTime)
   });
 }

@@ -6,7 +6,6 @@ import { useAuth } from "@/features";
 export const CreateTeamPage: React.FC = () => {
   const { user, loading } = useAuth();
 
-  // Show loading while checking auth
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
@@ -15,7 +14,6 @@ export const CreateTeamPage: React.FC = () => {
     );
   }
 
-  // Redirect to login if not authenticated
   if (!user) {
     return (
       <div className="max-w-md mx-auto text-center py-24">
@@ -29,6 +27,7 @@ export const CreateTeamPage: React.FC = () => {
       </div>
     );
   }
+
   return (
     <div className="min-h-screen bg-base-100">
       <div className="max-w-4xl mx-auto px-6 py-12">

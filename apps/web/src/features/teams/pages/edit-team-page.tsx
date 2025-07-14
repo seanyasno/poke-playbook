@@ -14,7 +14,6 @@ export function EditTeamPage() {
   const { user, loading } = useAuth();
   const { data: team } = useTeam(teamId);
 
-  // Show loading while checking auth
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
@@ -23,7 +22,6 @@ export function EditTeamPage() {
     );
   }
 
-  // Redirect to login if not authenticated
   if (!user) {
     return (
       <div className="max-w-md mx-auto text-center py-24">

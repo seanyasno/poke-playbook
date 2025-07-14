@@ -94,7 +94,7 @@ export const VirtualizedPokemonGrid: React.FC<VirtualizedPokemonGridProps> = ({
               >
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center h-full">
                   {rowPokemons.map(({ name }) => (
-                    <div key={name} className="w-80 h-80">
+                    <div key={name} className="w-80 h-92">
                       <ErrorBoundarySuspense fallback={<PokemonCardSkeleton />}>
                         <PokemonCard pokemonName={name} />
                       </ErrorBoundarySuspense>

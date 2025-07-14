@@ -1,5 +1,5 @@
 import { useParams } from "@tanstack/react-router";
-import { useTeam } from "../../hooks";
+import { useTeam } from "@/features";
 import { TeamHeader, PokemonRoster } from "./components";
 import { withDefault } from "@poke-playbook/libs";
 

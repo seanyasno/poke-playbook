@@ -3,8 +3,8 @@ import {
   useSuspenseQuery,
   type UseSuspenseQueryOptions,
 } from "@tanstack/react-query";
-import { teamsApi } from "../../../../../constants";
-import { type TeamsList, TeamsListSchema } from "../../../types";
+import { teamsApi } from "@/constants";
+import { type TeamsList, TeamsListSchema } from "@/features";
 
 function teamsQueryOptions(includePokemons = true) {
   return queryOptions({

@@ -1,5 +1,5 @@
 import { PokemonCard } from "./pokemon-card.tsx";
-import type { TeamPokemon } from "../../../types";
+import type { TeamPokemon } from "@/features";
 import { isEmptyArray } from "@poke-playbook/libs";
 
 type PokemonRosterProps = {

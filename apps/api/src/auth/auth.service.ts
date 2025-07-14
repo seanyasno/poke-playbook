@@ -83,10 +83,6 @@ export class AuthService {
       throw new UnauthorizedException('Login failed');
     }
 
-    if (isNotNullOrUndefined(data.session)) {
-      this.setAuthCookie(response, data.session.access_token);
-    }
-
     if (isNullOrUndefined(data.user)) {
       throw new BadRequestException('User registration failed');
     }
@@ -94,6 +90,8 @@ export class AuthService {
     if (isEmptyString(data.user.email)) {
       throw new UnauthorizedException('User email is required');
     }
+
+    this.setAuthCookie(response, data.session.access_token);
 
     return {
       user: {

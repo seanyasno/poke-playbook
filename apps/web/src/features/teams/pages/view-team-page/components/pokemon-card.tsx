@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import type { TeamPokemon } from "../../../types";
+import type { TeamPokemon } from "@/features";
 
 type PokemonCardProps = {
   pokemon: TeamPokemon;

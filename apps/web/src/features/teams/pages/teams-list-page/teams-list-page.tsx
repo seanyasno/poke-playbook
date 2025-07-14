@@ -8,15 +8,25 @@ export function TeamsListPage() {
   const hasTeams = teamsData.teams.length > 0;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">My Teams</h1>
-        <Link to="/teams/new" className="btn btn-primary">
-          Create New Team
-        </Link>
-      </div>
+    <div className="min-h-screen bg-base-100">
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        <div className="flex items-center justify-between mb-12">
+          <div>
+            <h1 className="text-5xl font-medium text-base-content mb-2 leading-tight">
+              Teams
+            </h1>
+            <p className="text-lg text-base-content/60">
+              Manage your Pokémon teams
+            </p>
+          </div>
 
-      {hasTeams ? <TeamGrid teams={teamsData.teams} /> : <EmptyTeamsState />}
+          <Link to="/teams/new" className="btn btn-primary">
+            Create team
+          </Link>
+        </div>
+
+        {hasTeams ? <TeamGrid teams={teamsData.teams} /> : <EmptyTeamsState />}
+      </div>
     </div>
   );
 }

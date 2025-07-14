@@ -6,7 +6,7 @@ services:
     ports:
       - 5432:5432
     networks:
-      - fastiship_network
+      - poke_playbook_network
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
@@ -37,7 +37,7 @@ services:
       DATABASE_URL: postgresql://postgres:password@host.docker.internal:5432/mydb?schema=public
 
     networks:
-      - fastiship_network
+      - poke_playbook_network
 
   web:
     build:
@@ -56,5 +56,5 @@ services:
       DATABASE_URL: postgresql://postgres:password@host.docker.internal:5432/mydb?schema=public
 
 networks:
-  fastiship_network:
+  poke_playbook_network:
     external: true

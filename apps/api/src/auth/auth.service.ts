@@ -8,7 +8,7 @@ import { Response } from 'express';
 import { SupabaseService } from './supabase.service';
 import { RegisterDto, LoginDto } from './dto';
 import {
-  isNotEmptyString,
+  isEmptyString,
   isNotNullOrUndefined,
   isNullOrUndefined,
 } from '@poke-playbook/libs';
@@ -91,7 +91,7 @@ export class AuthService {
       throw new BadRequestException('User registration failed');
     }
 
-    if (isNotEmptyString(data.user.email)) {
+    if (isEmptyString(data.user.email)) {
       throw new UnauthorizedException('User email is required');
     }
 

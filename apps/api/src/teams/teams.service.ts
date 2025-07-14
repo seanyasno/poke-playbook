@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { db } from '@fastiship/database';
+import { db } from '@poke-playbook/database';
 import { CreateTeamDto, UpdateTeamDto, GetTeamsQueryDto } from './dto';
 import {
   isNotEmptyArray,

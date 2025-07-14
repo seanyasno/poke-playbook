@@ -152,13 +152,16 @@ function usePokemonSearch(searchTerm: string) {
 
       // For search, get all Pokemon and filter client-side for better UX
       const response = await pokemonApi.apiV2PokemonList(1010, 0);
-      const filtered = response.data.results.filter((pokemon: { name: string }) =>
-        pokemon.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+      const filtered = response.data.results.filter(
+        (pokemon: { name: string }) =>
+          pokemon.name
+            .toLowerCase()
+            .includes(debouncedSearchTerm.toLowerCase()),
       );
-      
+
       return {
         ...response.data,
-        results: filtered
+        results: filtered,
       };
     },
     enabled: true,

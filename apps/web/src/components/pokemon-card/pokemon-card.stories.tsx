@@ -1,135 +1,147 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import React, { useRef } from "react";
-import {
-  typeGradients,
-  typeShadowColors,
-  typeBadgeVariants,
-} from "./pokemon-card-constants";
-import { withDefault } from "@poke-playbook/libs";
-import type { PokemonType } from "@/types";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import React from "react";
+// Mock function for actions
+const mockFn = () => console.log("Action triggered");
 
-type MockPokemon = {
-  id: number;
-  name: string;
-  sprites?: {
-    other?: {
-      "official-artwork"?: {
-        front_default?: string;
-      };
-      home?: {
-        front_default?: string;
-      };
-    };
-    front_default?: string;
-  };
-  types?: {
-    type: {
-      name: PokemonType;
-    };
-  }[];
-};
+// Mock the dependencies
+const MockLink: React.FC<{
+  to: string;
+  params: { pokemonId: string };
+  children: React.ReactNode;
+  className?: string;
+}> = ({ to, params, children, className }) => (
+  <a
+    href={`${to.replace("$pokemonId", params.pokemonId)}`}
+    className={className}
+    onClick={mockFn}
+  >
+    {children}
+  </a>
+);
 
-const MockPokemonCard: React.FC<{ pokemon: MockPokemon }> = ({ pokemon }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const mousePosition = { x: 0, y: 0 };
+// Wrapper component that provides mocked dependencies
+const PokemonCardWrapper: React.FC<{
+  pokemonName: string;
+  mockPokemonData?: any;
+}> = ({ pokemonName, mockPokemonData }) => {
+  // Mock the usePokemon hook
+  const mockUsePokemon = () => ({
+    data: mockPokemonData || {
+      id: 1,
+      name: pokemonName,
+      sprites: {
+        other: {
+          "official-artwork": {
+            front_default: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png`,
+          },
+        },
+      },
+      types: [
+        {
+          type: {
+            name: "normal",
+          },
+        },
+      ],
+    },
+  });
 
-  const primaryImage =
-    pokemon.sprites?.other?.["official-artwork"]?.front_default ??
-    pokemon.sprites?.other?.home?.front_default ??
-    pokemon.sprites?.front_default;
+  // Mock the useMousePosition hook
+  const mockUseMousePosition = () => ({
+    mousePosition: { x: 0, y: 0 },
+    setMousePosition: mockFn,
+    handleMouseMove: mockFn,
+  });
 
-  const primaryType: PokemonType = withDefault(
-    pokemon.types?.[0]?.type?.name,
-    "normal",
-  );
-  const typeGradient = withDefault(
-    typeGradients[primaryType],
-    typeGradients.normal,
-  );
-  const shadowColor = withDefault(
-    typeShadowColors[primaryType],
-    typeShadowColors.normal,
-  );
+  // Create a version of PokemonCard with mocked dependencies
+  const PokemonCardWithMocks: React.FC = () => {
+    const cardRef = React.useRef<HTMLDivElement>(null);
+    const { data: pokemon } = mockUsePokemon();
+    const { mousePosition, setMousePosition, handleMouseMove } =
+      mockUseMousePosition();
 
-  return (
-    <div className="flex justify-center items-center min-h-screen bg-base-200 p-8">
-      <div
-        ref={cardRef}
-        className="relative w-80 h-92 group cursor-pointer"
-        style={{
-          transform: `rotateX(${(mousePosition.y - 192) / 25}deg) rotateY(${(mousePosition.x - 160) / 25}deg)`,
-          transformStyle: "preserve-3d",
-          transition: "transform 0.1s ease-out",
-        }}
-      >
-        {/* Main Card */}
-        <div className="card w-full h-full bg-base-100 shadow-md drop-shadow-md backdrop-blur-sm overflow-hidden">
-          {/* Subtle Background Glow */}
+    const primaryImage =
+      pokemon.sprites?.other?.["official-artwork"]?.front_default ??
+      pokemon.sprites?.other?.home?.front_default ??
+      pokemon.sprites?.front_default;
+
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-base-200 p-8">
+        <MockLink
+          to="/pokemons/$pokemonId"
+          params={{ pokemonId: pokemon.id.toString() }}
+          className="block"
+        >
           <div
-            className={`absolute inset-0 bg-gradient-to-br ${typeGradient} opacity-5`}
-          />
-
-          {/* Pokemon Image Container with 3D Effect */}
-          <div className="relative h-56 flex items-center justify-center overflow-hidden">
-            {/* Pokemon Image with 3D transforms */}
-            {primaryImage && (
-              <div
-                className="relative transform-gpu"
-                style={{
-                  transform: `translateZ(20px) rotateY(${(mousePosition.x - 160) / 15}deg)`,
-                }}
-              >
-                <img
-                  src={primaryImage}
-                  alt={pokemon.name}
-                  className="w-40 h-40 object-contain transition-all duration-300 group-hover:scale-110"
-                  style={{
-                    filter: "drop-shadow(0 0 6px rgba(0, 0, 0, 0.5))",
-                  }}
-                />
-              </div>
-            )}
-
-            {/* Pokemon ID Badge */}
-            <div className="absolute top-4 right-4 bg-base-100/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-semibold text-base-content border border-base-300 shadow-sm">
-              #{pokemon.id.toString().padStart(3, "0")}
-            </div>
-          </div>
-
-          {/* Card Content */}
-          <div className="card-body relative z-10">
-            {/* Pokemon Name */}
-            <h2 className="card-title text-3xl capitalize tracking-wide justify-center mb-2">
-              {pokemon.name}
-            </h2>
-
-            {/* Pokemon Types */}
-            <div className="card-actions justify-center">
-              {pokemon.types?.map((typeInfo) => (
-                <div
-                  key={typeInfo.type.name}
-                  className={`badge badge-lg font-bold capitalize ${withDefault(typeBadgeVariants[typeInfo.type.name], "badge-ghost")}`}
-                  style={{
-                    boxShadow: `0 4px 20px ${shadowColor}`,
-                    transform: "translateZ(10px)",
-                  }}
-                >
-                  {typeInfo.type.name}
+            ref={cardRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={() => setMousePosition()}
+            className="relative w-80 h-92 group cursor-pointer"
+            style={{
+              transform: `rotateX(${(mousePosition.y - 192) / 25}deg) rotateY(${(mousePosition.x - 160) / 25}deg)`,
+              transformStyle: "preserve-3d",
+              transition: "transform 0.1s ease-out",
+            }}
+          >
+            <div className="card w-full h-full bg-base-100 shadow-md drop-shadow-md backdrop-blur-sm overflow-hidden">
+              <div className="relative h-56 flex items-center justify-center overflow-hidden">
+                {primaryImage && (
+                  <div className="relative transform-gpu">
+                    <img
+                      src={primaryImage}
+                      alt={pokemon.name}
+                      className="w-40 h-40 object-contain transition-all duration-300 group-hover:scale-110"
+                      style={{
+                        filter: "drop-shadow(0 0 6px rgba(0, 0, 0, 0.5))",
+                      }}
+                    />
+                  </div>
+                )}
+                <div className="absolute top-4 right-4 bg-base-100/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-semibold text-base-content border border-base-300 shadow-sm">
+                  #{pokemon.id.toString().padStart(3, "0")}
                 </div>
-              ))}
+              </div>
+              <div className="card-body relative z-10">
+                <h2 className="card-title text-3xl capitalize tracking-wide justify-center mb-2">
+                  {pokemon.name}
+                </h2>
+                <div className="card-actions justify-center">
+                  {pokemon.types?.map((typeInfo: any) => (
+                    <div
+                      key={typeInfo.type.name}
+                      className="badge badge-lg font-bold capitalize badge-primary"
+                    >
+                      {typeInfo.type.name}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </MockLink>
       </div>
-    </div>
-  );
+    );
+  };
+
+  return <PokemonCardWithMocks />;
 };
 
-const meta: Meta<typeof MockPokemonCard> = {
+const meta: Meta<typeof PokemonCardWrapper> = {
   title: "Components/PokemonCard",
-  component: MockPokemonCard,
+  component: PokemonCardWrapper,
   parameters: {
     layout: "fullscreen",
+    actions: { argTypesRegex: "^on[A-Z].*" },
+  },
+  argTypes: {
+    pokemonName: {
+      control: "text",
+      description: "Name of the Pokemon to display",
+    },
+    mockPokemonData: {
+      control: "object",
+      description: "Mock Pokemon data to display",
+    },
   },
 };
 
@@ -138,7 +150,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Pikachu: Story = {
   args: {
-    pokemon: {
+    pokemonName: "pikachu",
+    mockPokemonData: {
       id: 25,
       name: "pikachu",
       sprites: {
@@ -152,7 +165,7 @@ export const Pikachu: Story = {
       types: [
         {
           type: {
-            name: "electric" as PokemonType,
+            name: "electric",
           },
         },
       ],
@@ -162,7 +175,8 @@ export const Pikachu: Story = {
 
 export const Charizard: Story = {
   args: {
-    pokemon: {
+    pokemonName: "charizard",
+    mockPokemonData: {
       id: 6,
       name: "charizard",
       sprites: {
@@ -176,12 +190,12 @@ export const Charizard: Story = {
       types: [
         {
           type: {
-            name: "fire" as PokemonType,
+            name: "fire",
           },
         },
         {
           type: {
-            name: "flying" as PokemonType,
+            name: "flying",
           },
         },
       ],
@@ -191,7 +205,8 @@ export const Charizard: Story = {
 
 export const Blastoise: Story = {
   args: {
-    pokemon: {
+    pokemonName: "blastoise",
+    mockPokemonData: {
       id: 9,
       name: "blastoise",
       sprites: {
@@ -205,7 +220,7 @@ export const Blastoise: Story = {
       types: [
         {
           type: {
-            name: "water" as PokemonType,
+            name: "water",
           },
         },
       ],
@@ -215,7 +230,8 @@ export const Blastoise: Story = {
 
 export const Venusaur: Story = {
   args: {
-    pokemon: {
+    pokemonName: "venusaur",
+    mockPokemonData: {
       id: 3,
       name: "venusaur",
       sprites: {
@@ -229,12 +245,12 @@ export const Venusaur: Story = {
       types: [
         {
           type: {
-            name: "grass" as PokemonType,
+            name: "grass",
           },
         },
         {
           type: {
-            name: "poison" as PokemonType,
+            name: "poison",
           },
         },
       ],

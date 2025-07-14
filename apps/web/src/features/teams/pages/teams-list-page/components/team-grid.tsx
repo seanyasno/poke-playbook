@@ -1,5 +1,5 @@
-import type { Team } from "../../../types";
-import { TeamCard } from "./team-card.tsx";
+import type { Team } from "@/features";
+import { TeamCard } from "./team-card";
 
 type TeamGridProps = {
   teams: Team[];

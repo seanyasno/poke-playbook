@@ -1,15 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
-import type { Team } from "../../../types";
+import type { Team } from "@/features";
 
 // Mock components to avoid dependencies
-const MockTeamCardMenu = ({
-  teamId,
-  teamName,
-}: {
-  teamId: string;
-  teamName: string;
-}) => (
+const MockTeamCardMenu = () => (
   <div className="dropdown dropdown-end">
     <button tabIndex={0} className="btn btn-ghost btn-sm">
       ⋯
@@ -17,7 +11,11 @@ const MockTeamCardMenu = ({
   </div>
 );
 
-const MockPokemonSprites = ({ pokemon }: { pokemon: any[] }) => (
+const MockPokemonSprites = ({
+  pokemon,
+}: {
+  pokemon: Array<{ pokemon_name: string }>;
+}) => (
   <div className="flex -space-x-2 overflow-hidden">
     {pokemon.slice(0, 6).map((p, index) => (
       <div
@@ -49,7 +47,7 @@ const MockTeamCard: React.FC<{ team: Team }> = ({ team }) => {
               {team.name}
             </h3>
             <div onClick={(e) => e.preventDefault()}>
-              <MockTeamCardMenu teamId={team.id} teamName={team.name} />
+              <MockTeamCardMenu />
             </div>
           </div>
 

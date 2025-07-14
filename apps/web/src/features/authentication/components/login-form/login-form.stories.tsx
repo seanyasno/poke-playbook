@@ -1,5 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useState } from "react";
+// Mock function for actions
+const mockFn = () => console.log("Action triggered");
 
 const MockLoginForm: React.FC<{
   loading?: boolean;
@@ -8,15 +10,19 @@ const MockLoginForm: React.FC<{
 }> = ({ loading = false, error, hasErrors = false }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const MockLink = ({ to, children, className }: any) => (
-    <a href={to} className={className}>
+  const MockLink: React.FC<{
+    to: string;
+    children: React.ReactNode;
+    className?: string;
+  }> = ({ to, children, className }) => (
+    <a href={to} className={className} onClick={mockFn}>
       {children}
     </a>
   );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Login form submitted!");
+    console.log("Form submitted:", formData);
   };
 
   return (

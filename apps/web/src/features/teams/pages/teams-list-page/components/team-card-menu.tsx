@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { DeleteTeamDialog } from "../../../components";
+import { DeleteTeamDialog } from "@/features/teams";
 import { IoEllipsisVertical, IoPencil, IoTrash } from "react-icons/io5";
 
 type TeamCardMenuProps = {

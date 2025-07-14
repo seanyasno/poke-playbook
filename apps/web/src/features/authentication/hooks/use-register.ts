@@ -1,6 +1,6 @@
 import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
-import { authApi } from "../../../constants";
-import type { AuthError } from "../../../types";
+import { authApi } from "@/constants";
+import type { AuthError } from "@/types";
 import type { AuthResponseDto } from "@poke-playbook/api-client";
 
 export function useRegister(

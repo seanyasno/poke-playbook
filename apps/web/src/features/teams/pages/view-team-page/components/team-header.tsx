@@ -1,9 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import type { Team } from "../../../types";
+import { type Team, DeleteTeamDialog } from "@/features";
 import { IoPencil, IoTrash } from "react-icons/io5";
 import { withDefault } from "@poke-playbook/libs";
-import { DeleteTeamDialog } from "../../../components";
 
 type TeamHeaderProps = {
   team: Team;

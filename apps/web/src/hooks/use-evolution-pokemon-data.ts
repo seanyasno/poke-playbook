@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { pokemonApi } from "../constants";
+import { pokemonApi } from "@/constants";
 import { isEmptyArray } from "@poke-playbook/libs";
 
 type EvolutionPokemon = {
@@ -17,7 +17,7 @@ export function useEvolutionPokemonData(evolutionPokemons: EvolutionPokemon[]) {
 
       const promises = evolutionPokemons.map(async (pokemon) => {
         const response = await pokemonApi.apiV2PokemonRetrieve(pokemon.id);
-        
+
         return {
           id: pokemon.id,
           name: pokemon.name,

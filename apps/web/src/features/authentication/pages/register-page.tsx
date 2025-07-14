@@ -1,5 +1,5 @@
 import { isNotNullOrUndefined } from "@poke-playbook/libs";
-import { ErrorBoundarySuspense } from "../../../components";
+import { ErrorBoundarySuspense } from "@/components";
 import { Navigate } from "@tanstack/react-router";
 import { RegisterForm } from "../components";
 import { useAuth } from "../hooks";

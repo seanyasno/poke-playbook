@@ -18,9 +18,9 @@ This Turborepo includes the following packages/apps:
 
 - `docs`: a [Next.js](https://nextjs.org/) app
 - `web`: another [Next.js](https://nextjs.org/) app
-- `@fastiship/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@fastiship/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@fastiship/typescript-config`: `tsconfig.json`s used throughout the monorepo
+- `@poke-playbook/ui`: a stub React component library shared by both `web` and `docs` applications
+- `@poke-playbook/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `@poke-playbook/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 

@@ -1,4 +1,4 @@
-import { usePokemon } from "../../hooks";
+import { usePokemon } from "@/hooks";
 import { useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import {
@@ -7,8 +7,8 @@ import {
   typeBadgeVariants,
 } from "./pokemon-card-constants";
 import { isNotNullOrUndefined, withDefault } from "@poke-playbook/libs";
-import { useMousePosition } from "../../hooks/use-mouse-position";
-import type { PokemonType } from "../../types";
+import { useMousePosition } from "@/hooks/use-mouse-position";
+import type { PokemonType } from "@/types";
 
 type PokemonCardProps = {
   pokemonName: string;

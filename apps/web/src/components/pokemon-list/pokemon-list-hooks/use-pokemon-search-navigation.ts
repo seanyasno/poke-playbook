@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { useSearch, useNavigate } from "@tanstack/react-router";
-import { useDebouncedValue } from "../../../hooks";
+import { useDebouncedValue } from "@/hooks";
 import { SEARCH_DEBOUNCE_MS } from "../pokemon-list-constants";
-import type { SearchParams } from "../../../types";
+import type { SearchParams } from "@/types";
 
 export const usePokemonSearchNavigation = () => {
   const searchParams = useSearch({ from: "/" });
   const navigate = useNavigate({ from: "/" });
-  
+
   const [searchInput, setSearchInput] = useState(searchParams.search ?? "");
   const debouncedSearch = useDebouncedValue(searchInput, SEARCH_DEBOUNCE_MS);
-  
+
   useEffect(() => {
     if (debouncedSearch !== searchParams.search) {
       navigate({
@@ -37,4 +37,4 @@ export const usePokemonSearchNavigation = () => {
     setSearchInput,
     handleApplyFilters,
   };
-}; 
+};

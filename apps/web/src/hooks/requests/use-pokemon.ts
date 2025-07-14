@@ -3,11 +3,11 @@ import {
   useSuspenseQuery,
   type UseSuspenseQueryOptions,
 } from "@tanstack/react-query";
-import { pokemonApi } from "../../constants";
+import { pokemonApi } from "@/constants";
 import {
   PokemonDetailSchema,
   type PokemonDetail,
-} from "../../types/pokemon-detail-schema";
+} from "@/types/pokemon-detail-schema";
 
 export function pokemonQueryOptions(pokemonNameOrId: string) {
   return queryOptions({
@@ -27,7 +27,7 @@ export function usePokemon(
     Error,
     PokemonDetail,
     string[]
-  >
+  >,
 ) {
   return useSuspenseQuery({
     ...pokemonQueryOptions(pokemonNameOrId),

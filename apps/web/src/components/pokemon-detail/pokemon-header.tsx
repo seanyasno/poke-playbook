@@ -1,7 +1,7 @@
 import { capitalize } from "@poke-playbook/libs";
 import { withDefault } from "@poke-playbook/libs";
-import { typeBadgeVariants } from "../pokemon-card/pokemon-card-constants";
-import type { PokemonDetail, PokemonType } from "../../types";
+import { typeBadgeVariants } from "@/components/pokemon-card/pokemon-card-constants";
+import type { PokemonDetail, PokemonType } from "@/types";
 
 type PokemonHeaderProps = {
   pokemon: PokemonDetail;
@@ -23,7 +23,7 @@ export function PokemonHeader({ pokemon, shadowColor }: PokemonHeaderProps) {
             key={type.type.name}
             className={`badge badge-lg font-bold capitalize ${withDefault(
               typeBadgeVariants[type.type.name as PokemonType],
-              "badge-ghost"
+              "badge-ghost",
             )}`}
             style={{
               boxShadow: `0 4px 20px ${shadowColor}`,
@@ -36,4 +36,4 @@ export function PokemonHeader({ pokemon, shadowColor }: PokemonHeaderProps) {
       </div>
     </div>
   );
-} 
+}

@@ -1,5 +1,5 @@
-import type { PokemonDetail } from "../../types";
-import { formatStatName } from "../../utils";
+import type { PokemonDetail } from "@/types";
+import { formatStatName } from "@/utils";
 
 type PokemonStatsProps = {
   pokemon: PokemonDetail;

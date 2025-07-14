@@ -2,7 +2,7 @@ import {
   useSuspenseQuery,
   type UseSuspenseQueryOptions,
 } from "@tanstack/react-query";
-import { pokemonApi } from "../../constants";
+import { pokemonApi } from "@/constants";
 import type { TypeDetail } from "pokeapi-client";
 
 export function usePokemonByType(

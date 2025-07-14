@@ -1,8 +1,8 @@
 import React from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { zodSearchValidator } from '@tanstack/router-zod-adapter';
-import { ErrorBoundarySuspense, PokemonList } from "../components";
-import { SearchParamsSchema } from "../types";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
+import { ErrorBoundarySuspense, PokemonList } from "@/components";
+import { SearchParamsSchema } from "@/types";
 
 const Index: React.FC = () => {
   return (

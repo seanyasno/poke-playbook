@@ -1,6 +1,6 @@
 import React from "react";
-import { PokemonCard } from "../../pokemon-card";
-import { ErrorBoundarySuspense } from "../../error-boundary-suspense";
+import { PokemonCard } from "@/components/pokemon-card";
+import { ErrorBoundarySuspense } from "@/components/error-boundary-suspense";
 import { usePokemonVirtualizer } from "../pokemon-list-hooks";
 import { PokemonCardSkeleton } from "./pokemon-card-skeleton";
 

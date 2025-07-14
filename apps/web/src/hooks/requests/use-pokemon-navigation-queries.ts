@@ -1,6 +1,6 @@
 import { useQueries } from "@tanstack/react-query";
-import { pokemonApi } from "../../constants";
-import { PokemonDetailSchema } from "../../types/pokemon-detail-schema";
+import { pokemonApi } from "@/constants";
+import { PokemonDetailSchema } from "@/types/pokemon-detail-schema";
 import { isNotNullOrUndefined } from "@poke-playbook/libs";
 
 export const usePokemonNavigationQueries = (

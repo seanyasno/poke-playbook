@@ -2,7 +2,7 @@ import {
   useSuspenseQuery,
   type UseSuspenseQueryOptions,
 } from "@tanstack/react-query";
-import { gamesApi } from "../../constants";
+import { gamesApi } from "@/constants";
 import type { PaginatedVersionSummaryList } from "pokeapi-client";
 
 const MAX_GAME_VERSIONS = 50;

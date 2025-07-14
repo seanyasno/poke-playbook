@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { teamsApi } from "../../../constants";
+import { teamsApi } from "@/constants";
 
 export function useDeleteTeam() {
   const queryClient = useQueryClient();

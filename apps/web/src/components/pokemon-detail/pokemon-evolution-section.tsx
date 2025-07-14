@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { capitalize, withDefault } from "@poke-playbook/libs";
-import { useEvolutionPokemonData } from "../../hooks";
+import { useEvolutionPokemonData } from "@/hooks";
 import {
   typeBadgeVariants,
   typeShadowColors,
   typeGradients,
-} from "../pokemon-card/pokemon-card-constants";
-import { PokemonTypeSchema, type PokemonType } from "../../types";
+} from "@/components/pokemon-card/pokemon-card-constants";
+import { PokemonTypeSchema, type PokemonType } from "@/types";
 
 type EvolutionPokemon = {
   name: string;
@@ -32,15 +32,15 @@ export function PokemonEvolutionSection({
         {evolutionData.map((evolutionPokemon) => {
           const primaryType: PokemonType = withDefault(
             PokemonTypeSchema.parse(evolutionPokemon.types?.[0]?.type?.name),
-            "normal"
+            "normal",
           );
           const typeGradient = withDefault(
             typeGradients[primaryType],
-            typeGradients.normal
+            typeGradients.normal,
           );
           const typeShadowColor = withDefault(
             typeShadowColors[primaryType],
-            typeShadowColors.normal
+            typeShadowColors.normal,
           );
 
           return (
@@ -88,7 +88,7 @@ export function PokemonEvolutionSection({
                           key={type.type.name}
                           className={`badge badge-xs font-bold capitalize ${withDefault(
                             typeBadgeVariants[type.type.name as PokemonType],
-                            "badge-ghost"
+                            "badge-ghost",
                           )}`}
                         >
                           {type.type.name}

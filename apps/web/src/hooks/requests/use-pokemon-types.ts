@@ -2,7 +2,7 @@ import {
   useSuspenseQuery,
   type UseSuspenseQueryOptions,
 } from "@tanstack/react-query";
-import { pokemonApi } from "../../constants";
+import { pokemonApi } from "@/constants";
 import type { PaginatedTypeSummaryList } from "pokeapi-client";
 
 const MAX_POKEMON_TYPES = 20;

@@ -1,4 +1,4 @@
-import type { PokemonDetail } from "../types";
+import type { PokemonDetail } from "@/types";
 
 export function usePokemonImage(pokemon: PokemonDetail, isShiny: boolean) {
   const pokemonImage = isShiny
@@ -11,4 +11,4 @@ export function usePokemonImage(pokemon: PokemonDetail, isShiny: boolean) {
       pokemon.sprites.front_default;
 
   return pokemonImage;
-} 
+}

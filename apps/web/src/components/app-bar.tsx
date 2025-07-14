@@ -47,8 +47,8 @@ export const AppBar: React.FC = () => {
                 <div className="text-sm text-base-content/50 hidden sm:block">
                   {user.email}
                 </div>
-                <button 
-                  className="text-sm text-base-content/60 hover:text-base-content transition-colors px-3 py-2" 
+                <button
+                  className="text-sm text-base-content/60 hover:text-base-content transition-colors px-3 py-2"
                   onClick={handleSignOut}
                 >
                   Sign out
@@ -56,16 +56,13 @@ export const AppBar: React.FC = () => {
               </>
             ) : (
               <div className="flex items-center gap-2">
-                <Link 
-                  to="/login" 
+                <Link
+                  to="/login"
                   className="text-sm text-base-content/60 hover:text-base-content transition-colors px-3 py-2"
                 >
                   Login
                 </Link>
-                <Link 
-                  to="/register" 
-                  className="btn btn-primary btn-sm"
-                >
+                <Link to="/register" className="btn btn-primary btn-sm">
                   Sign up
                 </Link>
               </div>

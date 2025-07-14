@@ -68,7 +68,7 @@ export const PokemonList: React.FC = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         />
-        <div className="bg-base-200 text-base-content min-h-full w-full max-w-sm lg:w-80 lg:max-w-none rounded-t-2xl lg:rounded-none">
+        <div className="bg-base-100 border-l border-base-300 text-base-content min-h-full w-full max-w-sm lg:w-80 lg:max-w-none">
           <div className="p-6">
             <FilterDrawerContent
               searchParams={searchParams}

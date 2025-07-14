@@ -8,7 +8,7 @@ export const ViewTeamPage: React.FC = () => {
   const { data: team } = useTeam(teamId);
 
   return (
-    <div className="min-h-screen bg-base-100">
+    <div className="h-full bg-base-100">
       <div className="max-w-4xl mx-auto px-6 py-12">
         <TeamHeader team={team} />
         <div className="mt-12">

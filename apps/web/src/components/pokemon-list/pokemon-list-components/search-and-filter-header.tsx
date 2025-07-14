@@ -27,47 +27,55 @@ export const SearchAndFilterHeader: React.FC<SearchAndFilterHeaderProps> = ({
   }, []);
 
   return (
-    <div className="sticky top-0 z-10 bg-base-100 border-b border-base-200 px-6 py-4">
-      <div className="flex flex-col gap-4 max-w-4xl mx-auto">
-        <div className="flex gap-4 items-center">
-          <label className="input input-bordered flex items-center gap-2 flex-1">
-            <IoSearch className="h-4 w-4 opacity-70" />
-            <input
-              ref={searchInputRef}
-              type="search"
-              className="grow"
-              placeholder="Search for a Pokemon..."
-              value={searchValue}
-              onChange={(event) => onSearchChange(event.target.value)}
-            />
-            <kbd className="kbd kbd-sm">⌘</kbd>
-            <kbd className="kbd kbd-sm">K</kbd>
-          </label>
-          <button
-            className="btn btn-square btn-outline"
-            onClick={onFilterToggle}
-            aria-label="Open filters"
-          >
-            <IoFilter className="w-5 h-5" />
-          </button>
-        </div>
-
-        {filterStats.hasActiveFilters && (
-          <div className="flex items-center gap-2 text-sm">
-            {isTypeFilteringLoading && (
-              <div className="loading loading-spinner loading-sm"></div>
-            )}
-            <span className="text-base-content/70">
-              Showing {filterStats.filteredCount} of {filterStats.totalCount}{" "}
-              Pokemon
-              {filterStats.reductionPercentage > 0 && (
-                <span className="text-primary ml-1">
-                  ({filterStats.reductionPercentage}% filtered)
-                </span>
-              )}
-            </span>
+    <div className="border-b border-base-300 bg-base-100">
+      <div className="max-w-6xl mx-auto px-6 py-4">
+        <div className="flex flex-col gap-3">
+          <div className="flex gap-3 items-center">
+            <div className="relative flex-1 max-w-md">
+              <IoSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-base-content/40" />
+              <input
+                ref={searchInputRef}
+                type="search"
+                className="w-full pl-10 pr-20 py-2.5 border border-base-300 rounded-lg bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                placeholder="Search Pokémon..."
+                value={searchValue}
+                onChange={(event) => onSearchChange(event.target.value)}
+              />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex gap-1">
+                <kbd className="px-1.5 py-1 text-xs bg-base-200 border border-base-300 rounded font-mono">
+                  ⌘
+                </kbd>
+                <kbd className="px-1.5 py-1 text-xs bg-base-200 border border-base-300 rounded font-mono">
+                  K
+                </kbd>
+              </div>
+            </div>
+            <button
+              className="p-2.5 border border-base-300 rounded-lg hover:bg-base-200/50 transition-colors"
+              onClick={onFilterToggle}
+              aria-label="Open filters"
+            >
+              <IoFilter className="w-4 h-4" />
+            </button>
           </div>
-        )}
+
+          {filterStats.hasActiveFilters && (
+            <div className="flex items-center gap-2 text-sm">
+              {isTypeFilteringLoading && (
+                <div className="loading loading-spinner loading-sm"></div>
+              )}
+              <span className="text-base-content/60">
+                Showing {filterStats.filteredCount} of {filterStats.totalCount}{" "}
+                Pokémon
+                {filterStats.reductionPercentage > 0 && (
+                  <span className="text-primary ml-1">
+                    ({filterStats.reductionPercentage}% filtered)
+                  </span>
+                )}
+              </span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

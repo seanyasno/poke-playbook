@@ -21,6 +21,12 @@ export const PokemonSearchModal: React.FC<PokemonSearchModalProps> = ({
   const { addPokemon } = usePokemonSlots();
   const { data: pokemonData, isLoading, error } = usePokemonSearch(searchTerm);
 
+  // Reset search when modal closes
+  const handleClose = () => {
+    setSearchTerm("");
+    onClose();
+  };
+
   const handlePokemonSelect = (pokemon: { name: string; url: string }) => {
     if (targetSlot) {
       const pokemonId = parseInt(pokemon.url.split("/").slice(-2, -1)[0]);
@@ -34,8 +40,7 @@ export const PokemonSearchModal: React.FC<PokemonSearchModalProps> = ({
         targetSlot,
       );
 
-      onClose();
-      setSearchTerm("");
+      handleClose();
     }
   };
 
@@ -45,7 +50,7 @@ export const PokemonSearchModal: React.FC<PokemonSearchModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="fixed inset-0 bg-black/50" onClick={onClose}></div>
+      <div className="fixed inset-0 bg-black/50" onClick={handleClose}></div>
 
       <div className="relative bg-base-100 rounded-lg w-full max-w-4xl h-[80vh] flex flex-col shadow-xl">
         <div className="flex items-center justify-between p-6 border-b border-base-300">
@@ -54,7 +59,7 @@ export const PokemonSearchModal: React.FC<PokemonSearchModalProps> = ({
           </h3>
           <button
             className="p-2 hover:bg-base-200 rounded-lg transition-colors"
-            onClick={onClose}
+            onClick={handleClose}
           >
             <IoClose className="h-5 w-5" />
           </button>
@@ -123,7 +128,7 @@ export const PokemonSearchModal: React.FC<PokemonSearchModalProps> = ({
         <div className="flex justify-end p-6 border-t border-base-300">
           <button
             className="text-base-content/60 hover:text-base-content transition-colors px-3 py-2"
-            onClick={onClose}
+            onClick={handleClose}
           >
             Cancel
           </button>
@@ -133,26 +138,31 @@ export const PokemonSearchModal: React.FC<PokemonSearchModalProps> = ({
   );
 };
 
-function usePokemonSearch(searchTerm: string, limit = 20) {
+function usePokemonSearch(searchTerm: string) {
   const debouncedSearchTerm = useDebouncedValue(searchTerm, 300);
 
   return useQuery({
-    queryKey: ["pokemon-search", debouncedSearchTerm, limit],
+    queryKey: ["pokemon-search", debouncedSearchTerm],
     queryFn: async () => {
       if (isEmptyString(debouncedSearchTerm.trim())) {
-        const response = await pokemonApi.apiV2PokemonList(limit, 0);
-
+        // Load all Pokemon (first 1010 covers all existing Pokemon)
+        const response = await pokemonApi.apiV2PokemonList(1010, 0);
         return response.data;
       }
 
-      const response = await pokemonApi.apiV2PokemonList(
-        limit,
-        0,
-        debouncedSearchTerm,
+      // For search, get all Pokemon and filter client-side for better UX
+      const response = await pokemonApi.apiV2PokemonList(1010, 0);
+      const filtered = response.data.results.filter((pokemon: { name: string }) =>
+        pokemon.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
       );
-
-      return response.data;
+      
+      return {
+        ...response.data,
+        results: filtered
+      };
     },
     enabled: true,
+    staleTime: 5 * 60 * 1000, // 5 minutes - Pokemon data doesn't change often
+    cacheTime: 10 * 60 * 1000, // 10 minutes
   });
 }

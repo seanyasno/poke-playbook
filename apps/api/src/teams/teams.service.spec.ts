@@ -2,7 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { TeamsService } from './teams.service';
 import { CreateTeamDto, UpdateTeamDto, GetTeamsQueryDto } from './dto';
-import { createMockTeam, createMockTeamPokemon } from '../test/fixtures/team.fixture';
+import {
+  createMockTeam,
+  createMockTeamPokemon,
+} from '../test/fixtures/team.fixture';
 
 // Mock the database module
 jest.mock('@poke-playbook/database', () => ({
@@ -109,7 +112,9 @@ describe('TeamsService', () => {
         },
       });
 
-      expect(mockTransactionContext.team_pokemon.createMany).toHaveBeenCalledWith({
+      expect(
+        mockTransactionContext.team_pokemon.createMany,
+      ).toHaveBeenCalledWith({
         data: createTeamDto.pokemon.map((pokemon) => ({
           team_id: mockTeam.id,
           pokemon_id: pokemon.pokemon_id,
@@ -146,7 +151,9 @@ describe('TeamsService', () => {
       const result = await service.create(userId, createTeamDtoWithoutPokemon);
 
       expect(mockTransactionContext.teams.create).toHaveBeenCalled();
-      expect(mockTransactionContext.team_pokemon.createMany).not.toHaveBeenCalled();
+      expect(
+        mockTransactionContext.team_pokemon.createMany,
+      ).not.toHaveBeenCalled();
       expect(result).toEqual(mockTeam);
     });
 
@@ -171,7 +178,7 @@ describe('TeamsService', () => {
       };
 
       await expect(
-        service.create(userId, createTeamDtoWithDuplicates)
+        service.create(userId, createTeamDtoWithDuplicates),
       ).rejects.toThrow('Duplicate position values are not allowed');
 
       expect(mockDb.$transaction).not.toHaveBeenCalled();
@@ -274,7 +281,7 @@ describe('TeamsService', () => {
       mockDb.teams.findFirst.mockResolvedValue(null);
 
       await expect(service.findOne(teamId, userId)).rejects.toThrow(
-        new NotFoundException('Team not found')
+        new NotFoundException('Team not found'),
       );
 
       expect(mockDb.teams.findFirst).toHaveBeenCalledWith({
@@ -290,9 +297,9 @@ describe('TeamsService', () => {
     it('should throw NotFoundException when team belongs to different user', async () => {
       mockDb.teams.findFirst.mockResolvedValue(null);
 
-      await expect(service.findOne(teamId, 'different-user-id')).rejects.toThrow(
-        new NotFoundException('Team not found')
-      );
+      await expect(
+        service.findOne(teamId, 'different-user-id'),
+      ).rejects.toThrow(new NotFoundException('Team not found'));
     });
   });
 
@@ -342,11 +349,15 @@ describe('TeamsService', () => {
         },
       });
 
-      expect(mockTransactionContext.team_pokemon.deleteMany).toHaveBeenCalledWith({
+      expect(
+        mockTransactionContext.team_pokemon.deleteMany,
+      ).toHaveBeenCalledWith({
         where: { team_id: teamId },
       });
 
-      expect(mockTransactionContext.team_pokemon.createMany).toHaveBeenCalledWith({
+      expect(
+        mockTransactionContext.team_pokemon.createMany,
+      ).toHaveBeenCalledWith({
         data: updateTeamDto.pokemon!.map((pokemon) => ({
           team_id: teamId,
           pokemon_id: pokemon.pokemon_id,
@@ -382,11 +393,19 @@ describe('TeamsService', () => {
         return callback(mockTransactionContext);
       });
 
-      const result = await service.update(teamId, userId, updateTeamDtoWithoutPokemon);
+      const result = await service.update(
+        teamId,
+        userId,
+        updateTeamDtoWithoutPokemon,
+      );
 
       expect(mockTransactionContext.teams.update).toHaveBeenCalled();
-      expect(mockTransactionContext.team_pokemon.deleteMany).not.toHaveBeenCalled();
-      expect(mockTransactionContext.team_pokemon.createMany).not.toHaveBeenCalled();
+      expect(
+        mockTransactionContext.team_pokemon.deleteMany,
+      ).not.toHaveBeenCalled();
+      expect(
+        mockTransactionContext.team_pokemon.createMany,
+      ).not.toHaveBeenCalled();
 
       expect(result).toEqual(mockTeamWithPokemon);
     });
@@ -413,17 +432,19 @@ describe('TeamsService', () => {
       jest.spyOn(service, 'findOne').mockResolvedValue(mockTeamWithPokemon);
 
       await expect(
-        service.update(teamId, userId, updateTeamDtoWithDuplicates)
+        service.update(teamId, userId, updateTeamDtoWithDuplicates),
       ).rejects.toThrow('Duplicate position values are not allowed');
 
       expect(mockDb.$transaction).not.toHaveBeenCalled();
     });
 
     it('should throw NotFoundException when team to update is not found', async () => {
-      jest.spyOn(service, 'findOne').mockRejectedValue(new NotFoundException('Team not found'));
+      jest
+        .spyOn(service, 'findOne')
+        .mockRejectedValue(new NotFoundException('Team not found'));
 
       await expect(
-        service.update(teamId, userId, updateTeamDto)
+        service.update(teamId, userId, updateTeamDto),
       ).rejects.toThrow(new NotFoundException('Team not found'));
 
       expect(mockDb.$transaction).not.toHaveBeenCalled();
@@ -444,10 +465,12 @@ describe('TeamsService', () => {
     });
 
     it('should throw NotFoundException when team to delete is not found', async () => {
-      jest.spyOn(service, 'findOne').mockRejectedValue(new NotFoundException('Team not found'));
+      jest
+        .spyOn(service, 'findOne')
+        .mockRejectedValue(new NotFoundException('Team not found'));
 
       await expect(service.remove(teamId, userId)).rejects.toThrow(
-        new NotFoundException('Team not found')
+        new NotFoundException('Team not found'),
       );
 
       expect(mockDb.teams.delete).not.toHaveBeenCalled();

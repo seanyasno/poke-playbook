@@ -53,7 +53,8 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       await loginMutation(props);
       return { error: null };
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Login failed';
+      const errorMessage =
+        error instanceof Error ? error.message : "Login failed";
       return { error: { message: errorMessage } };
     }
   };
@@ -68,7 +69,8 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       await registerMutation(props);
       return { error: null };
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Registration failed';
+      const errorMessage =
+        error instanceof Error ? error.message : "Registration failed";
       return { error: { message: errorMessage } };
     }
   };
@@ -78,7 +80,8 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       await logoutMutation();
       return { error: null };
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Logout failed';
+      const errorMessage =
+        error instanceof Error ? error.message : "Logout failed";
       return { error: { message: errorMessage } };
     }
   };

@@ -31,11 +31,13 @@ export function useRegister(
         });
         return data;
       } catch (error: unknown) {
-        const errorMessage = error instanceof Error 
-          ? error.message 
-          : typeof error === 'object' && error !== null && 'response' in error
-            ? (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Registration failed'
-            : 'Registration failed';
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : typeof error === "object" && error !== null && "response" in error
+              ? (error as { response?: { data?: { message?: string } } })
+                  .response?.data?.message || "Registration failed"
+              : "Registration failed";
         throw new Error(errorMessage);
       }
     },

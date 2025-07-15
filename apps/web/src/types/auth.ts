@@ -1,6 +1,4 @@
-import {
-  type AuthResponseDtoUserUser,
-} from "@poke-playbook/api-client";
+import { type AuthResponseDtoUserUser } from "@poke-playbook/api-client";
 
 export type AuthError = {
   message: string;

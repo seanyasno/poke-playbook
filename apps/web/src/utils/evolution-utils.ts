@@ -9,7 +9,7 @@ interface Evolution {
 }
 
 export function flattenEvolutionChain(
-  chain: Evolution
+  chain: Evolution,
 ): Array<{ name: string; id: string }> {
   const result: Array<{ name: string; id: string }> = [];
 

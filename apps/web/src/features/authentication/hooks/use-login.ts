@@ -22,11 +22,13 @@ export function useLogin(
         const { data } = await authApi.login({ email, password });
         return data;
       } catch (error: unknown) {
-        const errorMessage = error instanceof Error 
-          ? error.message 
-          : typeof error === 'object' && error !== null && 'response' in error
-            ? (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Login failed'
-            : 'Login failed';
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : typeof error === "object" && error !== null && "response" in error
+              ? (error as { response?: { data?: { message?: string } } })
+                  .response?.data?.message || "Login failed"
+              : "Login failed";
         throw new Error(errorMessage);
       }
     },

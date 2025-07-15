@@ -1,11 +1,10 @@
 import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
 import { authApi } from "@/constants";
-import type { AuthError } from "@/types";
 import type { AuthResponseDto } from "@poke-playbook/api-client";
 
 export function useLogin(
   options?: UseMutationOptions<
-    { error: AuthError | null; data: AuthResponseDto },
+    AuthResponseDto,
     Error,
     { email: string; password: string }
   >,
@@ -19,12 +18,17 @@ export function useLogin(
       email: string;
       password: string;
     }) => {
-      const { data } = await authApi.login({ email, password });
-
-      return {
-        error: null,
-        data,
-      };
+      try {
+        const { data } = await authApi.login({ email, password });
+        return data;
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error 
+          ? error.message 
+          : typeof error === 'object' && error !== null && 'response' in error
+            ? (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Login failed'
+            : 'Login failed';
+        throw new Error(errorMessage);
+      }
     },
     ...options,
   });

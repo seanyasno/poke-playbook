@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react-refresh/only-export-components */
 // Mock for @/features
-import React from "react";
 
 let mockAuthState: any = {
   user: null,

@@ -1,5 +1,4 @@
 import {
-  type AuthResponseDto,
   type AuthResponseDtoUserUser,
 } from "@poke-playbook/api-client";
 
@@ -13,12 +12,12 @@ export type AuthContextType = {
   login: (props: {
     email: string;
     password: string;
-  }) => Promise<{ error: AuthError | null; data: AuthResponseDto }>;
+  }) => Promise<{ error?: { message: string } | null }>;
   register: (props: {
     email: string;
     password: string;
     firstName?: string;
     lastName?: string;
-  }) => Promise<{ error: AuthError | null; data: AuthResponseDto }>;
-  logout: () => Promise<{ error: AuthError | null }>;
+  }) => Promise<{ error?: { message: string } | null }>;
+  logout: () => Promise<{ error?: { message: string } | null }>;
 };

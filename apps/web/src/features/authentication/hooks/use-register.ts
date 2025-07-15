@@ -1,13 +1,12 @@
 import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
 import { authApi } from "@/constants";
-import type { AuthError } from "@/types";
 import type { AuthResponseDto } from "@poke-playbook/api-client";
 
 export function useRegister(
   options?: UseMutationOptions<
-    { error: AuthError | null; data: AuthResponseDto },
+    AuthResponseDto,
     Error,
-    { email: string; password: string }
+    { email: string; password: string; firstName?: string; lastName?: string }
   >,
 ) {
   return useMutation({
@@ -23,17 +22,22 @@ export function useRegister(
       firstName?: string;
       lastName?: string;
     }) => {
-      const { data } = await authApi.register({
-        email,
-        password,
-        firstName,
-        lastName,
-      });
-
-      return {
-        error: null,
-        data,
-      };
+      try {
+        const { data } = await authApi.register({
+          email,
+          password,
+          firstName,
+          lastName,
+        });
+        return data;
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error 
+          ? error.message 
+          : typeof error === 'object' && error !== null && 'response' in error
+            ? (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Registration failed'
+            : 'Registration failed';
+        throw new Error(errorMessage);
+      }
     },
     ...options,
   });

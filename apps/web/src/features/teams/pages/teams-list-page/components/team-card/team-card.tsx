@@ -1,8 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { TeamCardMenu } from "./team-card-menu.tsx";
-import { PokemonSprites } from "./pokemon-sprites.tsx";
-import type { Team } from "../../../types";
 import { withDefault } from "@poke-playbook/libs";
+import { PokemonSprites, TeamCardMenu } from "@/features";
+import type { Team } from "@/features";
 
 type TeamCardProps = {
   team: Team;

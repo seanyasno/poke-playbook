@@ -30,3 +30,6 @@ dist-ssr
 *.sln
 *.sw?
 .tanstack
+
+*storybook.log
+storybook-static

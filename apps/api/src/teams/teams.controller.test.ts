@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { createMock } from '@golevelup/ts-jest';
 import { TeamsController } from './teams.controller';
 import { TeamsService } from './teams.service';
 import { CreateTeamDto, UpdateTeamDto, GetTeamsQueryDto } from './dto';
@@ -33,7 +32,7 @@ describe('TeamsController', () => {
     pokemon_name: 'pikachu',
     position: 1,
     created_at: '2024-01-01T00:00:00.000Z',
-    team_id: 'team-123',
+    team_id: mockTeam.id,
   });
 
   const mockTeamWithPokemon = {
@@ -42,12 +41,20 @@ describe('TeamsController', () => {
   };
 
   beforeEach(async () => {
+    const mockTeamsService = {
+      create: jest.fn(),
+      findAll: jest.fn(),
+      findOne: jest.fn(),
+      update: jest.fn(),
+      remove: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [TeamsController],
       providers: [
         {
           provide: TeamsService,
-          useValue: createMock<TeamsService>(),
+          useValue: mockTeamsService,
         },
       ],
     }).compile();

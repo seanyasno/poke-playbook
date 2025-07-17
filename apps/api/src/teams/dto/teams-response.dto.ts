@@ -3,6 +3,7 @@ import { createZodDto } from 'nestjs-zod';
 
 export const TeamPokemonResponseSchema = z.object({
   id: z.string(),
+  team_id: z.string(),
   pokemon_id: z.number(),
   pokemon_name: z.string(),
   nickname: z.string().nullable(),

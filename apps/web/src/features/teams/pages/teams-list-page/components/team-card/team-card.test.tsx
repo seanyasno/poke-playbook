@@ -31,38 +31,37 @@ vi.mock("@tanstack/react-router", () => ({
   ),
 }));
 
-// Mock the TeamCardMenu component using partial mock
-vi.mock("../../../../../../features", async (importOriginal) => {
-  const actual =
-    await importOriginal<typeof import("../../../../../../features")>();
-  return {
-    ...actual,
-    TeamCardMenu: ({
-      teamId,
-      teamName,
-    }: {
-      teamId: string;
-      teamName: string;
-    }) => (
-      <div
-        data-testid="team-card-menu"
-        data-team-id={teamId}
-        data-team-name={teamName}
-      >
-        Menu
-      </div>
-    ),
-    PokemonSprites: ({
-      pokemon,
-    }: {
-      pokemon: Array<{ pokemon_id: number; pokemon_name: string }>;
-    }) => (
-      <div data-testid="pokemon-sprites" data-pokemon-count={pokemon.length}>
-        Pokemon Sprites
-      </div>
-    ),
-  };
-});
+// Mock the TeamCardMenu component directly
+vi.mock("../team-card-menu", () => ({
+  TeamCardMenu: ({
+    teamId,
+    teamName,
+  }: {
+    teamId: string;
+    teamName: string;
+  }) => (
+    <div
+      data-testid="team-card-menu"
+      data-team-id={teamId}
+      data-team-name={teamName}
+    >
+      <span>Menu</span>
+    </div>
+  ),
+}));
+
+// Mock the PokemonSprites component
+vi.mock("../pokemon-sprites", () => ({
+  PokemonSprites: ({
+    pokemon,
+  }: {
+    pokemon: Array<{ pokemon_id: number; pokemon_name: string }>;
+  }) => (
+    <div data-testid="pokemon-sprites" data-pokemon-count={pokemon.length}>
+      Pokemon Sprites
+    </div>
+  ),
+}));
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -190,14 +189,18 @@ describe("TeamCard", () => {
     it("should render as a link to team detail page", () => {
       renderTeamCard();
 
-      const link = screen.getByRole("link");
+      const link = screen.getByRole("link", {
+        name: new RegExp(mockTeam.name),
+      });
       expect(link).toHaveAttribute("href", `/teams/${mockTeam.id}`);
     });
 
     it("should have correct CSS classes for styling and hover effects", () => {
       renderTeamCard();
 
-      const link = screen.getByRole("link");
+      const link = screen.getByRole("link", {
+        name: new RegExp(mockTeam.name),
+      });
       expect(link).toHaveClass(
         "block",
         "p-6",

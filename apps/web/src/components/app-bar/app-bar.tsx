@@ -44,11 +44,15 @@ export const AppBar: React.FC = () => {
               <span className="loading loading-spinner loading-sm" />
             ) : isNotNullOrUndefined(user) ? (
               <>
-                <div className="text-sm text-base-content/50 hidden sm:block">
+                <div
+                  className="text-sm text-base-content/50 hidden sm:block"
+                  data-testid="user-menu"
+                >
                   {user?.email || "User"}
                 </div>
                 <button
                   className="text-sm text-base-content/60 hover:text-base-content transition-colors px-3 py-2"
+                  data-testid="logout-button"
                   onClick={handleSignOut}
                 >
                   Sign out

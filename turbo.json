@@ -6,6 +6,9 @@
       "cache": false,
       "persistent": true
     },
+    "test": {
+      "cache": false
+    },
     "build": {
       "dependsOn": ["^build", "^db:generate"],
       "outputs": [".next/**", "!.next/cache/**", "storybook-static/**", "dist/**"]

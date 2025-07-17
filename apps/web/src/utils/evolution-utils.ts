@@ -1,9 +1,19 @@
+interface EvolutionSpecies {
+  name: string;
+  url: string;
+}
+
+interface Evolution {
+  species: EvolutionSpecies;
+  evolves_to?: Evolution[];
+}
+
 export function flattenEvolutionChain(
-  chain: any
+  chain: Evolution,
 ): Array<{ name: string; id: string }> {
   const result: Array<{ name: string; id: string }> = [];
 
-  const processEvolution = (evolution: any) => {
+  const processEvolution = (evolution: Evolution) => {
     if (evolution?.species) {
       const match = evolution.species.url.match(/\/(\d+)\/$/);
       const id = match?.[1] ?? "1";

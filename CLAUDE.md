@@ -86,7 +86,7 @@ npm run docker:down
 - **Data Fetching**: Custom hooks in `src/hooks/requests/` using TanStack Query
 - **Component Structure**: Organized by feature with co-located types and hooks
 - **Icons**: Uses `react-icons` for icons
-- **Components Files Nameing**: Components are named with kebab-case, e.g., `pokemon-card.tsx`, `pokemon-list.tsx`
+- **Components Files Naming**: Components are named with kebab-case, e.g., `pokemon-card.tsx`, `pokemon-list.tsx`
 - **Forms**: Uses `react-hook-form` for form handling and validation with zod adapted for type safety
 
 ### Backend (apps/api)
@@ -114,6 +114,22 @@ npm run docker:down
 - **Custom Hooks**: Extensive use of custom hooks for data fetching (`use-pokemon.ts`, `use-auth.ts`, etc.)
 - **Error Handling**: Error boundaries and Suspense for loading states
 - **Authentication Flow**: Context-based auth with automatic redirects
+
+### Type Safety in Tests
+- **Minimize `any` usage**: Only use for mocking external dependencies
+- **Avoid `as` for business objects**: Use factory functions instead
+- **Leverage TypeScript**: Tests should catch type errors too
+- **Document exceptions**: If you must use `any`, add a comment explaining why
+- **Use `@ts-expect-error`**: For testing invalid inputs, be explicit:
+
+```typescript
+// @ts-expect-error: Testing invalid input handling
+const result = createTeam({ invalidField: 'value' });
+```
+
+### Testing
+- **Test files naming**: Test files should be named with .test and no other format.
+
 
 ### Environment Configuration
 - Web app requires `.env` file in `apps/web/` with:

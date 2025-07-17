@@ -1,8 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { TeamCard } from "./team-card";
+import { TeamCard } from "@/features";
 import {
   mockTeam,
   createMockTeam,
@@ -83,12 +83,6 @@ const renderTeamCard = (team = mockTeam) => {
 };
 
 describe("TeamCard", () => {
-  let user: ReturnType<typeof userEvent.setup>;
-
-  beforeEach(() => {
-    user = userEvent.setup();
-  });
-
   describe("Team information display", () => {
     it("should render team name", () => {
       renderTeamCard();
@@ -231,6 +225,7 @@ describe("TeamCard", () => {
     it("should prevent event propagation when clicking menu", async () => {
       renderTeamCard();
 
+      const user = userEvent.setup();
       const menu = screen.getByTestId("team-card-menu");
       const menuContainer = menu.parentElement;
 

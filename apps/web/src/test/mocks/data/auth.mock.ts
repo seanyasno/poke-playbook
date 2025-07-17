@@ -18,10 +18,3 @@ export const createMockUser = (overrides = {}) => ({
   updated_at: new Date(),
   ...overrides,
 });
-
-export const createMockAuthResponse = (overrides = {}) => ({
-  user: {
-    user: createMockUser(),
-  },
-  ...overrides,
-});

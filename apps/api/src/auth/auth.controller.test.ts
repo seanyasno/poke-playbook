@@ -19,8 +19,9 @@ describe('AuthController', () => {
   };
 
   const mockAuthUser = {
-    userId: 'user-id',
+    id: 'user-id',
     email: 'test@example.com',
+    user_metadata: {},
   };
 
   beforeEach(async () => {

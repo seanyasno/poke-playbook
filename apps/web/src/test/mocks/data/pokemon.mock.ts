@@ -53,8 +53,3 @@ export const mockPokemonList = {
     },
   ],
 };
-
-export const createMockPokemon = (overrides = {}) => ({
-  ...mockPokemon,
-  ...overrides,
-});

@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React from "react";
-import { useTeams } from "./use-teams";
+import React, { type PropsWithChildren } from "react";
+import { useTeams } from "@/features";
 import { mockTeams } from "../../../../../test/mocks/data/teams.mock";
 import { server } from "../../../../../test/mocks/server";
 import { http, HttpResponse } from "msw";
@@ -16,14 +16,13 @@ const createTestQueryClient = () =>
   });
 
 const createWrapper = (queryClient: QueryClient) => {
-  const TestWrapper = ({ children }: { children: React.ReactNode }) => {
+  return ({ children }: PropsWithChildren) => {
     return React.createElement(
       QueryClientProvider,
       { client: queryClient },
       children,
     );
   };
-  return TestWrapper;
 };
 
 describe("useTeams", () => {

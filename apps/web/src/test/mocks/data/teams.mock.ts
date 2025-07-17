@@ -1,4 +1,4 @@
-import type { Team, TeamPokemon } from "../../../features/teams/types";
+import type { Team, TeamPokemon } from "@/features";
 
 export const mockTeamPokemon: TeamPokemon[] = [
   {
@@ -50,17 +50,5 @@ export const createMockTeam = (overrides: Partial<Team> = {}): Team => ({
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
   team_pokemon: [],
-  ...overrides,
-});
-
-export const createMockTeamPokemon = (
-  overrides: Partial<TeamPokemon> = {},
-): TeamPokemon => ({
-  id: "mock-team-pokemon-id",
-  pokemon_id: 1,
-  pokemon_name: "bulbasaur",
-  nickname: null,
-  position: 1,
-  created_at: new Date().toISOString(),
   ...overrides,
 });

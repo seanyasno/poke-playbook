@@ -16,6 +16,7 @@ describe('TeamsController', () => {
   const mockAuthUser = {
     id: 'user-123',
     email: 'test@example.com',
+    user_metadata: {},
   };
 
   const mockTeam = createMockTeam({
@@ -23,12 +24,16 @@ describe('TeamsController', () => {
     user_id: mockAuthUser.id,
     name: 'Test Team',
     description: 'Test Description',
+    created_at: '2024-01-01T00:00:00.000Z',
+    updated_at: '2024-01-01T00:00:00.000Z',
   });
 
   const mockTeamPokemon = createMockTeamPokemon({
     pokemon_id: 25,
     pokemon_name: 'pikachu',
     position: 1,
+    created_at: '2024-01-01T00:00:00.000Z',
+    team_id: 'team-123',
   });
 
   const mockTeamWithPokemon = {
@@ -175,8 +180,8 @@ describe('TeamsController', () => {
     it('should successfully update a team', async () => {
       const updatedTeam = {
         ...mockTeamWithPokemon,
-        name: updateTeamDto.name,
-        description: updateTeamDto.description,
+        name: updateTeamDto.name!,
+        description: updateTeamDto.description!,
       };
 
       teamsService.update.mockResolvedValue(updatedTeam);

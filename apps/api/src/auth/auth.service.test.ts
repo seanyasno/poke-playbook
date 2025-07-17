@@ -307,8 +307,7 @@ describe('AuthService', () => {
   describe('cookie configuration', () => {
     it('should use secure cookies when COOKIE_SECURE is true', async () => {
       configService.get.mockImplementation((key: string) => {
-        if (key === 'COOKIE_SECURE') return 'true';
-        return 'localhost';
+        return key === 'COOKIE_SECURE' ? 'true' : 'localhost';
       });
 
       mockSupabaseClient.auth.signInWithPassword.mockResolvedValue({
@@ -332,8 +331,7 @@ describe('AuthService', () => {
 
     it('should use custom sameSite setting', async () => {
       configService.get.mockImplementation((key: string) => {
-        if (key === 'COOKIE_SAME_SITE') return 'strict';
-        return 'localhost';
+        return key === 'COOKIE_SAME_SITE' ? 'strict' : 'localhost';
       });
 
       mockSupabaseClient.auth.signInWithPassword.mockResolvedValue({

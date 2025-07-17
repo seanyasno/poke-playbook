@@ -81,7 +81,7 @@ describe('TeamsService', () => {
         {
           pokemon_id: 6,
           pokemon_name: 'charizard',
-          nickname: null,
+          nickname: undefined,
           position: 2,
         },
       ],
@@ -99,7 +99,7 @@ describe('TeamsService', () => {
       };
 
       mockDb.$transaction.mockImplementation(async (callback) => {
-        return callback(mockTransactionContext);
+        return callback(mockTransactionContext as any);
       });
 
       const result = await service.create(userId, createTeamDto);
@@ -145,7 +145,7 @@ describe('TeamsService', () => {
       };
 
       mockDb.$transaction.mockImplementation(async (callback) => {
-        return callback(mockTransactionContext);
+        return callback(mockTransactionContext as any);
       });
 
       const result = await service.create(userId, createTeamDtoWithoutPokemon);
@@ -171,7 +171,7 @@ describe('TeamsService', () => {
           {
             pokemon_id: 6,
             pokemon_name: 'charizard',
-            nickname: null,
+            nickname: undefined,
             position: 1, // Duplicate position
           },
         ],
@@ -196,8 +196,8 @@ describe('TeamsService', () => {
       const mockTeams = [mockTeamWithPokemon];
       const mockTotal = 1;
 
-      mockDb.teams.findMany.mockResolvedValue(mockTeams);
-      mockDb.teams.count.mockResolvedValue(mockTotal);
+      (mockDb.teams.findMany as jest.Mock).mockResolvedValue(mockTeams);
+      (mockDb.teams.count as jest.Mock).mockResolvedValue(mockTotal);
 
       const result = await service.findAll(userId, queryDto);
 
@@ -235,8 +235,8 @@ describe('TeamsService', () => {
       const mockTeams = [mockTeam];
       const mockTotal = 1;
 
-      mockDb.teams.findMany.mockResolvedValue(mockTeams);
-      mockDb.teams.count.mockResolvedValue(mockTotal);
+      (mockDb.teams.findMany as jest.Mock).mockResolvedValue(mockTeams);
+      (mockDb.teams.count as jest.Mock).mockResolvedValue(mockTotal);
 
       const result = await service.findAll(userId, queryDtoWithoutPokemon);
 
@@ -261,7 +261,9 @@ describe('TeamsService', () => {
 
   describe('findOne', () => {
     it('should return a team when found', async () => {
-      mockDb.teams.findFirst.mockResolvedValue(mockTeamWithPokemon);
+      (mockDb.teams.findFirst as jest.Mock).mockResolvedValue(
+        mockTeamWithPokemon,
+      );
 
       const result = await service.findOne(teamId, userId);
 
@@ -278,7 +280,7 @@ describe('TeamsService', () => {
     });
 
     it('should throw NotFoundException when team is not found', async () => {
-      mockDb.teams.findFirst.mockResolvedValue(null);
+      (mockDb.teams.findFirst as jest.Mock).mockResolvedValue(null);
 
       await expect(service.findOne(teamId, userId)).rejects.toThrow(
         new NotFoundException('Team not found'),
@@ -295,7 +297,7 @@ describe('TeamsService', () => {
     });
 
     it('should throw NotFoundException when team belongs to different user', async () => {
-      mockDb.teams.findFirst.mockResolvedValue(null);
+      (mockDb.teams.findFirst as jest.Mock).mockResolvedValue(null);
 
       await expect(
         service.findOne(teamId, 'different-user-id'),
@@ -333,7 +335,7 @@ describe('TeamsService', () => {
       jest.spyOn(service, 'findOne').mockResolvedValue(mockTeamWithPokemon);
 
       mockDb.$transaction.mockImplementation(async (callback) => {
-        return callback(mockTransactionContext);
+        return callback(mockTransactionContext as any);
       });
 
       const result = await service.update(teamId, userId, updateTeamDto);
@@ -390,7 +392,7 @@ describe('TeamsService', () => {
       jest.spyOn(service, 'findOne').mockResolvedValue(mockTeamWithPokemon);
 
       mockDb.$transaction.mockImplementation(async (callback) => {
-        return callback(mockTransactionContext);
+        return callback(mockTransactionContext as any);
       });
 
       const result = await service.update(
@@ -423,7 +425,7 @@ describe('TeamsService', () => {
           {
             pokemon_id: 6,
             pokemon_name: 'charizard',
-            nickname: null,
+            nickname: undefined,
             position: 1, // Duplicate position
           },
         ],
@@ -454,7 +456,7 @@ describe('TeamsService', () => {
   describe('remove', () => {
     it('should successfully delete a team', async () => {
       jest.spyOn(service, 'findOne').mockResolvedValue(mockTeamWithPokemon);
-      mockDb.teams.delete.mockResolvedValue(mockTeam);
+      (mockDb.teams.delete as jest.Mock).mockResolvedValue(mockTeam);
 
       await service.remove(teamId, userId);
 

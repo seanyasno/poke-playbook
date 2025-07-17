@@ -49,6 +49,18 @@ cd apps/api && npm run test:watch
 
 # Run API e2e tests
 cd apps/api && npm run test:e2e
+
+# Run web app unit tests
+cd apps/web && npm run test
+
+# Run web app unit tests in watch mode
+cd apps/web && npm run test:watch
+
+# Run web app e2e tests with Cypress (interactive)
+cd apps/web && npm run e2e:open
+
+# Run web app e2e tests with Cypress (headless)
+cd apps/web && npm run e2e
 ```
 
 ### Linting and Formatting
@@ -129,6 +141,12 @@ const result = createTeam({ invalidField: 'value' });
 
 ### Testing
 - **Test files naming**: Test files should be named with .test and no other format.
+- **E2E Testing**: Frontend uses Cypress for end-to-end testing
+  - Tests are located in `apps/web/cypress/e2e/`
+  - Custom commands in `apps/web/cypress/support/commands.ts`
+  - Test data in `apps/web/cypress/fixtures/`
+  - Tests cover authentication, Pokemon features, and team management
+  - Requires `data-testid` attributes on UI elements for reliable selection
 
 
 ### Environment Configuration

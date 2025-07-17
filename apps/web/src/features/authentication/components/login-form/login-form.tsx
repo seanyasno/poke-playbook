@@ -36,6 +36,7 @@ export const LoginForm: React.FC = () => {
                 className={`input input-bordered w-full ${
                   errors.email ? "input-error" : ""
                 }`}
+                data-testid="email-input"
                 {...register("email")}
                 disabled={loading}
               />
@@ -60,6 +61,7 @@ export const LoginForm: React.FC = () => {
                 className={`input input-bordered w-full ${
                   errors.password ? "input-error" : ""
                 }`}
+                data-testid="password-input"
                 {...register("password")}
                 disabled={loading}
               />
@@ -75,7 +77,7 @@ export const LoginForm: React.FC = () => {
             </div>
 
             {error && (
-              <div className="alert alert-error">
+              <div className="alert alert-error" data-testid="error-message">
                 <span>{error}</span>
               </div>
             )}
@@ -84,6 +86,7 @@ export const LoginForm: React.FC = () => {
               <button
                 type="submit"
                 className={`btn btn-primary w-full ${loading ? "loading" : ""}`}
+                data-testid="login-button"
                 disabled={loading}
               >
                 {loading ? "Signing in..." : "Sign In"}

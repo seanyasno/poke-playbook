@@ -28,11 +28,7 @@ import {
 } from "./common";
 import type { RequestArgs } from "./base";
 // @ts-ignore
-import {
-  BASE_PATH,
-  BaseAPI,
-  operationServerMap,
-} from "./base";
+import { BASE_PATH, BaseAPI, operationServerMap } from "./base";
 
 /**
  *

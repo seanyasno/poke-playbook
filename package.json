@@ -24,6 +24,9 @@
     "turbo": "^2.5.4",
     "zod": "^3.23.8"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-musl": "4.45.1"
+  },
   "lint-staged": {
     "apps/**/*.{js,jsx,ts,tsx}": [
       "eslint --fix"

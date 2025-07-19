@@ -25,7 +25,8 @@
     "zod": "^3.23.8"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-musl": "4.45.1"
+    "@rollup/rollup-linux-x64-musl": "4.45.1",
+    "@lightningcss/linux-x64-musl": "^1.0.0"
   },
   "lint-staged": {
     "apps/**/*.{js,jsx,ts,tsx}": [

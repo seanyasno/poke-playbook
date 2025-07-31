@@ -30,6 +30,10 @@ FROM base AS installer
 
 WORKDIR /app
 
+# Accept build arguments
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 # Copy lockfile and package.json files
 COPY --from=builder /app/out/json/ .
 

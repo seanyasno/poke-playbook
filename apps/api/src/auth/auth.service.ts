@@ -7,11 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 import { SupabaseService } from './supabase.service';
 import { RegisterDto, LoginDto } from './dto';
-import {
-  isEmptyString,
-  isNotNullOrUndefined,
-  isNullOrUndefined,
-} from '@poke-playbook/libs';
+import { isEmptyString } from '@poke-playbook/libs';
 
 @Injectable()
 export class AuthService {
@@ -37,19 +33,19 @@ export class AuthService {
       },
     });
 
-    if (isNotNullOrUndefined(error)) {
+    if (error) {
       throw new BadRequestException(error.message);
     }
 
-    if (isNotNullOrUndefined(data.session)) {
+    if (data.session) {
       this.setAuthCookie(response, data.session.access_token);
     }
 
-    if (isNullOrUndefined(data.user)) {
+    if (!data.user) {
       throw new BadRequestException('User registration failed');
     }
 
-    if (isNullOrUndefined(data.user.email)) {
+    if (!data.user.email) {
       throw new BadRequestException('User email is required');
     }
 
@@ -75,19 +71,19 @@ export class AuthService {
       password,
     });
 
-    if (isNotNullOrUndefined(error)) {
+    if (error) {
       throw new UnauthorizedException(error.message);
     }
 
-    if (isNullOrUndefined(data.session)) {
+    if (!data.session) {
       throw new UnauthorizedException('Login failed');
     }
 
-    if (isNullOrUndefined(data.user)) {
+    if (!data.user) {
       throw new BadRequestException('User registration failed');
     }
 
-    if (isEmptyString(data.user.email)) {
+    if (!data.user.email || isEmptyString(data.user.email)) {
       throw new UnauthorizedException('User email is required');
     }
 

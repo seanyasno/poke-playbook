@@ -6,12 +6,24 @@ export const UserResponseSchema = z.object({
     .object({
       id: z.string(),
       email: z.string(),
+      firstName: z.string().nullable().optional(),
+      lastName: z.string().nullable().optional(),
+      createdAt: z.string().optional(),
     })
     .nullable(),
 });
 
 export const AuthResponseSchema = z.object({
-  user: UserResponseSchema,
+  user: z
+    .object({
+      id: z.string(),
+      email: z.string(),
+      firstName: z.string().nullable().optional(),
+      lastName: z.string().nullable().optional(),
+      createdAt: z.string().optional(),
+    })
+    .nullable()
+    .optional(),
   message: z.string().optional(),
 });
 

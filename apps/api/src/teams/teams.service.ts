@@ -1,11 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { db } from '@poke-playbook/database';
+import { db, PrismaClient } from '@poke-playbook/database';
 import { CreateTeamDto, UpdateTeamDto, GetTeamsQueryDto } from './dto';
 import {
   isNotEmptyArray,
   isNotNullOrUndefined,
   isNullOrUndefined,
 } from '@poke-playbook/libs';
+
+type TransactionClient = Omit<
+  PrismaClient,
+  '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+>;
 
 @Injectable()
 export class TeamsService {
@@ -17,7 +22,7 @@ export class TeamsService {
       throw new Error('Duplicate position values are not allowed');
     }
 
-    return db.$transaction(async (transactionContext) => {
+    return db.$transaction(async (transactionContext: TransactionClient) => {
       const team = await transactionContext.teams.create({
         data: {
           name,
@@ -113,7 +118,7 @@ export class TeamsService {
       }
     }
 
-    return db.$transaction(async (transactionContext) => {
+    return db.$transaction(async (transactionContext: TransactionClient) => {
       await transactionContext.teams.update({
         where: { id },
         data: {

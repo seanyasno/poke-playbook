@@ -27,7 +27,7 @@
     "@poke-playbook/api-client": "*",
     "@poke-playbook/libs": "*",
     "@tanstack/react-query": "^5.81.2",
-    "@tanstack/react-router": "^1.122.0",
+    "@tanstack/react-router": "^1.170.46",
     "@tanstack/react-router-devtools": "^1.122.0",
     "@tanstack/react-virtual": "^3.13.12",
     "@tanstack/router-zod-adapter": "^1.81.5",
